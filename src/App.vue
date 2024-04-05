@@ -1,16 +1,10 @@
 <script setup>
-// import { RouterLink, RouterView } from 'vue-router'
-import home from './pages/home/index.vue'
-
+// import { RouterView } from 'vue-router'
+import indexPage from './pages/index.vue'
 </script>
 
 <template>
-  <header>
-    <home></home>
-
-  </header>
-
-  <!-- <RouterView /> -->
+  <indexPage />
 </template>
 
 <style scoped></style>
