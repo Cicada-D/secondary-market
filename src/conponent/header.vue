@@ -1,6 +1,6 @@
 <template>
     <header class="bg-white">
-        <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 h-16" aria-label="Global">
             <div class="flex lg:flex-1">
                 <a href="#" class="-m-1.5 p-1.5">
                     <span class="sr-only">Your Company</span>
@@ -69,8 +69,8 @@
                         </PopoverPanel>
                     </transition> -->
                 </Popover>
-                <RouterLink to="/home" class=" text-sm font-semibold leading-6 to-gray-900">首页</RouterLink>
-                <RouterLink to="/type" class="text-sm font-semibold leading-6 text-gray-900">分类</RouterLink>
+                <RouterLink to="/index/home" class=" text-sm font-semibold leading-6 to-gray-900">首页</RouterLink>
+                <RouterLink to="/index/type" class="text-sm font-semibold leading-6 text-gray-900">分类</RouterLink>
                 <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-900">订单</RouterLink>
                 <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-900">购物车</RouterLink>
             </PopoverGroup>
@@ -79,6 +79,7 @@
                         aria-hidden="true">&rarr;</span></a>
             </div>
         </nav>
+
         <Dialog as="div" class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
             <div class="fixed inset-0 z-10" />
             <DialogPanel

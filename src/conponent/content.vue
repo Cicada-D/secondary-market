@@ -1,10 +1,9 @@
 <template>
-    <div class=" w-full p-3.5 border-2 flex justify-around">  
-        <div class=" w-80 h-80 border-2">
+    <div class=" w-full p-3.5 border-2 flex justify-center min-w-96">
+        <div class=" w-10/12  border-2 flex justify-around min-w-96">
+            <div class=" w-10/12 h-80 border-2 min-w-96 ">
 
-        </div>
-        <div class=" w-96 h-80 border-2">
-
+            </div>
         </div>
     </div>
 </template>
