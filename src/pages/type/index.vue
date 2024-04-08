@@ -1,10 +1,10 @@
 <script setup>
 import typeOne from './content/typeOne.vue'
-import contentSecond from '@/conponent/contentSecond.vue';
+import productExhibition from '@/component/productExhibition.vue';
 </script>
 <template>
 
     <typeOne></typeOne>
 
-    <contentSecond></contentSecond>
+    <productExhibition></productExhibition>
 </template>

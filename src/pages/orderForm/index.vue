@@ -1,5 +1,5 @@
 <script setup>
-import orderOne from './content/orderOne.vue'
+import orderOne from './content/orderCreate.vue'
 </script>
 <template>
     <orderOne></orderOne>

@@ -13,11 +13,11 @@
         </div>
       </div>
     </div>
-    <header class=" bg-white">
+    <header class=" bg-white relative">
       <div class=" flex justify-between mx-6 py-2 border-b-2">
         <!-- image -->
         <div class="">
-          <a href="#" class="">
+          <a href="/index/home" class="">
             <!-- <span class="sr-only">Your Company</span> -->
             <svg t="1712327317856" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
               p-id="1277" width="35" height="35">
@@ -35,16 +35,38 @@
         </div>
 
         <!-- menu -->
-        <div class=" leading-[35px] text-base  hidden lg:flex">
-          <div v-for="item in menu" :key="item.id" class="mx-3">
+        <!-- <div class=""> -->
+        <PopoverGroup class=" leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
+          <Popover v-for='items in menu' :key="items.id" class="mx-3">
+            <PopoverButton>{{ items.name }}</PopoverButton>
+
+            <PopoverPanel class="absolute z-10 left-2 w-full pr-4 bg-white top-20">
+              <div class=" flex justify-start border-b-2 mx-4 w-full ">
+                <div v-for='item in items.children' :key='item.id' class=" w-1/4 flex flex-col mr-7 ml-4">
+                  <p>{{ item.name }}</p>
+                  <ul v-for="Item in item.children" :key="Item.id" class=" font-medium">
+                    <li> {{ Item.name }}</li>
+                  </ul>
+                </div>
+              </div>
+
+            </PopoverPanel>
+          </Popover>
+
+
+        </PopoverGroup>
+
+
+        <!-- <div v-for="item in menu" :key="item.id" class="mx-3">
             <router-link to="#">
               {{ item.name }}
             </router-link>
-          </div>
-        </div>
+          </div> -->
+        <!-- </div> -->
+
         <!-- other -->
-        <div class=" leading-[35px] flex">
-          <div class=" mx-2">
+        <div class="leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
+          <div class=" mx-2 ">
             Search
           </div>
           <div class=" mx-2">
@@ -62,26 +84,225 @@
       </div>
     </header>
   </div>
+
+
+
 </template>
 
 <script setup>
-import {ShoppingBagIcon} from '@heroicons/vue/24/outline'
+import { ShoppingBagIcon } from '@heroicons/vue/24/outline'
+import { Popover, PopoverButton, PopoverPanel, PopoverGroup } from '@headlessui/vue'
 
 const menu = [
   {
     id: '1',
-    name: '服装'
-  }, {
+    name: '服装',
+    children: [
+      {
+        id: '1.1',
+        name: '流行女装',
+        children: [
+          {
+            id: '1.1.1',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.2',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.3',
+            name: '新品推荐'
+          },
+          {
+            id: '1.1.4',
+            name: '连衣裙'
+          },
+          {
+            id: '1.1.5',
+            name: '衬衫'
+          },
+        ]
+      },
+      {
+        id: '1.2',
+        name: '流行女装',
+        children: [
+          {
+            id: '1.1.1',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.2',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.3',
+            name: '新品推荐'
+          },
+          {
+            id: '1.1.4',
+            name: '连衣裙'
+          },
+          {
+            id: '1.1.5',
+            name: '衬衫'
+          },
+        ]
+      },
+      {
+        id: '1.3',
+        name: '流行女装',
+        children: [
+          {
+            id: '1.1.1',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.2',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.3',
+            name: '新品推荐'
+          },
+          {
+            id: '1.1.4',
+            name: '连衣裙'
+          },
+          {
+            id: '1.1.5',
+            name: '衬衫'
+          },
+        ]
+      },
+      {
+        id: '1.4',
+        name: '流行女装',
+        children: [
+          {
+            id: '1.1.1',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.2',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.3',
+            name: '新品推荐'
+          },
+          {
+            id: '1.1.4',
+            name: '连衣裙'
+          },
+          {
+            id: '1.1.5',
+            name: '衬衫'
+          },
+        ]
+      },
+    ]
+  },
+  {
     id: '2',
-    name: '数码'
-  }, {
+    name: '服装',
+    children: [
+      {
+        id: '1.1',
+        name: '流行女装',
+        children: [
+          {
+            id: '1.1.1',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.2',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.3',
+            name: '新品推荐'
+          },
+          {
+            id: '1.1.4',
+            name: '连衣裙'
+          },
+          {
+            id: '1.1.5',
+            name: '衬衫'
+          },
+        ]
+      },
+    ]
+  },
+  {
     id: '3',
-    name: '汽车',
+    name: '服装',
+    children: [
+      {
+        id: '1.1',
+        name: '流行女装',
+        children: [
+          {
+            id: '1.1.1',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.2',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.3',
+            name: '新品推荐'
+          },
+          {
+            id: '1.1.4',
+            name: '连衣裙'
+          },
+          {
+            id: '1.1.5',
+            name: '衬衫'
+          },
+        ]
+      },
+    ]
   }, {
     id: '4',
-    name: '闲置'
-  }
+    name: '服装',
+    children: [
+      {
+        id: '1.1',
+        name: '流行女装',
+        children: [
+          {
+            id: '1.1.1',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.2',
+            name: '当季热卖'
+          },
+          {
+            id: '1.1.3',
+            name: '新品推荐'
+          },
+          {
+            id: '1.1.4',
+            name: '连衣裙'
+          },
+          {
+            id: '1.1.5',
+            name: '衬衫'
+          },
+        ]
+      },
+    ]
+  },
 ]
+
+
+
 
 // const open = ref(false)
 </script>

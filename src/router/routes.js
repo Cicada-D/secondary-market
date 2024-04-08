@@ -31,9 +31,15 @@ const routes = [
       component: () => import('../pages/orderForm/content/orderDetail.vue')
     },
     {
+      path: '/index/orderCreate',
+      name: 'orderCreate',
+      component: () => import('../pages/orderForm/content/orderCreate.vue')
+    },
+    {
         path: '/:catchAll(.*)',
         name: 'errorPage',
         component: () => import('../pages/errorPage.vue')
     },
+    
   ]
 export default routes
