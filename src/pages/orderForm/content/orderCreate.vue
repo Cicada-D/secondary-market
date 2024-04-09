@@ -1,12 +1,13 @@
 <template>
     <Header></Header>
     <Content>
-        <template v-slot:menu>
-            <div class="grid grid-cols-1 lg:grid-cols-2">
-                <Address />
-                <GoodsToBuy />
+        <template v-slot:order>
+            <div class=" w-11/12 min-w-96 bg-slate-50 mx-auto rounded-xl overflow-hidden border-2">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <Address />
+                    <GoodsToBuy />
+                </div>
             </div>
-
         </template>
     </Content>
 </template>

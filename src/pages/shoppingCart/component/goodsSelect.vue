@@ -17,7 +17,7 @@
                             <li class=" mt-9">{{ item.price }}</li>
                         </ul>
                     </div>
-
+                    
                     <div class=" absolute right-6 top-6 h-32">
                         <div>
                             <button class=" group">
@@ -34,48 +34,10 @@
                 </div>
 
             </div>
-            <div class=" border-b-2 mb-2">
-                <div class=" m-4 border-b-2">
-                    <div class=" flex justify-between mb-2 text-sm font-normal">
-                        <div>
-                            原价格
-                        </div>
-                        <div>
-                            $321
-                        </div>
-                    </div>
-                    <div class=" flex justify-between mb-2 text-sm font-normal">
-                        <div>
-                            优惠
-                        </div>
-                        <div>
-                            $0
-                        </div>
-                    </div>
-                    <div class=" flex justify-between mb-2 text-sm font-normal">
-                        <div>
-                            总价格
-                        </div>
-                        <div>
-                            $321
-                        </div>
-                    </div>
-                </div>
-                <div class=" m-4 ">
-                    <div class=" flex justify-between mb-2 text-sm font-normal">
-                        <div class=" text-base font-semibold">
-                            总价格
-                        </div>
-                        <div class=" text-base font-semibold">
-                            $321
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class=" w-11/12 mx-auto mb-2 h-10">
+            <div class=" w-11/12 mx-auto m-2 h-9">
                 <button
-                    class=" bg-indigo-600 text-white w-full h-full rounded-md hover:bg-indigo-700 hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-indigo-700 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-700">提交订单</button>
+                    class=" bg-indigo-600 text-white w-full h-full rounded-md hover:bg-indigo-700 hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-indigo-700 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-700">确定订单</button>
             </div>
         </div>
 
