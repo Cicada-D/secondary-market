@@ -38,10 +38,10 @@
         <!-- <div class=""> -->
         <PopoverGroup class=" leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
           <Popover v-for='items in menu' :key="items.id" class="mx-3">
-            <PopoverButton>{{ items.name }}</PopoverButton>
+            <PopoverButton class=" outline-none mx-2">{{ items.name }}</PopoverButton>
 
-            <PopoverPanel class="absolute z-10 left-2 w-full pr-4 bg-white top-20">
-              <div class=" flex justify-start border-b-2 mx-4 w-full ">
+            <PopoverPanel class="absolute z-10 left-2 w-full pr-4 bg-white top-20 flex justify-center">
+              <div class=" flex border-b-2 mx-4 w-10/12 justify-start">
                 <div v-for='item in items.children' :key='item.id' class=" w-1/4 flex flex-col mr-7 ml-4">
                   <p>{{ item.name }}</p>
                   <ul v-for="Item in item.children" :key="Item.id" class=" font-medium">

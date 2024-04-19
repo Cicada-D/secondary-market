@@ -36,12 +36,18 @@ const routes = [
   {
     path: '/index/shoppingCart',
     name: 'shoppingCart',
-    component: () => import('../pages/shoppingCart/content/text.vue')
+    component: () => import('../pages/shoppingCart/index.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../pages/login/index.vue')
   },
   {
     path: '/:catchAll(.*)',
     name: 'errorPage',
     component: () => import('../pages/errorPage.vue')
-  }
+  },
+  
 ]
 export default routes

@@ -10,3 +10,12 @@ export const useCounterStore = defineStore('counter', () => {
 
   return { count, doubleCount, increment }
 })
+
+export const useStateStore = defineStore('login', () => {
+  const state = ref(true)
+  const changeState = () => {
+    state.value = !state.value
+  }
+  return { state, changeState}
+})
+

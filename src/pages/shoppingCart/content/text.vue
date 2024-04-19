@@ -1,12 +1,11 @@
 <template>
-    <Header></Header>
     <Content>
         <template v-slot:cart>
             <div class=" w-11/12 min-w-96 bg-slate-50 mx-auto rounded-xl overflow-hidden border-2">
                 <div class="grid grid-cols-1 lg:grid-cols-2 bg-white">
                     <GoodsSelect />
                     <div class=" bg-white w-full">
-                        <div class=" bg-slate-50 w-3/4 mx-auto mt-9 p-9  rounded-lg">
+                        <div class=" bg-slate-50 w-3/4 mx-auto p-9  rounded-lg mt-24">
                             <div class=" font-sans font-medium text-xl">
                                 Order summary
                             </div>
@@ -67,8 +66,9 @@
     </Content>
 </template>
 <script setup>
-import Header from '@/component/header.vue';
 
 import Content from '@/component/content.vue';
 import GoodsSelect from '../component/goodsSelect.vue'
+
+
 </script>
