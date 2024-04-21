@@ -13,5 +13,27 @@ const router = createRouter({
     }
   }
 })
-// router.beforeEach()
+router.beforeEach(async (to ) => {
+  // console.log(LoginOrNot())
+  // console.log(to)
+  if ( to.name !== 'login' && to.name !== 'home'){
+    if (LoginOrNot()){
+      console.log(1)
+
+    }else {
+      console.log(2)
+      return {name: 'home'}
+    }
+  }else{
+    console.log(3)
+
+  }
+})
+function LoginOrNot(){
+  if(localStorage.getItem('token') == 1){
+    return 1
+  }else {
+    return 0
+  }
+}
 export default router

@@ -27,16 +27,22 @@
                 </button>
             </div>
             <div class="hidden lg:flex lg:gap-x-12">
-                <RouterLink to="/index/home" class=" text-sm font-semibold leading-6 to-gray-900">首页</RouterLink>
-                <RouterLink to="/index/type" class="text-sm font-semibold leading-6 text-gray-900">分类</RouterLink>
-                <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-900">订单</RouterLink>
-                <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-900">购物车</RouterLink>
+                <RouterLink to="/index/home" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">首页</RouterLink>
+                <RouterLink to="/index/type" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950 ">分类</RouterLink>
+                <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">订单</RouterLink>
+                <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">购物车</RouterLink>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span
-                        aria-hidden="true">&rarr;</span></a>
+                <RouterLink to="/login" v-if="!avatarNot" href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span
+                        aria-hidden="true" >&rarr;</span></RouterLink>
+
+                <DropdownHead v-if="avatarNot" ></DropdownHead>
+
             </div>
+
         </nav>
+
+
         <Dialog as="div" class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
             <div class="fixed inset-0 z-10" />
             <DialogPanel
@@ -89,7 +95,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, provide, ref } from 'vue'
 import {
     Dialog,
     DialogPanel,
@@ -108,6 +114,7 @@ import {
 } from '@heroicons/vue/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/vue/20/solid'
 import { RouterLink } from 'vue-router'
+import DropdownHead from './dropdownHead.vue'
 
 const products = [
     { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
@@ -120,6 +127,16 @@ const callsToAction = [
     { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
     { name: 'Contact sales', href: '#', icon: PhoneIcon },
 ]
+
+const avatarNot = ref(0)
+provide('avatarNot', avatarNot)
+
+onMounted(() => {
+    const token = localStorage.getItem('token')
+    avatarNot.value = token === '1' ? 1 : 0
+    // console.log(avatarNot.value)
+    // console.log(typeof  localStorage.getItem('token'))
+})
 
 const mobileMenuOpen = ref(false)
 </script>

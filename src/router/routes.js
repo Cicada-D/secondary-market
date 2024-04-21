@@ -44,6 +44,11 @@ const routes = [
     component: () => import('../pages/login/index.vue')
   },
   {
+    path: '/index/pushGoods',
+    name: 'push',
+    component: () => import('../pages/orderForm/content/pushGoods.vue')
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'errorPage',
     component: () => import('../pages/errorPage.vue')

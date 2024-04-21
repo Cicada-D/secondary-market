@@ -1,5 +1,4 @@
 <template>
-
     <productExhibition :products="products"></productExhibition>
 </template>
 
@@ -10,7 +9,7 @@ const products = [
   {
     id: 1,
     name: 'Basic Tee',
-    href: '#',
+    href: 'http://localhost:5173/index/orderDetail',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '$35',

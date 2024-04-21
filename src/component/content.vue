@@ -7,6 +7,9 @@
         <div name='cart'>
             <slot name="cart"></slot>
         </div>
+        <div >
+            <slot name="push"></slot>
+        </div>
     </div>
 </template>
 <script setup>
