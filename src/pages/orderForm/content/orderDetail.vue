@@ -25,46 +25,61 @@
           <button
             class=" rounded-lg border-2 py-2 px-4 bg-red-600 text-white hover:bg-red-700 hover:border-red-700 ">立即购买</button>
         </div>
-
       </div>
-
-
     </div>
-
-
   </div>
-
-
-
+  
 </template>
 
 <script setup>
 import Header from '@/component/header.vue';
+import { onBeforeMount, onMounted, ref, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
+import { getGoodsDetail } from '../component/order';
+import { changeGoodsDetail } from '@/lib/utils';
 
-const goods = {
-  name: '物品名称',
-  description: `The walnut wood card tray is precision milled to perfectly fit a stack of Focus
-            cards. The powder coated steel divider separates active cards from new ones, or can be used to archive
-            important task lists.`,
-  features: [
-    { name: '来源', description: 'Designed by Good Goods, Inc.' },
-    { name: '价格', description: 'Solid walnut base with rare earth magnets and powder coated steel card cover' },
-    { name: '大小', description: '6.25" x 3.55" x 1.15"' },
-    { name: '简单描述', description: 'Wood card tray and 3 refill packs' },
-  ],
-  srcs: [
-    {
-      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-01.jpg'
-    },
-    {
-      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-02.jpg'
-    },
-    {
-      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-03.jpg'
-    },
-    {
-      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-04.jpg'
-    },
-  ]
-}
+// const goods = {
+//   name: '物品名称',
+//   description: `The walnut wood card tray is precision milled to perfectly fit a stack of Focus
+//             cards. The powder coated steel divider separates active cards from new ones, or can be used to archive
+//             important task lists.`,
+//   features: [
+//     { name: '卖家', description: 'Wood card tray and 3 refill packs' },
+//     { name: '类型', description: 'Designed by Good Goods, Inc.' },
+//     { name: '损耗层度', description: 'Solid walnut base with rare earth magnets and powder coated steel card cover' },
+//     { name: '价格', description: '6.25" x 3.55" x 1.15"' },
+//   ],
+//   srcs: [
+//     {
+//       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-01.jpg'
+//     },
+//     {
+//       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-02.jpg'
+//     },
+//     {
+//       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-03.jpg'
+//     },
+//     {
+//       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-04.jpg'
+//     },
+//   ]
+// }
+const goods = ref({})
+
+onBeforeMount(() => {
+  const router = useRoute()
+  // console.log(router.params)
+  const res = getGoodsDetail('http://localhost:3000/findGoods', router.params.gid)
+  res.then((result)=>{
+    console.log(result[0])
+    goods.value = changeGoodsDetail(result[0])
+  })
+})
+
+onMounted(() => {
+  watchEffect(() => {
+    // 在 goods.value 变化时执行逻辑
+    console.log('goods.value updated:', goods.value);
+  });
+})
 </script>

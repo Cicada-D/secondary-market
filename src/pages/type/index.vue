@@ -1,6 +1,7 @@
 <script setup>
-import typeOne from './content/typeOne.vue'
 import productExhibition from '@/component/productExhibition.vue';
+import headerTwo from '../../component/headerTwo.vue'
+// import { RouterView } from 'vue-router';
 
 const products = [
   {
@@ -77,10 +78,33 @@ const products = [
     color: 'Black',
   },
 ]
+
+const menu = [
+  {
+    id: '1',
+    name: '服装',
+   
+  },
+  {
+    id: '2',
+    name: '汽车',
+   
+  },
+  {
+    id: '3',
+    name: '数码',
+    
+  }, {
+    id: '4',
+    name: '其他',
+   
+  },
+]
 </script>
 <template>
 
-    <typeOne></typeOne>
+    <headerTwo :menu="menu"></headerTwo> 
 
     <productExhibition :products="products"></productExhibition>
+
 </template>

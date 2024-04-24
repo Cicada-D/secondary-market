@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full p-3.5 border-2 min-w-96">
+    <div class="w-full p-3.5 min-w-96">
         <div name='order'>
             <slot name="order"></slot>
         </div>

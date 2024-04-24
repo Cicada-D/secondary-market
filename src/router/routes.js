@@ -21,10 +21,15 @@ const routes = [
   {
     path: '/index/type',
     name: 'type',
-    component: () => import('../pages/type/index.vue')
+    component: () => import('../pages/type/index.vue'),
   },
   {
-    path: '/index/orderDetail',
+    path: '/index/order',
+    name: 'order',
+    component: () => import('../pages/orderForm/index.vue')
+  },
+  {
+    path: '/index/goodsDetail/:gid',
     name: 'orderDetail',
     component: () => import('../pages/orderForm/content/orderDetail.vue')
   },

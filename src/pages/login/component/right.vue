@@ -21,7 +21,7 @@
                     class="mt-2 focus-visible:ring-1 focus-visible::outline-none w-full focus-visible:ring-offset-0 " />
             </div>
             <div class=" w-full">
-                <Button v-if="!titleState" class=" w-full" @click="Sign(user, router)">
+                <Button v-if="!titleState" class=" w-full" @click="Register(user, router)">
                     Sign in with Telephone
                 </Button>
                 <Button v-if="titleState" class="  w-full" @click="Login(user, router)">
@@ -52,33 +52,24 @@
 <script setup>
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-
-
 import { reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStateStore } from '@/stores/counter'
 import { Github, ArrowRight } from 'lucide-vue-next'
-import { Login, Sign } from './Login'
+import { Login, Register } from './Login'
 
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-// const route = useRoute()
 
-// const props = defineProps({
-//     class: { type: null, required: false },
-// })
-// const state = ref(true)
 const topClass = ref(' absolute w-1/2 h-full bg-white rounded-lg right-0 top-0 border-2 border-l-0')
-// const changeState = () => {
-//     state.value = !state.value
-// }
+
 const store = useStateStore()
 const { state } = storeToRefs(store)
 const { changeState } = store
 const title = ref('Login')
 const titleState = ref(false)
-// console.log(state.value)    
+ 
 const user = reactive({
     username: '',
     password: '',

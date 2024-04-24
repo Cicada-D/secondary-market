@@ -2,7 +2,7 @@
     <header class="bg-white border-b-2 rounded-sm w-full">
         <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 h-16" aria-label="Global">
             <div class="flex lg:flex-1">
-                <a href="#" class="-m-1.5 p-1.5">
+                <a href="/index/home" class="-m-1.5 p-1.5">
                     <span class="sr-only">Your Company</span>
                     <svg t="1712327317856" class="icon" viewBox="0 0 1024 1024" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" p-id="1277" width="35" height="35">
@@ -27,16 +27,21 @@
                 </button>
             </div>
             <div class="hidden lg:flex lg:gap-x-12">
-                <RouterLink to="/index/home" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">首页</RouterLink>
-                <RouterLink to="/index/type" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950 ">分类</RouterLink>
-                <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">订单</RouterLink>
-                <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">购物车</RouterLink>
+                <RouterLink to="/index/home" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">
+                    首页</RouterLink>
+                <RouterLink to="/index/type" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950 ">
+                    分类</RouterLink>
+                <RouterLink to="/index/order" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">订单
+                </RouterLink>
+                <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">购物车
+                </RouterLink>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <RouterLink to="/login" v-if="!avatarNot" href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span
-                        aria-hidden="true" >&rarr;</span></RouterLink>
+                <RouterLink to="/login" v-if="!avatarNot" href="#"
+                    class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span>
+                </RouterLink>
 
-                <DropdownHead v-if="avatarNot" ></DropdownHead>
+                <DropdownHead v-if="avatarNot"></DropdownHead>
 
             </div>
 
@@ -48,11 +53,7 @@
             <DialogPanel
                 class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                 <div class="flex items-center justify-between">
-                    <a href="#" class="-m-1.5 p-1.5">
-                        <span class="sr-only">Your Company</span>
-                        <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                            alt="" />
-                    </a>
+                    <DropdownHead v-if="avatarNot"></DropdownHead>
                     <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
                         <span class="sr-only">Close menu</span>
                         <XMarkIcon class="h-6 w-6" aria-hidden="true" />
@@ -61,30 +62,44 @@
                 <div class="mt-6 flow-root">
                     <div class="-my-6 divide-y divide-gray-500/10">
                         <div class="space-y-2 py-6">
+                            <a href="#"
+                                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">首页</a>
+
                             <Disclosure as="div" class="-mx-3" v-slot="{ open }">
                                 <DisclosureButton
                                     class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                                    Product
+                                    分类
                                     <ChevronDownIcon :class="[open ? 'rotate-180' : '', 'h-5 w-5 flex-none']"
                                         aria-hidden="true" />
                                 </DisclosureButton>
                                 <DisclosurePanel class="mt-2 space-y-2">
-                                    <DisclosureButton v-for="item in [...products, ...callsToAction]" :key="item.name"
-                                        as="a" :href="item.href"
+                                    <DisclosureButton v-for="item in [...type]" :key="item.name" as="a"
+                                        :href="item.href"
+                                        class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                        {{ item.name }}</DisclosureButton>
+                                </DisclosurePanel>
+                            </Disclosure>
+
+                            <Disclosure as="div" class="-mx-3" v-slot="{ open }">
+                                <DisclosureButton
+                                    class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                    订单
+                                    <ChevronDownIcon :class="[open ? 'rotate-180' : '', 'h-5 w-5 flex-none']"
+                                        aria-hidden="true" />
+                                </DisclosureButton>
+                                <DisclosurePanel class="mt-2 space-y-2">
+                                    <DisclosureButton v-for="item in [...orders]" :key="item.name" as="a"
+                                        :href="item.href"
                                         class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">
                                         {{ item.name }}</DisclosureButton>
                                 </DisclosurePanel>
                             </Disclosure>
                             <a href="#"
-                                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Features</a>
-                            <a href="#"
-                                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Marketplace</a>
-                            <a href="#"
-                                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Company</a>
+                                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">购物车</a>
                         </div>
-                        <div class="py-6">
+                        <div class="py-6" v-if="!avatarNot">
                             <a href="#"
-                                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log
+                                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Login
                                 in</a>
                         </div>
                     </div>
@@ -104,7 +119,6 @@ import {
     DisclosurePanel,
 } from '@headlessui/vue'
 import {
-    ArrowPathIcon,
     Bars3Icon,
     ChartPieIcon,
     CursorArrowRaysIcon,
@@ -112,20 +126,22 @@ import {
     SquaresPlusIcon,
     XMarkIcon,
 } from '@heroicons/vue/24/outline'
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon} from '@heroicons/vue/20/solid'
 import { RouterLink } from 'vue-router'
 import DropdownHead from './dropdownHead.vue'
 
-const products = [
-    { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-    { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-    { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-    { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-    { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+const type = [
+    { name: '服装类', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
+    { name: '数码类', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
+    { name: '汽车类', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
+    { name: '其他', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
 ]
-const callsToAction = [
-    { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-    { name: 'Contact sales', href: '#', icon: PhoneIcon },
+const orders = [
+    { name: '全部订单', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
+    { name: '已支付订单', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
+    { name: '未支付订单', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
+    { name: '已出售订单', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
+    { name: '待出售订单', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
 ]
 
 const avatarNot = ref(0)

@@ -13,191 +13,264 @@
   ```
 -->
 <template>
-    <form>
-      <div class="space-y-12">
-        <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">Profile</h2>
-          <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
-  
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-4">
-              <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
-              <div class="mt-2">
-                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>
-                  <input type="text" name="username" id="username" autocomplete="username" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="janesmith" />
-                </div>
+  <form>
+    <div class="space-y-12">
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">出售商品</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">下面的描述是你出售商品展示的公共内容</p>
+
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="sm:col-span-4">
+            <label for="goodsName" class="block text-sm font-medium leading-6 text-gray-900">物品名称</label>
+            <div class="mt-2">
+              <div
+                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <input type="text" name="goodsName" id="goodsName" autocomplete="goodsName"
+                  class="bg-white rounded-md block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  placeholder="GoodsName" v-model="goods.name" />
               </div>
             </div>
-  
-            <div class="col-span-full">
-              <label for="about" class="block text-sm font-medium leading-6 text-gray-900">About</label>
-              <div class="mt-2">
-                <textarea id="about" name="about" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-              </div>
-              <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
-            </div>
-  
-            <div class="col-span-full">
-              <label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-              <div class="mt-2 flex items-center gap-x-3">
-                <UserCircleIcon class="h-12 w-12 text-gray-300" aria-hidden="true" />
-                <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
+
+            <label for="price" class="block text-sm font-medium leading-6 text-gray-900 mt-4">期望价格</label>
+            <div class="mt-2">
+              <div
+                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <input type="text" name="price" id="price" autocomplete="price"
+                  class=" bg-white rounded-md block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  placeholder="Price" v-model="goods.price" />
               </div>
             </div>
-  
-            <div class="col-span-full">
-              <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover photo</label>
-              <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                <div class="text-center">
-                  <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                  <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                    <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                      <span>Upload a file</span>
-                      <input id="file-upload" name="file-upload" type="file" class="sr-only" />
-                    </label>
-                    <p class="pl-1">or drag and drop</p>
-                  </div>
-                  <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-                </div>
+
+            <div class=" w-full grid-cols-2 grid">
+              <label for="type" class="block text-sm font-medium leading-6 text-gray-900 mt-4">类型</label>
+              <label for="level" class="block text-sm font-medium leading-6 text-gray-900 mt-4">新旧程度</label>
+
+              <div class="mt-2 mr-2">
+                <!-- <div
+                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input type="text" name="type" id="type" autocomplete="type"
+                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="Price" />
+                </div> -->
+                <Select name="type" id="type" autocomplete="type" v-model="goods.type">
+                  <SelectTrigger class=" w-10/12">
+                    <SelectValue placeholder="Select a type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Title</SelectLabel>
+                      <SelectItem value="二手车">
+                        二手车
+                      </SelectItem>
+                      <SelectItem value="二手数码">
+                        二手数码
+                      </SelectItem>
+                      <SelectItem value="二手服装">
+                        二手服装
+                      </SelectItem>
+                      <SelectItem value="其他">
+                        其他
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
-            </div>
-          </div>
-        </div>
-  
-        <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-          <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
-  
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-3">
-              <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
-              <div class="mt-2">
-                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-              </div>
-            </div>
-  
-            <div class="sm:col-span-3">
-              <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
-              <div class="mt-2">
-                <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-              </div>
-            </div>
-  
-            <div class="sm:col-span-4">
-              <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-              <div class="mt-2">
-                <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-              </div>
-            </div>
-  
-            <div class="sm:col-span-3">
-              <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
-              <div class="mt-2">
-                <select id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
-                </select>
-              </div>
-            </div>
-  
-            <div class="col-span-full">
-              <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Street address</label>
-              <div class="mt-2">
-                <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-              </div>
-            </div>
-  
-            <div class="sm:col-span-2 sm:col-start-1">
-              <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
-              <div class="mt-2">
-                <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-              </div>
-            </div>
-  
-            <div class="sm:col-span-2">
-              <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State / Province</label>
-              <div class="mt-2">
-                <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-              </div>
-            </div>
-  
-            <div class="sm:col-span-2">
-              <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">ZIP / Postal code</label>
-              <div class="mt-2">
-                <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+              <div class="mt-2 ">
+                <!-- <div
+                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input type="text" name="level" id="level" autocomplete="level"
+                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="Price" />
+                </div> -->
+                <Select name="level" id="level" autocomplete="level" v-model="goods.level">
+                  <SelectTrigger class="w-10/12">
+                    <SelectValue placeholder="Select a level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Level</SelectLabel>
+                      <SelectItem value="没有用过">
+                        没有用过
+                      </SelectItem>
+                      <SelectItem value="用过几次">
+                        用过几次
+                      </SelectItem>
+                      <SelectItem value="用了一年">
+                        用了一年
+                      </SelectItem>
+                      <SelectItem value="用了很久">
+                        用了很久
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
-        </div>
-  
-        <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">Notifications</h2>
-          <p class="mt-1 text-sm leading-6 text-gray-600">We'll always let you know about important changes, but you pick what else you want to hear about.</p>
-  
-          <div class="mt-10 space-y-10">
-            <fieldset>
-              <legend class="text-sm font-semibold leading-6 text-gray-900">By Email</legend>
-              <div class="mt-6 space-y-6">
-                <div class="relative flex gap-x-3">
-                  <div class="flex h-6 items-center">
-                    <input id="comments" name="comments" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
-                  </div>
-                  <div class="text-sm leading-6">
-                    <label for="comments" class="font-medium text-gray-900">Comments</label>
-                    <p class="text-gray-500">Get notified when someones posts a comment on a posting.</p>
-                  </div>
+
+          <div class="col-span-full">
+            <label for="about" class="block text-sm font-medium leading-6 text-gray-900">物品描述</label>
+            <div class="mt-2">
+              <textarea id="about" name="about" rows="3" v-model="goods.describe"
+                class=" min-h-16 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-500">描写你的商品的内容，让买家更好的了解</p>
+          </div>
+
+          <div class="col-span-full">
+            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">图片展示</label>
+            <div
+              class="mt-2 flex justify-center rounded-lg flex-wrap border border-dashed border-gray-900/25 px-6 py-10">
+              <div class="text-center" v-if="images.file.length == 0">
+                <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                  <label for="file-upload"
+                    class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                    <span>Upload a file</span>
+                    <input id="file-upload" type="file" ref="uploadInput" multiple @change="handleFileChange"
+                      name="file-upload" class="sr-only" />
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
                 </div>
-                <div class="relative flex gap-x-3">
-                  <div class="flex h-6 items-center">
-                    <input id="candidates" name="candidates" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
-                  </div>
-                  <div class="text-sm leading-6">
-                    <label for="candidates" class="font-medium text-gray-900">Candidates</label>
-                    <p class="text-gray-500">Get notified when a candidate applies for a job.</p>
-                  </div>
-                </div>
-                <div class="relative flex gap-x-3">
-                  <div class="flex h-6 items-center">
-                    <input id="offers" name="offers" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
-                  </div>
-                  <div class="text-sm leading-6">
-                    <label for="offers" class="font-medium text-gray-900">Offers</label>
-                    <p class="text-gray-500">Get notified when a candidate accepts or rejects an offer.</p>
-                  </div>
-                </div>
+                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
               </div>
-            </fieldset>
-            <fieldset>
-              <legend class="text-sm font-semibold leading-6 text-gray-900">Push Notifications</legend>
-              <p class="mt-1 text-sm leading-6 text-gray-600">These are delivered via SMS to your mobile phone.</p>
-              <div class="mt-6 space-y-6">
-                <div class="flex items-center gap-x-3">
-                  <input id="push-everything" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
-                  <label for="push-everything" class="block text-sm font-medium leading-6 text-gray-900">Everything</label>
-                </div>
-                <div class="flex items-center gap-x-3">
-                  <input id="push-email" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
-                  <label for="push-email" class="block text-sm font-medium leading-6 text-gray-900">Same as email</label>
-                </div>
-                <div class="flex items-center gap-x-3">
-                  <input id="push-nothing" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
-                  <label for="push-nothing" class="block text-sm font-medium leading-6 text-gray-900">No push notifications</label>
-                </div>
+
+              <div v-for="(imageSrc, index) in images.file" :key="index" class="mr-2">
+                <img :src="imageSrc" alt="Uploaded Image" class=" max-h-44" @click="delectImage(index)">
               </div>
-            </fieldset>
+            </div>
+            <div v-if="images.file.length != 0">
+              <label for="file-upload"
+                class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                <span>Add some files</span>
+                <input id="file-upload" type="file" ref="uploadInput" multiple @change="handleFileChange"
+                  name="file-upload" class="sr-only" />
+              </label>
+            </div>
           </div>
         </div>
       </div>
-  
-      <div class="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-        <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-      </div>
-    </form>
-  </template>
-  
-  <script setup>
-  import { PhotoIcon, UserCircleIcon } from '@heroicons/vue/24/solid'
-  </script>
+    </div>
+
+    <div class="mt-6 flex items-center justify-end gap-x-6">
+      <button type="button" class="text-sm font-semibold leading-6 text-gray-900" @click="push()">Cancel</button>
+      <button type="button" @click="pushGoods(goods, 'addGoods')"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+    </div>
+  </form>
+
+
+</template>
+
+<script setup>
+import { PhotoIcon } from '@heroicons/vue/24/solid'
+import { ref, reactive, watch } from 'vue';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
+import { pushGoods } from './order';
+
+const uploadInput = ref(null);
+
+const goods = reactive({
+  name: null,
+  describe: null,
+  type: null,
+  level: null,
+  price: null,
+  image: [], // 上传的图片的URL数组
+});
+const images = reactive({
+  file: []
+})
+
+// 监听文件变化
+const handleFileChange = () => {
+  // 确保 uploadInput 不为 null
+  if (uploadInput.value) {
+    const files = uploadInput.value.files;
+    // console.log(files)
+    if (goods.image.length == 0) {
+      goods.image = [...uploadInput.value.files]
+
+    }
+    // 遍历每个文件
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      // console.log(file)
+      // 检查是否为图片
+      if (file && file.type.startsWith('image/')) {
+
+
+        const reader = new FileReader();
+
+        // 读取文件内容
+        reader.onload = (e) => {
+          // 将图片数据添加到数组中
+          images.file.push(e.target.result);
+
+        };
+
+        // 读取文件内容
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+};
+
+function delectImage(index) {
+  if (images.file.length >= 0) {
+    const left = images.file.slice(0, index)
+    const right = images.file.slice(index + 1)
+
+    images.file = [...left, ...right]
+  } else {
+    alert('图片已经没有了!')
+  }
+}
+
+async function push() {
+  // console.log(images.file[0])
+
+  const formData = new FormData();
+  console.log(goods.image)
+
+  for (const item of goods.image) {
+    formData.append('images', item);
+  }
+  formData.append('name', goods.name)
+  // console.log(goods.name) 
+  const iterator = formData.entries();
+  for (const pair of iterator) {
+    console.log(pair[0] + ': ' + pair[1]);
+  }
+  console.log(formData)
+  try {
+    const response = await fetch('http://localhost:3000/upload', {
+      method: 'POST',
+      body: formData
+    });
+    if (!response.ok) {
+      throw new Error('上传失败');
+    }
+    console.log('上传成功');
+  } catch (error) {
+    console.error('上传失败:', error);
+  }
+}
+
+
+// 监听上传图片的input元素变化
+watch(() => uploadInput.value, () => {
+  handleFileChange();
+});
+
+</script>

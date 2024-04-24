@@ -36,11 +36,11 @@
 
         <!-- menu -->
         <!-- <div class=""> -->
-        <PopoverGroup class=" leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
+        <PopoverGroup v-if="state" class=" leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
           <Popover v-for='items in menu' :key="items.id" class="mx-3">
             <PopoverButton class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950">{{ items.name }}</PopoverButton>
 
-            <PopoverPanel class="absolute z-10 left-2 w-full pr-4 bg-white top-20 flex justify-center">
+            <PopoverPanel  class="absolute z-10 left-2 w-full pr-4 bg-white top-20 flex justify-center">
               <div class=" flex border-b-2 mx-4 w-10/12 justify-start">
                 <div v-for='item in items.children' :key='item.id' class=" w-1/4 flex flex-col mr-7 ml-4">
                   <p>{{ item.name }}</p>
@@ -52,9 +52,13 @@
 
             </PopoverPanel>
           </Popover>
-
-
         </PopoverGroup>
+        
+        <div v-if="!state" class=" leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
+          <div v-for='items in menu' :key="items.id" class="mx-3">
+            <button class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950">{{ items.name }}</button>
+          </div>
+        </div>
 
 
         <!-- <div v-for="item in menu" :key="item.id" class="mx-3">
@@ -90,7 +94,15 @@
 <script setup>
 import { ShoppingBagIcon } from '@heroicons/vue/24/outline'
 import { Popover, PopoverButton, PopoverPanel, PopoverGroup } from '@headlessui/vue'
+import { onBeforeMount, ref } from 'vue';
 const props = defineProps(['menu'])
 const menu = props.menu
-// const open = ref(false)
+const state = ref(1)
+onBeforeMount(()=>{
+  if (menu[0].children){
+    state.value = 1
+  }else {
+    state.value = 0
+  }
+})
 </script>
