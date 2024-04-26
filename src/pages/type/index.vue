@@ -83,28 +83,26 @@ const menu = [
   {
     id: '1',
     name: '服装',
-   
+
   },
   {
     id: '2',
     name: '汽车',
-   
+
   },
   {
     id: '3',
     name: '数码',
-    
+
   }, {
     id: '4',
     name: '其他',
-   
+
   },
 ]
 </script>
 <template>
 
-    <headerTwo :menu="menu"></headerTwo> 
-
-    <productExhibition :products="products"></productExhibition>
-
+  <headerTwo :menu="menu"></headerTwo>
+  <productExhibition :products="products"></productExhibition>
 </template>

@@ -7,7 +7,8 @@ export function gsplitBody(data, images) {
     gImages: path,
     gPrice: data.price,
     gType: data.type,
-    gState: data.level
+    gState: data.level,
+    state: data.state
   }
   return newData
 }

@@ -30,5 +30,5 @@
 
 <script setup>
 const props = defineProps(['products'])
-
+// console.log('1', props.products)
 </script>

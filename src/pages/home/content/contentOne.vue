@@ -91,7 +91,7 @@ import { getGoods_10 } from './common';
 const baseGid = ref(0)
 const goods = ref([])
 onBeforeMount(() => {
-  const res = getGoods_10(baseGid, 'http://localhost:3000/getGoodsTen')
+  const res = getGoods_10(baseGid)
   res.then((result) => {
     // console.log(result)
     goods.value = changeGoodsData(result)

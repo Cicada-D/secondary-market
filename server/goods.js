@@ -16,15 +16,19 @@ goodsRouter.post('/addGoods', multer, async (req, res) => {
     // console.log(req.body)
     // console.log(req.files['image'])
     const body = req.body
+    console.log('body', body)
     const images = req.files['image']
+    const now = Date.now()
     // console.log(images)
     // console.log(gsplitBody(body, images))
     const newData = gsplitBody(body, images)
-    const { uid, gName, gDescribe, gImages, gPrice, gType, gState } = newData
+    const { uid, gName, gDescribe, gImages, gPrice, gType, gState, state } = newData
+    console.log('newData', newData)
+    console.log('state',state)
     // console.log(gImages)
     const sql =
-      'INSERT INTO goods (uid, gName, gDescribe, gImages, gPrice, gType, gState) VALUES (?, ?, ?, ? ,? ,? ,? )'
-    await query(sql, [uid, gName, gDescribe, gImages, gPrice, gType, gState])
+      'INSERT INTO goods (uid, gName, gDescribe, gImages, gPrice, gType, gState, state, createDate ) VALUES (?, ?, ?, ? ,? ,? , ?, ?, ?)'
+    await query(sql, [uid, gName, gDescribe, gImages, gPrice, gType, gState, state, now])
     res.status(201).json({ message: 'Add Goods successfully' })
   } catch (error) {
     console.error('Error registering user: ', error)
@@ -78,6 +82,7 @@ goodsRouter.post('/updateGoods', async (req, res) => {
 goodsRouter.post('/deleteGoods', async (req, res) => {
   try {
     const { gid } = req.body
+    console.log(gid)
     const sql = 'DELETE FROM goods WHERE gid = ?'
     await query(sql, [gid])
     return res.status(201).json({ message: 'Delete successfully' })

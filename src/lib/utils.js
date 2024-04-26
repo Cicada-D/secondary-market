@@ -79,7 +79,7 @@ export class Snowflake {
 }
 
 //拼接get请求
-export function splitURL(url, data) {
+export function splitGETURL(url, data) {
   const queryString = new URLSearchParams(data).toString()
   return `${url}?${queryString}`
 }
@@ -129,7 +129,7 @@ export function changeGoodsDetail(goods) {
   if (goods.gImages) {
     const x = goods.gImages.split(',')
     for (const key in x) {
-      images[key] = {src: '../'+ x[key]}
+      images[key] = { src: '../' + x[key] }
       console.log(x[key])
     }
   }
@@ -149,4 +149,125 @@ export function changeGoodsDetail(goods) {
     srcs: images
   }
   return product
+}
+
+// {
+//   id: '1',
+//   name: '长袖',
+//   style: '黑色',
+//   describe: '保暖很厚',
+//   price: '$123',
+//   imgSrc: 'https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg',
+// },
+//修改订单展示数据
+export function changeAllOrderData(goods) {
+  const res = []
+  console.log(goods)
+  let images = [
+    {
+      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-01.jpg'
+    },
+    {
+      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-02.jpg'
+    },
+    {
+      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-03.jpg'
+    },
+    {
+      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-04.jpg'
+    }
+  ]
+  if (goods.image) {
+    const x = goods.image.split(',')
+    for (const key in x) {
+      images[key] = { src: '../' + x[key] }
+      console.log(x[key])
+    }
+  }
+
+  for (const item of goods.data) {
+    // console.log(item)
+
+    const date = new Date(parseInt(item.createDate))
+
+    // 获取年月日
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0') // 月份从 0 开始，所以要加 1
+    const day = String(date.getDate()).padStart(2, '0')
+
+    // 格式化后的年月日
+    const formattedDate = `${year}-${month}-${day}`
+    console.log('year', year)
+    const x = {
+      id: item.gid,
+      name: item.name,
+      style: item.type,
+      describe: item.describe,
+      price: '$' + item.price,
+      imgSrc: images[0].src,
+      createTime: formattedDate
+    }
+    res.push(x)
+  }
+  // console.log(res)
+  return res
+}
+
+//修改salepending获取的数据
+export function changesalePending(goods) {
+  const res = []
+  console.log(goods)
+  let images = [
+    {
+      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-01.jpg'
+    },
+    {
+      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-02.jpg'
+    },
+    {
+      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-03.jpg'
+    },
+    {
+      src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-04.jpg'
+    }
+  ]
+
+  for (const item of goods) {
+    // console.log(item)
+    let formattedDate = ''
+    let gdescribe = item.gDescribe
+    if (item.createDate != null) {
+      const date = new Date(parseInt(item.createDate))
+
+      // 获取年月日
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0') // 月份从 0 开始，所以要加 1
+      const day = String(date.getDate()).padStart(2, '0')
+
+      // 格式化后的年月日
+      formattedDate = `${year}-${month}-${day}`
+    }
+    console.log('1:',item.images)
+    if (item.gImages != null){
+      images[0].src = '../' + item.gImages.split(',')[0]
+    }
+    // console.log('year', year)
+
+    if(item.gDescribe.length > 50){
+        gdescribe = item.gDescribe.slice(0, 50) + '...'
+    }
+    const x = {
+      id: item.gid,
+      name: item.gName,
+      style: item.gType,
+      describe: gdescribe,
+      gDescribe: item.gDescribe,
+      price: '$' + item.gPrice,
+      imgSrc: images[0].src,
+      createTime: formattedDate
+    }
+    res.push(x)
+  }
+  // console.log(res)
+  return res
 }

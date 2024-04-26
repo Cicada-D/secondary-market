@@ -21,12 +21,29 @@ const routes = [
   {
     path: '/index/type',
     name: 'type',
-    component: () => import('../pages/type/index.vue'),
+    component: () => import('../pages/type/index.vue')
   },
   {
     path: '/index/order',
     name: 'order',
-    component: () => import('../pages/orderForm/index.vue')
+    component: () => import('../pages/orderForm/index.vue'),
+    children: [
+      {
+        path: 'allorder',
+        name: 'allorder',
+        component: () => import('../pages/orderForm/content/allOrder.vue')
+      },
+      {
+        path: 'salePending',
+        name: 'salePending',
+        component: () => import('../pages/orderForm/content/salePending.vue')
+      },
+      {
+        path: 'pushGoods',
+        name: 'pushGoods',
+        component: () => import('../pages/orderForm/content/pushGoods.vue')
+      }
+    ]
   },
   {
     path: '/index/goodsDetail/:gid',
@@ -49,15 +66,9 @@ const routes = [
     component: () => import('../pages/login/index.vue')
   },
   {
-    path: '/index/pushGoods',
-    name: 'push',
-    component: () => import('../pages/orderForm/content/pushGoods.vue')
-  },
-  {
     path: '/:catchAll(.*)',
     name: 'errorPage',
     component: () => import('../pages/errorPage.vue')
-  },
-  
+  }
 ]
 export default routes

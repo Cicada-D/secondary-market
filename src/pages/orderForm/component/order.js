@@ -1,12 +1,14 @@
-import { locationCreate, splitURL } from '@/lib/utils'
+import { locationCreate, splitGETURL } from '@/lib/utils'
 
 // 上传商品
-export async function pushGoods(goods, router) {
+export async function pushGoods(goods, url) {
   const uid = { uid: localStorage.getItem('uid') }
 
   const formdata = createForm(goods, uid)
-
-  const res = await fetch(locationCreate(router), {
+  for (let pair of formdata.entries()) {
+    console.log(pair[0] + ', ' + pair[1]); 
+  }
+  const res = await fetch(locationCreate(url), {
     method: 'POST',
 
     body: formdata
@@ -23,7 +25,7 @@ export async function pushGoods(goods, router) {
     .catch((error) => {
       console.error(error.message) // 错误消息
     })
-  console.log(res)
+  return res
 }
 //转换成formdata格式
 const createForm = (data, args) => {
@@ -40,11 +42,12 @@ const createForm = (data, args) => {
   for (const key in data) {
     formdata.append(key, data[key])
   }
+  formdata.append('state', '1')
   return formdata
 }
 //获取特定的商品详情
-export async function getGoodsDetail(url, gid) {
-  const getURL = splitURL(url, { gid: gid })
+export async function getGoodsDetail(gid) {
+  const getURL = splitGETURL(locationCreate('findGoods'), { gid: gid })
   console.log(getURL)
   const res = await fetch(getURL)
     .then((response) => {

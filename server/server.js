@@ -5,6 +5,8 @@ import bodyParser from 'body-parser'
 import authRouter from './users.js'
 import goodsRouter from './goods.js'
 import cartRouter from './shopCart.js'
+import orderRouter from './order.js'
+
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -49,6 +51,7 @@ app.use('/', authRouter)
 app.use('/', goodsRouter)
 
 app.use('/', cartRouter)
+app.use('/', orderRouter)
 
 // 设置静态文件目录，可以让客户端访问上传的图片
 
