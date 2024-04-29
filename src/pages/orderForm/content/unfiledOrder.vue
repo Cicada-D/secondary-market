@@ -1,28 +1,28 @@
 <template>
-    <div v-if="goods != undefined " class=" w-full rounded-md py-8">
+    <div v-if="goods != undefined" class=" w-full rounded-md py-8">
         <orderTable :goods="goods" :title="title"></orderTable>
     </div>
 </template>
 <script setup>
 import { onBeforeMount, onMounted, ref, watchEffect } from 'vue'
 import orderTable from '../component/orderTable.vue'
-import { findAllOrder } from './comment';
+import { getUnfiledOrder } from './comment';
 import { changeAllOrderData } from '@/lib/utils';
 const goods = ref()
 // const active = ref(false)
-const title = ref('全部订单')
+const title = ref('未完成订单')
 console.log(goods.value)
 
 onBeforeMount(async () => {
-    const res = await findAllOrder(localStorage.getItem('uid'))
+    const res = await getUnfiledOrder(localStorage.getItem('uid'))
     // console.log(res)
     goods.value = changeAllOrderData(res)
     // res.then((result) => {
-    //     console.log(result)
+    //     console.log(result)  
     //     goods.value = changeAllOrderData(result)
     //     console.log(goods.value)
     // })
-    // console.log('123',goods.value)
+    // console.log('123', goods.value)
 })
 onMounted(() => {
     watchEffect(() => {

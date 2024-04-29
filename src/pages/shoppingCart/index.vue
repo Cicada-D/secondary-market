@@ -1,6 +1,5 @@
 <template>
     <Header></Header>
-
     <ShoppingCart></ShoppingCart>
 </template>
 

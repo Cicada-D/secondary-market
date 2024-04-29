@@ -216,7 +216,7 @@ export function changeAllOrderData(goods) {
 //修改salepending获取的数据
 export function changesalePending(goods) {
   const res = []
-  console.log(goods)
+  // console.log(goods)
   let images = [
     {
       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-01.jpg'
@@ -247,7 +247,7 @@ export function changesalePending(goods) {
       // 格式化后的年月日
       formattedDate = `${year}-${month}-${day}`
     }
-    console.log('1:',item.images)
+    // console.log('1:',item.images)
     if (item.gImages != null){
       images[0].src = '../' + item.gImages.split(',')[0]
     }

@@ -69,7 +69,7 @@
                         二手服装
                       </SelectItem>
                       <SelectItem value="其他">
-                        其他
+                        其它
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -153,7 +153,7 @@
     </div>
 
     <div class="mt-6 flex items-center justify-end gap-x-6">
-      <button type="button" class="text-sm font-semibold leading-6 text-gray-900" @click="push()">Cancel</button>
+      <button type="submit" class="text-sm font-semibold leading-6 text-gray-900" >Cancel</button>
       <button type="button" @click="pushGoods(goods, 'addGoods').then(()=>{router.push({ name: 'salePending'})})"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
     </div>
@@ -237,35 +237,6 @@ function delectImage(index) {
   }
 }
 
-async function push() {
-  // console.log(images.file[0])
-
-  const formData = new FormData();
-  console.log(goods.image)
-
-  for (const item of goods.image) {
-    formData.append('images', item);
-  }
-  formData.append('name', goods.name)
-  // console.log(goods.name) 
-  const iterator = formData.entries();
-  for (const pair of iterator) {
-    console.log(pair[0] + ': ' + pair[1]);
-  }
-  console.log(formData)
-  try {
-    const response = await fetch('http://localhost:3000/upload', {
-      method: 'POST',
-      body: formData
-    });
-    if (!response.ok) {
-      throw new Error('上传失败');
-    }
-    console.log('上传成功');
-  } catch (error) {
-    console.error('上传失败:', error);
-  }
-}
 
 
 // 监听上传图片的input元素变化

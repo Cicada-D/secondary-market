@@ -22,7 +22,7 @@
         <div class='flex justify-around border-b-2 mt-8 pb-2'>
           <button
             class=" rounded-lg border-2 py-2 px-4 bg-slate-500 text-white hover:bg-slate-600 hover:border-slate-600"
-            @click="pushCart">加入购物车</button>
+            @click="pushCart(goodsDetali, mid, router)">加入购物车</button>
           <button class=" rounded-lg border-2 py-2 px-4 bg-red-600 text-white hover:bg-red-700 hover:border-red-700 "
             @click="buy(goodsDetali, mid,router)">立即购买</button>
         </div>
@@ -34,41 +34,15 @@
 
 <script setup>
 import Header from '@/component/header.vue';
-import { onBeforeMount, onMounted, ref, watchEffect } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getGoodsDetail } from '../component/order';
 import { changeGoodsDetail } from '@/lib/utils';
-import { buy } from './comment';
+import { buy, pushCart } from './comment';
 import { useRouter } from 'vue-router'
 
 let router = useRouter()
-// const goods = {
-//   name: '物品名称',
-//   description: `The walnut wood card tray is precision milled to perfectly fit a stack of Focus
-//             cards. The powder coated steel divider separates active cards from new ones, or can be used to archive
-//             important task lists.`,
-//   features: [
-//     { name: '卖家', description: 'Wood card tray and 3 refill packs' },
-//     { name: '类型', description: 'Designed by Good Goods, Inc.' },
-//     { name: '损耗层度', description: 'Solid walnut base with rare earth magnets and powder coated steel card cover' },
-//     { name: '价格', description: '6.25" x 3.55" x 1.15"' },
-//   ],
-//   srcs: [
-//     {
-//       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-01.jpg'
-//     },
-//     {
-//       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-02.jpg'
-//     },
-//     {
-//       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-03.jpg'
-//     },
-//     {
-//       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-04.jpg'
-//     },
-//   ]
-// }
-const goods = ref({})
+const goods = ref([])
 const goodsDetali = ref()
 const gid = ref() //货物的gid
 const mid = ref() //自己的uid
@@ -78,6 +52,7 @@ onBeforeMount(() => {
   mid.value = localStorage.getItem('uid')
   // console.log(router.params)
   const res = getGoodsDetail(gid.value)
+  console.log('res',res)
   res.then((result) => {
     // console.log(result[0])
     goods.value = changeGoodsDetail(result[0])
@@ -85,10 +60,5 @@ onBeforeMount(() => {
   })
 })
 
-onMounted(() => {
-  watchEffect(() => {
-    // 在 goods.value 变化时执行逻辑
-    // console.log('goods.value updated:', goods.value);
-  });
-})
+
 </script>

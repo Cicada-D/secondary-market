@@ -4,14 +4,15 @@ import { query } from './db.js'
 
 const orderRouter = Router()
 
-// 创建订单
+// 创建未完成订单
 orderRouter.post('/orderCreate', async (req, res) => {
   try {
-    const {mid, gid, gName, gImages, gPrice, gDescribe, gState, gType, state} = req.body
+    const {mid, gid, gName, gImages, gPrice, gDescribe, gState, gType} = req.body
     const uid = mid
     const now = Date.now()
-    const sql = 'INSERT INTO orders (uid, gid, name, image, price, `describe`, state, type, createDate, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    await query(sql, [uid, gid, gName, gImages, gPrice, gDescribe, gState,gType, now, state])
+    const start = 1, end = 0
+    const sql = 'INSERT INTO orders (uid, gid, name, image, price, `describe`, state, type, createDate, start, end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    await query(sql, [uid, gid, gName, gImages, gPrice, gDescribe, gState,gType, now, start, end])
 
     res.status(201).json({ message: 'INSERT successfully' })
   } catch (error) {
@@ -19,13 +20,58 @@ orderRouter.post('/orderCreate', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' })
   }
 })
-// 根据 uid 查找
+//加入购物车
+orderRouter.post('/pushCart', async (req, res) => {
+  try {
+    const {mid, gid, gName, gImages, gPrice, gDescribe, gState, gType} = req.body
+    const uid = mid
+    const now = Date.now()
+    const start = 0, end = 0
+    const sql = 'INSERT INTO orders (uid, gid, name, image, price, `describe`, state, type, createDate, start, end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    await query(sql, [uid, gid, gName, gImages, gPrice, gDescribe, gState,gType, now, start, end])
 
+    res.status(201).json({ message: 'INSERT successfully' })
+  } catch (error) {
+    console.error('Error registering user: ', error)
+    res.status(500).json({ error: 'Registration failed' })
+  }
+})
+
+// 根据 uid 查找当前用户所有的订单
 orderRouter.post('/findAllOrder', async (req, res) => {
   try {
     const { uid } = req.body;
     console.log(uid)
     const sql = 'SELECT * FROM orders WHERE uid = ?';
+    const result =  await query(sql, [uid]);
+    
+    res.status(200).json({ data: result });
+  } catch (error) {
+    console.error('Error deleting order by uid: ', error);
+    res.status(500).json({ error: 'Failed to delete order' });
+  }
+});
+
+//查询用户已完成的订单
+orderRouter.get('/findOrderByStart', async (req, res) => {
+  try {
+    const { uid } = req.query;
+    console.log(uid)
+    const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 0';
+    const result =  await query(sql, [uid]);
+    
+    res.status(200).json({ data: result });
+  } catch (error) {
+    console.error('Error deleting order by uid: ', error);
+    res.status(500).json({ error: 'Failed to delete order' });
+  }
+});
+//查询用户未完成的订单
+orderRouter.get('/getUnfiledOrder', async (req, res) => {
+  try {
+    const { uid } = req.query;
+    console.log(uid)
+    const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 1';
     const result =  await query(sql, [uid]);
     
     res.status(200).json({ data: result });
@@ -49,7 +95,7 @@ orderRouter.post('/deleteOrderByUidAndGid', async (req, res) => {
   }
 });
 
-// 查询特定商品
+// 查询用户待出售的商品
 orderRouter.get('/findGoodsByUidAndState', async (req, res) => {
   try {
     const { uid, state } = req.query;

@@ -10,7 +10,6 @@ export async function pushGoods(goods, url) {
   }
   const res = await fetch(locationCreate(url), {
     method: 'POST',
-
     body: formdata
   })
     .then((response) => {
@@ -61,6 +60,7 @@ export async function getGoodsDetail(gid) {
     })
     .catch((error) => {
       console.error(error.message) // 错误消息
+      return []
     })
 
   console.log(res)

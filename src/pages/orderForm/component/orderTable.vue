@@ -51,12 +51,6 @@
                         }"> </div>
                     </div>
                 </div>
-
-            </div>
-
-            <div class=" w-11/12 mx-auto m-2 h-9" v-if="props.title != '待出售'">
-                <button
-                    class=" bg-indigo-600 text-white w-full h-full rounded-md hover:bg-indigo-700 hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-indigo-700 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-700">确定订单</button>
             </div>
         </div>
 

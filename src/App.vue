@@ -16,4 +16,6 @@ function reload () {
     <router-view v-if="isRouterAlive"/>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

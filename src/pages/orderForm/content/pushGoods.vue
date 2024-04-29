@@ -11,5 +11,4 @@
 <script setup>
 import ContentVue from "@/component/content.vue";
 import GoodForm from "../component/goodForm.vue";
-
 </script>

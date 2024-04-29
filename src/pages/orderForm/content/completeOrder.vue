@@ -6,23 +6,23 @@
 <script setup>
 import { onBeforeMount, onMounted, ref, watchEffect } from 'vue'
 import orderTable from '../component/orderTable.vue'
-import { findAllOrder } from './comment';
+import { getCompeletOrder } from './comment';
 import { changeAllOrderData } from '@/lib/utils';
 const goods = ref()
 // const active = ref(false)
-const title = ref('全部订单')
-console.log(goods.value)
+const title = ref('已完成订单')
+// console.log(goods.value)
 
 onBeforeMount(async () => {
-    const res = await findAllOrder(localStorage.getItem('uid'))
+    const res = await getCompeletOrder(localStorage.getItem('uid'))
     // console.log(res)
     goods.value = changeAllOrderData(res)
     // res.then((result) => {
-    //     console.log(result)
+    //     console.log(result)  
     //     goods.value = changeAllOrderData(result)
     //     console.log(goods.value)
     // })
-    // console.log('123',goods.value)
+    // console.log('123', goods.value)
 })
 onMounted(() => {
     watchEffect(() => {

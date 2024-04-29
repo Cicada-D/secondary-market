@@ -37,7 +37,7 @@
         <!-- menu -->
         <!-- <div class=""> -->
         <PopoverGroup v-if="state" class=" leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
-          <Popover v-for='items in menu' :key="items.id" class="mx-3">
+          <Popover v-for='items in props.menu' :key="items.id" class="mx-3">
             <PopoverButton class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950">{{
               items.name }}</PopoverButton>
 
@@ -56,8 +56,8 @@
         </PopoverGroup>
 
         <div v-if="!state" class=" leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
-          <div v-for='items in menu' :key="items.id" class="mx-3">
-            <router-link class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950 " :to="items.href"> {{ items.name }}</router-link>
+          <div v-for='items in props.menu' :key="items.id" class="mx-3">
+            <router-link @click="changeLinkIndex(items.id)" active-class="text-gray-950" class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950 " :to="items.href"> {{ items.name }}</router-link>
             <!-- <button class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950">{{ items.name }}</button> -->
           </div>
         </div>
@@ -97,14 +97,17 @@
 import { ShoppingBagIcon } from '@heroicons/vue/24/outline'
 import { Popover, PopoverButton, PopoverPanel, PopoverGroup } from '@headlessui/vue'
 import { onBeforeMount, ref } from 'vue';
-const props = defineProps(['menu'])
-const menu = props.menu
+const props = defineProps(['menu', 'linkIndex'])
+const model = defineModel()
 const state = ref(1)
 onBeforeMount(() => {
-  if (menu[0].children) {
+  if (props.menu[0].children) {
     state.value = 1
   } else {
     state.value = 0
   }
 })
+function changeLinkIndex(index){
+  model.value = index
+}
 </script>

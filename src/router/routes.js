@@ -21,11 +21,34 @@ const routes = [
   {
     path: '/index/type',
     name: 'type',
-    component: () => import('../pages/type/index.vue')
+    component: () => import('../pages/type/index.vue'),
+    children: [
+      {
+        path: 'clothing',
+        name: 'clothing',
+        component: () => import('../pages/type/content/clothing.vue')
+      },
+      {
+        path: 'cart',
+        name: 'cart',
+        component: () => import('../pages/type/content/cart.vue')
+      },
+      {
+        path: 'digitalEquipment',
+        name: 'digitalEquipment',
+        component: () => import('../pages/type/content/digitalEquipment.vue')
+      },
+      {
+        path: 'other',
+        name: 'other',
+        component: () => import('../pages/type/content/other.vue')
+      },
+    ]
   },
   {
     path: '/index/order',
     name: 'order',
+    redirect: '/index/order/allorder',
     component: () => import('../pages/orderForm/index.vue'),
     children: [
       {
@@ -42,6 +65,16 @@ const routes = [
         path: 'pushGoods',
         name: 'pushGoods',
         component: () => import('../pages/orderForm/content/pushGoods.vue')
+      },
+      {
+        path: 'completeOrder',
+        name: 'completeOrder',
+        component: () => import('../pages/orderForm/content/completeOrder.vue')
+      },
+      {
+        path: 'unfiledOrder',
+        name: 'unfiledOrder',
+        component: () => import('../pages/orderForm/content/unfiledOrder.vue')
       }
     ]
   },

@@ -27,13 +27,13 @@
                 </button>
             </div>
             <div class="hidden lg:flex lg:gap-x-12">
-                <RouterLink to="/index/home" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">
+                <RouterLink to="/index/home" active-class="text-gray-950" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950 ">
                     首页</RouterLink>
                 <RouterLink to="/index/type" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950 ">
                     分类</RouterLink>
                 <RouterLink to="/index/order" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">订单
                 </RouterLink>
-                <RouterLink to="#" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">购物车
+                <RouterLink to="/index/shoppingCart" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">购物车
                 </RouterLink>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">

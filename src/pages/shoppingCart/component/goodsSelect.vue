@@ -1,9 +1,9 @@
 <template>
-    <div class=" my-6 mx-auto w-10/12">
-        <div class=" mt-6 pb-6 ">
+    <div class=" m-8 w-full">
+        <div class=" mt-6 pb-3 ">
             <h1>商品</h1>
         </div>
-        <div class=" w-full border-2 bg-white ">
+        <div class=" w-full border-2 bg-white rounded-md">
             <div v-for="item in projects" :key="item.id" class=" relative rounded border-b-2 ">
                 <div class=" m-4 w-10/12 flex">
                     <div class=" m-2 rounded overflow-hidden ">

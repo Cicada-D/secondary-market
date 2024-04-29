@@ -36,20 +36,6 @@ goodsRouter.post('/addGoods', multer, async (req, res) => {
   }
 })
 
-// 添加商品
-// goodsRouter.post('/addGoods', async (req, res) => {
-//   try {
-//     const { uid, gName, gDescribe, gImages, gPrice, gType, gState } = req.body
-//     const sql =
-//       'INSERT INTO goods (uid, gName, gDescribe, gImages, gPrice, gType, gState) VALUES (?, ?, ?, ? ,? ,? ,? )'
-//     await query(sql, [uid, gName, gDescribe, gImages, gPrice, gType, gState])
-//     res.status(201).json({ message: 'Add Goods successfully' })
-//   } catch (error) {
-//     console.error('Error registering user: ', error)
-//     res.status(500).json({ error: 'Registration failed' })
-//   }
-// })
-
 // 修改商品
 goodsRouter.post('/updateGoods', async (req, res) => {
   try {
@@ -110,14 +96,50 @@ goodsRouter.get('/findGoods', async (req, res) => {
   }
 })
 
-// 每次查询10个商品
+// 每次查询num个商品
 goodsRouter.get('/getGoodsTen', async (req, res) => {
   try {
-    const { gid } = req.query; // 假设你从查询参数中获取 gid
+    const { gid, num } = req.query; // 假设你从查询参数中获取 gid
     console.log(gid)
-    const sql = 'SELECT * FROM goods WHERE gid > ? ORDER BY gid ASC LIMIT 10'; // 查询比特定 gid 更大的 gid 值的记录，并返回接下来的10个记录
-    const goods = await query(sql, [gid]); // 假设 gid 是从查询参数中获取的值
+    const sql = 'SELECT * FROM goods WHERE gid > ? ORDER BY gid ASC LIMIT ?'; // 查询比特定 gid 更大的 gid 值的记录，并返回接下来的10个记录
+    const goods = await query(sql, [gid, parseInt(num)]); // 假设 gid 是从查询参数中获取的值
     console.log(goods)
+    if (goods.length > 0) {
+      return res.status(200).json({ message: goods });
+    } else {
+      return res.status(204).json({ message: [] });
+    }
+  } catch (error) {
+    console.error('Error finding goods: ', error);
+    res.status(500).json({ error: 'Failed to find goods' });
+  }
+});
+//根据类型判断查询内容
+
+goodsRouter.get('/getGoodsByType', async (req, res) => {
+  try {
+    const { type, gid } = req.query; // 从查询参数中获取 type 和 gid
+    console.log(type, gid);
+
+    // 构建 SQL 查询语句，根据 type 和 gid 来查询对应的商品
+    let sql = 'SELECT * FROM goods';
+    const params = [];
+
+    if (type === '二手车' || type === '二手数码' || type === '二手服装' || type === '其它') {
+      sql += ' WHERE gType = ?';
+      params.push(type);
+    }
+
+    if (gid) {
+      sql += ' AND gid > ?';
+      params.push(gid);
+    }
+
+    sql += ' ORDER BY gid ASC LIMIT 10';
+
+    const goods = await query(sql, params); // 执行查询
+    console.log(goods);
+
     if (goods.length > 0) {
       return res.status(200).json({ message: goods });
     } else {
@@ -128,5 +150,4 @@ goodsRouter.get('/getGoodsTen', async (req, res) => {
     res.status(500).json({ error: 'Failed to find goods' });
   }
 });
-
 export default goodsRouter
