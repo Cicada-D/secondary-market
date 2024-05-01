@@ -24,7 +24,7 @@ goodsRouter.post('/addGoods', multer, async (req, res) => {
     const newData = gsplitBody(body, images)
     const { uid, gName, gDescribe, gImages, gPrice, gType, gState, state } = newData
     console.log('newData', newData)
-    console.log('state',state)
+    console.log('state', state)
     // console.log(gImages)
     const sql =
       'INSERT INTO goods (uid, gName, gDescribe, gImages, gPrice, gType, gState, state, createDate ) VALUES (?, ?, ?, ? ,? ,? , ?, ?, ?)'
@@ -99,55 +99,57 @@ goodsRouter.get('/findGoods', async (req, res) => {
 // 每次查询num个商品
 goodsRouter.get('/getGoodsTen', async (req, res) => {
   try {
-    const { gid, num } = req.query; // 假设你从查询参数中获取 gid
+    const { gid, num } = req.query // 假设你从查询参数中获取 gid
     console.log(gid)
-    const sql = 'SELECT * FROM goods WHERE gid > ? ORDER BY gid ASC LIMIT ?'; // 查询比特定 gid 更大的 gid 值的记录，并返回接下来的10个记录
-    const goods = await query(sql, [gid, parseInt(num)]); // 假设 gid 是从查询参数中获取的值
+    const sql = 'SELECT * FROM goods WHERE gid > ? ORDER BY gid ASC LIMIT ?' // 查询比特定 gid 更大的 gid 值的记录，并返回接下来的10个记录
+    const goods = await query(sql, [gid, parseInt(num)]) // 假设 gid 是从查询参数中获取的值
     console.log(goods)
     if (goods.length > 0) {
-      return res.status(200).json({ message: goods });
+      return res.status(200).json({ message: goods })
     } else {
-      return res.status(204).json({ message: [] });
+      return res.status(204).json({ message: [] })
     }
   } catch (error) {
-    console.error('Error finding goods: ', error);
-    res.status(500).json({ error: 'Failed to find goods' });
+    console.error('Error finding goods: ', error)
+    res.status(500).json({ error: 'Failed to find goods' })
   }
-});
-//根据类型判断查询内容
+})
 
+//根据类型判断查询内容
 goodsRouter.get('/getGoodsByType', async (req, res) => {
   try {
-    const { type, gid } = req.query; // 从查询参数中获取 type 和 gid
-    console.log(type, gid);
+    const { type, gid, num } = req.query // 从查询参数中获取 type 和 gid
+    console.log(type, gid)
 
     // 构建 SQL 查询语句，根据 type 和 gid 来查询对应的商品
-    let sql = 'SELECT * FROM goods';
-    const params = [];
+    let sql = 'SELECT * FROM goods'
+    const params = []
 
     if (type === '二手车' || type === '二手数码' || type === '二手服装' || type === '其它') {
-      sql += ' WHERE gType = ?';
-      params.push(type);
+      sql += ' WHERE gType = ?'
+      params.push(type)
     }
 
     if (gid) {
-      sql += ' AND gid > ?';
-      params.push(gid);
+      sql += ' AND gid > ?'
+      params.push(gid)
+    }
+    if (num) {
+      sql += ' ORDER BY gid ASC LIMIT ?'
+      params.push(parseInt(num))
     }
 
-    sql += ' ORDER BY gid ASC LIMIT 10';
-
-    const goods = await query(sql, params); // 执行查询
-    console.log(goods);
+    const goods = await query(sql, params) // 执行查询
+    console.log(goods)
 
     if (goods.length > 0) {
-      return res.status(200).json({ message: goods });
+      return res.status(200).json({ message: goods })
     } else {
-      return res.status(404).json({ error: 'No goods found' });
+      return res.status(204).json({ message: [] })
     }
   } catch (error) {
-    console.error('Error finding goods: ', error);
-    res.status(500).json({ error: 'Failed to find goods' });
+    console.error('Error finding goods: ', error)
+    res.status(500).json({ error: 'Failed to find goods' })
   }
-});
+})
 export default goodsRouter

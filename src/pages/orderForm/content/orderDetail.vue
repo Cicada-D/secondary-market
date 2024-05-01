@@ -38,7 +38,7 @@ import { onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getGoodsDetail } from '../component/order';
 import { changeGoodsDetail } from '@/lib/utils';
-import { buy, pushCart } from './comment';
+import { buy, pushCart } from './common';
 import { useRouter } from 'vue-router'
 
 let router = useRouter()

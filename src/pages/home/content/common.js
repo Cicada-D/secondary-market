@@ -1,4 +1,4 @@
-import { changeGoodsData, locationCreate, splitGETURL } from '@/lib/utils'
+import { changeGoodsData, locationCreate, splitGETURL, debounce } from '@/lib/utils'
 
 export async function getGoods_10(gid, num) {
   const getURL = splitGETURL(locationCreate('getGoodsTen'), { gid: gid, num: num })
@@ -21,17 +21,7 @@ export async function getGoods_10(gid, num) {
   return res
 }
 
-function debounce(fn, wait) {
-  let time
-  let state 
-  return (...args) => {
-    clearTimeout(time)
-    time = setTimeout(async () => {
-      state = await fn(...args)
-      console.log('state', state)
-    }, wait)
-  }
-}
+
 async function getMoreGoods(box, goods, baseGid) {
   const bottom = parseInt(box.value.getBoundingClientRect().bottom)
   // const top = parseInt(box.value.getBoundingClientRect().top)
@@ -52,4 +42,4 @@ async function getMoreGoods(box, goods, baseGid) {
   return 2
 }
 
-export const getBottom = debounce(getMoreGoods, 500)
+export const getMachGoods = debounce(getMoreGoods, 50)

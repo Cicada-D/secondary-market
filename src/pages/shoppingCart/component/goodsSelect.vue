@@ -4,12 +4,12 @@
             <h1>商品</h1>
         </div>
         <div class=" w-full border-2 bg-white rounded-md">
-            <div v-for="item in projects" :key="item.id" class=" relative rounded border-b-2 ">
+            <div v-for="(item, index) in props.projects" :key="item.id" class=" relative rounded border-b-2 ">
                 <div class=" m-4 w-10/12 flex">
-                    <div class=" m-2 rounded overflow-hidden ">
-                        <img :src='item.imgSrc' alt="" class=" w-20">
+                    <div class=" w-32  ">
+                        <img :src="item.imgSrc" :alt="item.describe" class=" w-full rounded-md" />
                     </div>
-                    <div class=" m-2">
+                    <div class=" m-2 flex-1">
                         <ul>
                             <li class=" mb-1">{{ item.name }}</li>
                             <li class=" text-sm font-light">{{ item.style }}</li>
@@ -17,7 +17,7 @@
                             <li class=" mt-9">{{ item.price }}</li>
                         </ul>
                     </div>
-                    
+
                     <div class=" absolute right-6 top-6 h-32">
                         <div>
                             <button class=" group">
@@ -30,6 +30,16 @@
                             </button>
 
                         </div>
+                    </div>
+                    <div class="absolute right-6 bottom-6 w-5 h-5 border-2 hover:border-slate-400 rounded-xl flex justify-center items-center"
+                        :class="{
+                            'border-slate-400': states[index],
+                            'border-slate-200': !states[index]
+                        }" @click="changeStates(index)">
+                        <div :class="{
+                            'w-3/4 h-3/4 bg-black rounded-md': states[index],
+                            'w-3/4 h-3/4 bg-white rounded-md': !states[index]
+                        }"> </div>
                     </div>
                 </div>
 
@@ -47,22 +57,48 @@
 </template>
 
 <script setup>
-const projects = [
-    {
-        id: '1',
-        name: '长袖',
-        style: '黑色',
-        describe: '保暖很厚',
-        price: '$123',
-        imgSrc: 'https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg',
-    },
-    {
-        id: '2',
-        name: '长袖',
-        style: '黑色',
-        describe: '保暖很厚',
-        price: '$123',
-        imgSrc: 'https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-02.jpg',
+
+import { useSelectGoods } from '@/stores/counter';
+import { reactive } from 'vue';
+const props = defineProps(['projects'])
+const store = useSelectGoods()
+const { getSum } = store
+console.log(props.projects)
+// const projects = [
+//     {
+//         id: '1',
+//         name: '长袖',
+//         style: '黑色',
+//         describe: '保暖很厚',
+//         price: '$123',
+//         imgSrc: 'https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg',
+//     },
+//     {
+//         id: '2',
+//         name: '长袖',
+//         style: '黑色',
+//         describe: '保暖很厚',
+//         price: '$123',
+//         imgSrc: 'https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-02.jpg',
+//     }
+// ]
+const states = reactive(new Array(props.projects.length).fill(true))
+function changeStates(index) {
+    let selectGoods = []
+
+    states[index] = !states[index]
+    // console.log(states[index])
+    // console.log(index)
+    for (let i in states) {
+        // console.log(`sataes${i}`, states[i])
+        // console.log(`goods${i}`, props.projects[i].price)
+        if (states[i] === true) {
+            selectGoods.push(props.projects[i])
+        }
     }
-]
+    console.log(selectGoods)
+    getSum(selectGoods)
+}
+
+
 </script>

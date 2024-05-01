@@ -6,7 +6,7 @@
 <script setup>
 import { onBeforeMount, onMounted, ref, watchEffect } from 'vue'
 import orderTable from '../component/orderTable.vue'
-import { findAllOrder } from './comment';
+import { findAllOrder } from './common';
 import { changeAllOrderData } from '@/lib/utils';
 const goods = ref()
 // const active = ref(false)

@@ -1,7 +1,6 @@
-
 <template>
-   <headerTwo :menu="menu"></headerTwo>
-   <router-view></router-view>
+    <headerTwo :menu="menu"></headerTwo>
+    <router-view></router-view>
 </template>
 <script setup>
 import headerTwo from '@/component/headerTwo.vue';
@@ -101,7 +100,7 @@ const menu = [
 
     }, {
         id: '4',
-        name: '其他',
+        name: '其它',
         href: '/index/type/other'
     }
 ]

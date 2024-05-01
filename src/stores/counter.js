@@ -16,6 +16,14 @@ export const useStateStore = defineStore('login', () => {
   const changeState = () => {
     state.value = !state.value
   }
-  return { state, changeState}
+  return { state, changeState }
+})
+
+export const useSelectGoods = defineStore('select', () => {
+  const sum = ref([])
+  const getSum = (goods) => {
+    sum.value = goods
+  }
+  return { sum, getSum }
 })
 

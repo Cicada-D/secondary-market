@@ -7,7 +7,7 @@
 import { onBeforeMount, onMounted, ref, watchEffect } from 'vue'
 
 import OrderTable from '../component/orderTable.vue';
-import { getSalePending } from './comment';
+import { getSalePending } from './common';
 import { changesalePending } from '@/lib/utils';
 const goods = ref()
 // const active = ref(false)

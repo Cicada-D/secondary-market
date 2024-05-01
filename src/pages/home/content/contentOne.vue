@@ -4,13 +4,10 @@
 
 <script setup>
 // import content from '../../../component/content.vue';
-import { onBeforeMount, ref, onMounted, nextTick, provide } from 'vue';
+import { onBeforeMount, ref, provide, onMounted, onUnmounted } from 'vue';
 import productExhibition from '../../../component//productExhibition.vue';
-
 import { changeGoodsData } from '@/lib/utils';
-import { getGoods_10, getBottom } from './common';
-
-
+import { getGoods_10, getMachGoods } from './common';
 
 // const products = [
 //   {
@@ -90,34 +87,26 @@ import { getGoods_10, getBottom } from './common';
 
 const baseGid = ref(0)
 const goods = ref([])
+
+const box = ref(null)
+provide('box', box)
 onBeforeMount(async () => {
   const res = await getGoods_10(baseGid.value, 12)
   goods.value = changeGoodsData(res)
   baseGid.value = goods.value[goods.value.length - 1].id
 })
 
-const box = ref(null)
-provide('box', box)
-
-
-
+const controller = new AbortController();
 
 onMounted(() => {
-  nextTick(() => {
-    setTimeout(() => {
-      const height = box.value.clientHeight;
-      console.log("元素的高度是：" + height + "px");
-    }, 100); // 增加一些延迟，确保元素高度被正确计算
-  });
-});
+  addEventListener("wheel", () => {
+    getMachGoods(box, goods, baseGid) //监听的元素，展示的物品，从baseGid开始
+  },{ signal: controller.signal } );
+})
 
-
-
-addEventListener("wheel", () => {
-  getBottom(box, goods, baseGid) //监听的元素，展示的物品，从baseGid开始
-});
-
-
+onUnmounted(() => {
+  controller.abort()
+})
 
 // console.log(goods.value)
 </script>

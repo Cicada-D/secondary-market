@@ -22,6 +22,7 @@ const routes = [
     path: '/index/type',
     name: 'type',
     component: () => import('../pages/type/index.vue'),
+    redirect: 'type/clothing',
     children: [
       {
         path: 'clothing',

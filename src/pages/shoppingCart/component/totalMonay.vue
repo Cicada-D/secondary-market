@@ -11,7 +11,7 @@
                             Subtotal
                         </div>
                         <div class="text-base ">
-                            $99.00
+                            ${{ subtotal }}
                         </div>
                     </div>
                 </li>
@@ -21,7 +21,7 @@
                             Shipping estimate
                         </div>
                         <div class="text-base ">
-                            $5.00
+                            ${{ shippingEstimate }}
                         </div>
                     </div>
                 </li>
@@ -31,7 +31,7 @@
                             Tax estimate
                         </div>
                         <div class="text-base ">
-                            $8.32
+                            ${{ taxEstimate }}
                         </div>
                     </div>
                 </li>
@@ -42,14 +42,14 @@
                             Order total
                         </div>
                         <div class=" ">
-                            $112.32
+                            ${{ orderTotal }}
                         </div>
                     </div>
                 </li>
             </ul>
 
             <div class=" w-full mx-auto mt-9 h-10">
-                <button
+                <button @click="pushCart"
                     class=" bg-indigo-600 text-white w-full h-full rounded-md hover:bg-indigo-700 hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-indigo-700 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-700">提交订单</button>
             </div>
 
@@ -57,5 +57,52 @@
     </div>
 </template>
 <script setup>
+import { locationCreate } from '@/lib/utils';
+import { useSelectGoods } from '@/stores/counter';
+import { storeToRefs } from 'pinia';
+import { ref, watch } from 'vue';
+
+const store = useSelectGoods()
+const { sum } = storeToRefs(store)
+const subtotal = ref(0)
+const shippingEstimate = ref(0)
+const taxEstimate = ref(0)
+const orderTotal = ref(0)
+watch(
+    sum,
+    (newValue) => {
+        // console.log('new',newValue)
+        // console.log('old',oldValue)
+        let sum = 0
+        for (const item of newValue) {
+            sum += parseInt(item.price.slice(0, -1))
+        }
+        subtotal.value = sum
+        orderTotal.value = subtotal.value - shippingEstimate.value - taxEstimate.value
+    }
+)
+console.log(sum.value)
+async function pushCart() {
+    const res = await fetch(locationCreate('orderCreateCart'), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: sum.value, uid: localStorage.getItem('uid')})
+    }).
+        then((response) => {
+            if (!response.ok) {
+                throw new Error('登录失败')
+            }
+            return response.json()
+        })
+        .then((data) => {
+            console.log(data)
+        })
+        .catch((error) => {
+            console.error(error.message) // 错误消息
+        })
+    return res
+}
 
 </script>

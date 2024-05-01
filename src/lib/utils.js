@@ -110,6 +110,37 @@ export function changeGoodsData(goods) {
   return products
 }
 
+//     {
+//         id: '1',
+//         name: '长袖',
+//         style: '黑色',
+//         describe: '保暖很厚',
+//         price: '$123',
+//         imgSrc: 'https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg',
+//     },
+//改变亲求回来的数据(type里面调用)
+export function changeGoodsDataType(goods) {
+  console.log('goods', goods)
+  const products = []
+  for (const item of goods) {
+    const newHref = splitRouter('http://localhost:5173/index/goodsDetail', item.gid)
+    const newImageSrc = item.image ? item.image.split(',') : 0
+    const newPrice = item.price + '$'
+    console.log(item.Price)
+    products.push({
+      id: item.gid,
+      name: item.name,
+      href: newHref,
+      imgSrc: !newImageSrc ? null : '../' + newImageSrc[0],
+      describe: item.describe,
+      price: newPrice,
+      style: item.type
+    })
+  }
+  console.log(products)
+  return products
+}
+
 //改变亲求回来的数据 (商品详情页里面的数据类型)
 export function changeGoodsDetail(goods) {
   let images = [
@@ -177,13 +208,6 @@ export function changeAllOrderData(goods) {
       src: 'https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-04.jpg'
     }
   ]
-  if (goods.image) {
-    const x = goods.image.split(',')
-    for (const key in x) {
-      images[key] = { src: '../' + x[key] }
-      console.log(x[key])
-    }
-  }
 
   for (const item of goods.data) {
     // console.log(item)
@@ -198,6 +222,11 @@ export function changeAllOrderData(goods) {
     // 格式化后的年月日
     const formattedDate = `${year}-${month}-${day}`
     console.log('year', year)
+
+    if (item.image != null) {
+      images[0].src = '../' + item.image.split(',')[0]
+    }
+
     const x = {
       id: item.gid,
       name: item.name,
@@ -248,13 +277,13 @@ export function changesalePending(goods) {
       formattedDate = `${year}-${month}-${day}`
     }
     // console.log('1:',item.images)
-    if (item.gImages != null){
+    if (item.gImages != null) {
       images[0].src = '../' + item.gImages.split(',')[0]
     }
     // console.log('year', year)
 
-    if(item.gDescribe.length > 50){
-        gdescribe = item.gDescribe.slice(0, 50) + '...'
+    if (item.gDescribe.length > 50) {
+      gdescribe = item.gDescribe.slice(0, 50) + '...'
     }
     const x = {
       id: item.gid,
@@ -270,4 +299,17 @@ export function changesalePending(goods) {
   }
   // console.log(res)
   return res
+}
+
+//防抖包装
+export function debounce(fn, wait) {
+  let time
+  // let state
+  return (...args) => {
+    clearTimeout(time)
+    time = setTimeout(async () => {
+      await fn(...args)
+      // console.log('state', state)
+    }, wait)
+  }
 }
