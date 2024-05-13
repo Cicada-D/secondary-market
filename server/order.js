@@ -70,12 +70,12 @@ orderRouter.post('/orderCreateCart', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' })
   }
 })
-// 根据 uid 查找当前用户所有的订单
+// 根据 uid 查找当前用户所有的订单(除了购物车里面的订单)
 orderRouter.post('/findAllOrder', async (req, res) => {
   try {
     const { uid } = req.body
     console.log(uid)
-    const sql = 'SELECT * FROM orders WHERE uid = ?'
+    const sql = 'SELECT * FROM orders WHERE uid = ? AND start != 0'
     const result = await query(sql, [uid])
 
     res.status(200).json({ data: result })
@@ -90,7 +90,7 @@ orderRouter.get('/findOrderByStart', async (req, res) => {
   try {
     const { uid } = req.query
     console.log(uid)
-    const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 0'
+    const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 2'
     const result = await query(sql, [uid])
 
     res.status(200).json({ data: result })
@@ -138,13 +138,9 @@ orderRouter.get('/findGoodsByUidAndState', async (req, res) => {
     const sql = 'SELECT * FROM goods WHERE uid = ? AND state = ?'
     const goods = await query(sql, [uid, state])
 
-    if (goods.length > 0) {
-      return res.status(200).json({ data: goods })
-    } else {
-      return res.status(404).json({ error: 'Goods not found for the specified uid and state' })
-    }
+    res.status(200).json({ data: goods })
   } catch (error) {
-    console.error('Error finding goods: ', error)
+    // console.error('Error finding goods: ', error)
     res.status(500).json({ error: 'Failed to find goods' })
   }
 })

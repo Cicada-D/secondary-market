@@ -77,6 +77,25 @@ goodsRouter.post('/deleteGoods', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' })
   }
 })
+//删除来自购物车的商品
+goodsRouter.post('/deleteGoodsFromCart', async (req, res) => {
+  try {
+    const { gid } = req.body
+    console.log('gid', gid)
+    // 构建带有相同数量占位符的字符串，例如: "?, ?, ?, ?"
+    const placeholders = gid.map(() => '?').join(', ')
+
+    // 准备 SQL 语句
+    const sql = `DELETE FROM goods WHERE gid IN (${placeholders})`
+    console.log('sql', sql)
+    
+    await query(sql, [...gid])
+    return res.status(201).json({ message: 'Delete successfully' })
+  } catch (error) {
+    console.error('Error registering user: ', error)
+    res.status(500).json({ error: 'Registration failed' })
+  }
+})
 
 // 查询特定商品
 goodsRouter.get('/findGoods', async (req, res) => {
@@ -99,10 +118,10 @@ goodsRouter.get('/findGoods', async (req, res) => {
 // 每次查询num个商品
 goodsRouter.get('/getGoodsTen', async (req, res) => {
   try {
-    const { gid, num } = req.query // 假设你从查询参数中获取 gid
+    const { gid, uid, num } = req.query // 假设你从查询参数中获取 gid
     console.log(gid)
-    const sql = 'SELECT * FROM goods WHERE gid > ? ORDER BY gid ASC LIMIT ?' // 查询比特定 gid 更大的 gid 值的记录，并返回接下来的10个记录
-    const goods = await query(sql, [gid, parseInt(num)]) // 假设 gid 是从查询参数中获取的值
+    const sql = 'SELECT * FROM goods WHERE gid > ? AND uid NOT IN (?) ORDER BY gid ASC LIMIT ?' // 查询比特定 gid 更大的 gid 值的记录，并返回接下来的10个记录
+    const goods = await query(sql, [gid, uid, parseInt(num)]) // 假设 gid 是从查询参数中获取的值
     console.log(goods)
     if (goods.length > 0) {
       return res.status(200).json({ message: goods })
