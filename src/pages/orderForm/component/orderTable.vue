@@ -2,8 +2,8 @@
     <div class=" relative mx-8 bg-slate-50 border-2 rounded-md px-6 py-4">
         <div class="pb-6 flex justify-between">
             <h1>{{ props.title }}</h1>
-            <router-link v-if="props.title == '待出售'"  to="/index/order/pushGoods">
-                <Plus ></Plus>
+            <router-link v-if="props.title == '待出售'" to="/index/order/pushGoods">
+                <Plus></Plus>
             </router-link>
         </div>
         <div class=" w-full  ">
@@ -53,6 +53,7 @@
                 </div>
             </div>
         </div>
+        <ErrorPage v-if="!Object.keys(props.goods).length"></ErrorPage>
     </div>
 </template>
 
@@ -61,8 +62,10 @@
 import { reactive } from 'vue';
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Plus } from 'lucide-vue-next';
-const props = defineProps(['goods', 'title'])
+import ErrorPage from '@/pages/errorPage.vue';
 
+const props = defineProps(['goods', 'title'])
+console.log(props.goods)
 const states = reactive(new Array(props.goods.length).fill(true))
 
 function changeStates(index) {

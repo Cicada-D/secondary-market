@@ -1,7 +1,8 @@
 import { changeGoodsData, locationCreate, splitGETURL, debounce } from '@/lib/utils'
 
-export async function getGoods_10(gid, num) {
-  const getURL = splitGETURL(locationCreate('getGoodsTen'), { gid: gid, num: num })
+//进入首页展示多少个商品
+export async function getGoods_10(gid, uid, num) {
+  const getURL = splitGETURL(locationCreate('getGoodsTen'), { gid: gid, uid: uid , num: num })
   const res = await fetch(getURL)
     .then((response) => {
       if (!response.ok) {
@@ -22,13 +23,13 @@ export async function getGoods_10(gid, num) {
 }
 
 
-async function getMoreGoods(box, goods, baseGid) {
+async function getMoreGoods(box, goods, baseGid, uid) {
   const bottom = parseInt(box.value.getBoundingClientRect().bottom)
   // const top = parseInt(box.value.getBoundingClientRect().top)
   const height = parseInt(window.innerHeight)
 
   if (bottom < height) {
-    const res = await getGoods_10(baseGid.value, 12)
+    const res = await getGoods_10(baseGid.value, uid, 12)
     if (res.length == 0) {
       return 0
     }
@@ -42,4 +43,4 @@ async function getMoreGoods(box, goods, baseGid) {
   return 2
 }
 
-export const getMachGoods = debounce(getMoreGoods, 50)
+export const getMachGoods = debounce(getMoreGoods, 500)

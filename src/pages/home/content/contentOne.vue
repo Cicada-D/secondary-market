@@ -91,7 +91,7 @@ const goods = ref([])
 const box = ref(null)
 provide('box', box)
 onBeforeMount(async () => {
-  const res = await getGoods_10(baseGid.value, 12)
+  const res = await getGoods_10(baseGid.value, localStorage.getItem('uid'),  12)
   goods.value = changeGoodsData(res)
   baseGid.value = goods.value[goods.value.length - 1].id
 })
@@ -100,7 +100,7 @@ const controller = new AbortController();
 
 onMounted(() => {
   addEventListener("wheel", () => {
-    getMachGoods(box, goods, baseGid) //监听的元素，展示的物品，从baseGid开始
+    getMachGoods(box, goods, baseGid, localStorage.getItem('uid')) //监听的元素，展示的物品，从baseGid开始
   },{ signal: controller.signal } );
 })
 

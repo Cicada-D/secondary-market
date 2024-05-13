@@ -1,6 +1,6 @@
 <template>
   <Header></Header>
-  <div class="">
+  <div class="w-full flex justify-center">
     <div
       class=" bg-slate-50 mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-12 sm:px-6 sm:py-12 lg:max-w-7xl lg:grid-cols-2 lg:mx-8 lg:my-2 border rounded-md">
       <div class="  grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">

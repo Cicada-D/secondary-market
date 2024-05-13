@@ -49,7 +49,7 @@
             </ul>
 
             <div class=" w-full mx-auto mt-9 h-10">
-                <button @click="pushCart"
+                <button @click="cartOrder(sum)"
                     class=" bg-indigo-600 text-white w-full h-full rounded-md hover:bg-indigo-700 hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-indigo-700 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-700">提交订单</button>
             </div>
 
@@ -57,10 +57,10 @@
     </div>
 </template>
 <script setup>
-import { locationCreate } from '@/lib/utils';
 import { useSelectGoods } from '@/stores/counter';
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
+import { cartOrder } from './common';
 
 const store = useSelectGoods()
 const { sum } = storeToRefs(store)
@@ -82,27 +82,6 @@ watch(
     }
 )
 console.log(sum.value)
-async function pushCart() {
-    const res = await fetch(locationCreate('orderCreateCart'), {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({data: sum.value, uid: localStorage.getItem('uid')})
-    }).
-        then((response) => {
-            if (!response.ok) {
-                throw new Error('登录失败')
-            }
-            return response.json()
-        })
-        .then((data) => {
-            console.log(data)
-        })
-        .catch((error) => {
-            console.error(error.message) // 错误消息
-        })
-    return res
-}
+
 
 </script>

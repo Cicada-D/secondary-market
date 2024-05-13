@@ -22,8 +22,8 @@ export async function getGoodsByType_10(gid, type, num) {
   return res
 }
 async function getMoreGoods(box, goods, baseGid, type) {
-  console.log(box)
-  console.log(box.value.getBoundingClientRect())
+  // console.log(box)
+  // console.log(box.value.getBoundingClientRect())
   // const top = parseInt(box.value.getBoundingClientRect().top)
   if (!box.value) return
   const height = parseInt(window.innerHeight)
@@ -44,4 +44,4 @@ async function getMoreGoods(box, goods, baseGid, type) {
   return 2
 }
 
-export const getMachGoods = debounce(getMoreGoods, 50)
+export const getMachGoods = debounce(getMoreGoods, 500)

@@ -15,10 +15,10 @@ const title = ref('待出售')
 // console.log(goods.value)
 
 onBeforeMount(async () => {
-    await getSalePending(localStorage.getItem("uid")).then((res) => {
-        // console.log('res', res.data)
+    const res =  await getSalePending(localStorage.getItem("uid"))
+    if (res){
         goods.value = changesalePending(res.data)
-    })
+    }
     // console.log('goods',goods.value)
 })
 onMounted(() => {

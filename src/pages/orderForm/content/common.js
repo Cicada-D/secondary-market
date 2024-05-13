@@ -128,8 +128,10 @@ export async function getSalePending(uid) {
     })
     .catch((error) => {
       console.error(error) // 错误消息
+      // console.log(error.cause)
       return error.cause
     })
+  // console.log(res)
   return res
 }
 //查询已完成的订单

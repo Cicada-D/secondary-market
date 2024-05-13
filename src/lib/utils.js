@@ -124,23 +124,22 @@ export function changeGoodsDataType(goods) {
   const products = []
   for (const item of goods) {
     const newHref = splitRouter('http://localhost:5173/index/goodsDetail', item.gid)
-    const newImageSrc = item.image ? item.image.split(',') : 0
-    const newPrice = item.price + '$'
-    console.log(item.Price)
+    const newImageSrc = item.gImages ? item.gImages.split(',') : 0
+    const newPrice = item.gPrice + '$'
+    // console.log(item.gPrice)
     products.push({
       id: item.gid,
-      name: item.name,
+      name: item.gName,
       href: newHref,
-      imgSrc: !newImageSrc ? null : '../' + newImageSrc[0],
+      imageSrc: !newImageSrc ? null : '../' + newImageSrc[0],
       describe: item.describe,
       price: newPrice,
-      style: item.type
+      color: item.gType
     })
   }
   console.log(products)
   return products
 }
-
 //改变亲求回来的数据 (商品详情页里面的数据类型)
 export function changeGoodsDetail(goods) {
   let images = [
