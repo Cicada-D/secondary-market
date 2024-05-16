@@ -43,7 +43,7 @@ const routes = [
         path: 'other',
         name: 'other',
         component: () => import('../pages/type/content/other.vue')
-      },
+      }
     ]
   },
   {
@@ -78,6 +78,18 @@ const routes = [
         component: () => import('../pages/orderForm/content/unfiledOrder.vue')
       }
     ]
+  },
+  {
+    path: '/index/chat/',
+    name: 'chat',
+    component: () => import('../pages/chat/index.vue'),
+    // children: [
+    //   {
+    //     path: ':fromId/:toId',
+    //     name: 'chating',
+    //     component: () => import('../pages/chat/component/chatContent.vue')
+    //   }
+    // ]
   },
   {
     path: '/index/goodsDetail/:gid',

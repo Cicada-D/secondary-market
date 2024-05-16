@@ -6,8 +6,10 @@
         <div class=" w-full border-2 bg-white rounded-md">
             <div v-for="(item, index) in props.projects" :key="item.id" class=" relative rounded border-b-2 ">
                 <div class=" m-4 w-10/12 flex">
-                    <div class=" w-32  ">
-                        <img :src="item.imgSrc" :alt="item.describe" class=" w-full rounded-md" />
+                    <div class=" w-32 relative ">
+                        <a :href="item.href" class=" rounded-md absolute block w-full top-0 bg-slate-400 opacity-100 hover:opacity-75">
+                            <img :src="item.imgSrc" :alt="item.describe" class=" w-full rounded-md" />
+                        </a>
                     </div>
                     <div class=" m-2 flex-1">
                         <ul>
@@ -42,22 +44,18 @@
                         }"> </div>
                     </div>
                 </div>
-
-            </div>
-
-            
+            </div>      
+            <ErrorPage v-if="!Object.keys(props.projects).length"></ErrorPage>
         </div>
-
-
-
     </div>
-
 </template>
 
 <script setup>
 
+import ErrorPage from '@/pages/errorPage.vue';
 import { useSelectGoods } from '@/stores/counter';
 import { reactive } from 'vue';
+
 const props = defineProps(['projects'])
 const store = useSelectGoods()
 const { getSum } = store
@@ -83,13 +81,8 @@ console.log(props.projects)
 const states = reactive(new Array(props.projects.length).fill(true))
 function changeStates(index) {
     let selectGoods = []
-
     states[index] = !states[index]
-    // console.log(states[index])
-    // console.log(index)
     for (let i in states) {
-        // console.log(`sataes${i}`, states[i])
-        // console.log(`goods${i}`, props.projects[i].price)
         if (states[i] === true) {
             selectGoods.push(props.projects[i])
         }

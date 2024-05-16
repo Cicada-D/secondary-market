@@ -16,14 +16,14 @@ import Content from '@/component/content.vue';
 import GoodsSelect from '../component/goodsSelect.vue';
 import { onBeforeMount, ref } from 'vue';
 import { getShoppingCart } from './common';
-import { changeGoodsDataType } from '@/lib/utils';
+import { changeCartDetail } from '@/lib/utils';
 
 const goods = ref([])
 
 onBeforeMount(async () => {
     const res = await getShoppingCart(localStorage.getItem('uid'))
-    // console.log('res',res)
-    goods.value = changeGoodsDataType(res)
+    console.log('res',res)
+    goods.value = changeCartDetail(res)
     console.log('goods',goods.value)
 })
 </script>

@@ -17,12 +17,7 @@ onBeforeMount(async () => {
     const res = await getUnfiledOrder(localStorage.getItem('uid'))
     // console.log(res)
     goods.value = changeAllOrderData(res)
-    // res.then((result) => {
-    //     console.log(result)  
-    //     goods.value = changeAllOrderData(result)
-    //     console.log(goods.value)
-    // })
-    // console.log('123', goods.value)
+
 })
 onMounted(() => {
     watchEffect(() => {

@@ -11,7 +11,10 @@
                 <div class=" m-4 w-10/12 flex">
                     <div class=" mt-3 min-w-32">
                         <AspectRatio :ratio="16 / 9">
-                            <img :src='item.imgSrc' alt="Image" class="rounded-md object-cover">
+                            <a :href="splitRouter('http://localhost:5173/index/goodsDetail', item.id)"
+                                class=" rounded-md absolute block w-full top-0 bg-slate-400 opacity-100 hover:opacity-75">
+                                <img :src='item.imgSrc' alt="Image" class="rounded-md object-cover">
+                            </a>
                         </AspectRatio>
                     </div>
                     <div class=" m-2 flex-grow">
@@ -63,7 +66,7 @@ import { reactive } from 'vue';
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Plus } from 'lucide-vue-next';
 import ErrorPage from '@/pages/errorPage.vue';
-
+import { splitRouter } from '@/lib/utils';
 const props = defineProps(['goods', 'title'])
 console.log(props.goods)
 const states = reactive(new Array(props.goods.length).fill(true))

@@ -16,15 +16,15 @@ goodsRouter.post('/addGoods', multer, async (req, res) => {
     // console.log(req.body)
     // console.log(req.files['image'])
     const body = req.body
-    console.log('body', body)
+    // console.log('body', body)
     const images = req.files['image']
     const now = Date.now()
     // console.log(images)
     // console.log(gsplitBody(body, images))
     const newData = gsplitBody(body, images)
     const { uid, gName, gDescribe, gImages, gPrice, gType, gState, state } = newData
-    console.log('newData', newData)
-    console.log('state', state)
+    // console.log('newData', newData)
+    // console.log('state', state)
     // console.log(gImages)
     const sql =
       'INSERT INTO goods (uid, gName, gDescribe, gImages, gPrice, gType, gState, state, createDate ) VALUES (?, ?, ?, ? ,? ,? , ?, ?, ?)'
