@@ -33,21 +33,19 @@
                     分类</RouterLink>
                 <RouterLink to="/index/order" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">订单
                 </RouterLink>
+                <RouterLink to="/index/chat" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">聊天
+                </RouterLink>
                 <RouterLink to="/index/shoppingCart" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">购物车
                 </RouterLink>
+                
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                 <RouterLink to="/login" v-if="!avatarNot" href="#"
                     class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span>
                 </RouterLink>
-
                 <DropdownHead v-if="avatarNot"></DropdownHead>
-
             </div>
-
         </nav>
-
-
         <Dialog as="div" class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
             <div class="fixed inset-0 z-10" />
             <DialogPanel
@@ -120,29 +118,11 @@ import {
 } from '@headlessui/vue'
 import {
     Bars3Icon,
-    ChartPieIcon,
-    CursorArrowRaysIcon,
-    FingerPrintIcon,
-    SquaresPlusIcon,
     XMarkIcon,
 } from '@heroicons/vue/24/outline'
 import { ChevronDownIcon} from '@heroicons/vue/20/solid'
 import { RouterLink } from 'vue-router'
 import DropdownHead from './dropdownHead.vue'
-
-const type = [
-    { name: '服装类', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-    { name: '数码类', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-    { name: '汽车类', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-    { name: '其他', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-]
-const orders = [
-    { name: '全部订单', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-    { name: '已支付订单', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-    { name: '未支付订单', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-    { name: '已出售订单', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-    { name: '待出售订单', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-]
 
 const avatarNot = ref(0)
 provide('avatarNot', avatarNot)
@@ -150,8 +130,6 @@ provide('avatarNot', avatarNot)
 onMounted(() => {
     const token = localStorage.getItem('token')
     avatarNot.value = token === '1' ? 1 : 0
-    // console.log(avatarNot.value)
-    // console.log(typeof  localStorage.getItem('token'))
 })
 
 const mobileMenuOpen = ref(false)

@@ -25,6 +25,9 @@
             @click="pushCart(goodsDetali, mid, router)">加入购物车</button>
           <button class=" rounded-lg border-2 py-2 px-4 bg-red-600 text-white hover:bg-red-700 hover:border-red-700 "
             @click="buy(goodsDetali, mid,router)">立即购买</button>
+
+            <button class=" rounded-lg border-2 py-2 px-4 bg-red-600 text-white hover:bg-red-700 hover:border-red-700 "
+            @click="chatSeller(mid, goods.features[0].description, router)">交流一下</button>
         </div>
       </div>
     </div>
@@ -38,7 +41,7 @@ import { onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getGoodsDetail } from '../component/order';
 import { changeGoodsDetail } from '@/lib/utils';
-import { buy, pushCart } from './common';
+import { buy, pushCart, chatSeller } from './common';
 import { useRouter } from 'vue-router'
 
 let router = useRouter()

@@ -48,7 +48,7 @@ authRouter.post('/login', async (req, res) => {
     // console.log(user[0].uid)
     return res
       .status(201)
-      .json({ message: 'Login succeefully', uid: user[0].uid, token: user[0].token })
+      .json({ message: 'Login succeefully', uid: user[0].uid, token: user[0].token, icon: user[0].icon, name: user[0].name })
   } catch (error) {
     console.error('Error logging in: ', error)
     res.status(500).json({ error: 'Login failed' })
@@ -70,6 +70,27 @@ authRouter.post('/updateUser', async (req, res) => {
   } catch (error) {
     console.error('Error registering user: ', error)
     res.status(500).json({ error: 'Registration failed' })
+  }
+})
+
+authRouter.post('/findUserDetail', async (req, res) => {
+  try {
+    const { uid } = req.body;
+
+    // SQL 查询语句，用于查询特定用户的消息
+    const sql = `
+      SELECT * FROM user WHERE uid = ? 
+    `;
+
+    // 执行 SQL 查询
+    const result = await query(sql, [uid]);
+
+    // 返回查询结果
+    res.status(200).json({ result });
+  } catch (error) {
+    console.error('Error fetching messages: ', error);
+    // 返回错误响应
+    res.status(500).json({ error: 'Failed to fetch messages' });
   }
 })
 

@@ -1,4 +1,5 @@
 import { locationCreate, splitGETURL } from '@/lib/utils'
+import { pushMessage } from '@/pages/chat/component/common'
 //创建未完成的订单
 async function createOrder(goodsDetail) {
   // console.log()
@@ -203,4 +204,53 @@ export async function pushCart(goods, mid, router) {
     })
 
   // return res
+}
+
+export async function getUserDetail(uid) {
+  const res = await fetch(locationCreate('findUserDetail'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ uid: uid })
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('查询用户信息失败!', { cause: 0 })
+      }
+      return response.json()
+    })
+    .then((data) => {
+      // console.log(data.message)
+      return data
+    })
+    .catch((error) => {
+      console.error(error) // 错误消息
+      return error.cause
+    })
+
+  return res
+}
+
+export async function chatSeller(formId, toId, router) {
+  console.log('formId', formId)
+  console.log('toId', toId)
+  const createTime = Date.now()
+  const res = await getUserDetail(toId)
+  // console.log('res: ', res.result[0])
+  const toUser = res.result[0]
+  const valueMessage = {
+    formId: formId,
+    formName: localStorage.getItem('name'),
+    formIcon: localStorage.getItem('icon'),
+
+    toId: toUser.uid,
+    toName: toUser.name,
+    toIcon: toUser.icon,
+
+    message: '我想和你交流一下',
+    createTime: createTime
+  }
+  await pushMessage(valueMessage)
+  router.push({ name: 'chat' })
 }

@@ -10,6 +10,7 @@ import orderRouter from './order.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+import messageRouter from './messages.js'
 // import { upload } from './image/pushGoodsImage.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -53,8 +54,9 @@ app.use('/', goodsRouter)
 app.use('/', cartRouter)
 app.use('/', orderRouter)
 
-// 设置静态文件目录，可以让客户端访问上传的图片
+app.use('/', messageRouter)
 
+// 设置静态文件目录，可以让客户端访问上传的图片
 app.use('../public', express.static(path.join(__dirname, '../public')))
 
 app.listen(PORT, () => {

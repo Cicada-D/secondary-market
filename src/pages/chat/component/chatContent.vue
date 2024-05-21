@@ -28,6 +28,7 @@
             </div>
         </div>
     </div>
+
 </template>
 
 <script setup>
@@ -58,67 +59,29 @@ function getAvatarSrc(formId) {
         return props.user.icon
     }
 }
-// {
-//     formId: 1,
-//     name: "张三",
-//     toId: 4,
-//     toIcon: '',
-//     message: '你好!',
-//     createTime: '123'
-// }
 function pushMessage() {
+    console.log(props.selectUser)
+    // console.log(props.user)
     if (newMessage.value === '') alert('输入不为空!')
     else {
+        const createTime = Date.now()
         console.log('newMessage', newMessage.value)
         const news = reactive({
-            formId: props.user.id,
-            name: props.user.name,
-            toId: props.selectUser.value.id,
+            formId: parseInt(props.user.id),
+            formName: props.user.name,
+            formIcon: props.user.icon,
+
+            toId: parseInt(props.selectUser.value.id),
+            toName: props.selectUser.value.name,
+            toIcon: props.selectUser.value.formIcon,
+
             message: newMessage.value,
-            toIcon: '',
-            createTime: '9878'
+            createTime: createTime
         })
         emit("transferMessage", news)
     }
-
 }
 
-const socket = new WebSocket(`ws://localhost:3001?username=${localStorage.getItem('uid')}`)
 
-socket.onopen = function (event) {
-    console.log("WebSocket connection established");
-    // console.log( props.user.id)
-    socket.clientInfo = JSON.stringify({ username: props.user.id });
-};
-
-socket.onmessage = function (event) {
-    console.log("webSocket返回的event", event.data)
-    if (typeof event.data === String) {
-        console.log("Received data string");
-    }
-
-    if (event.data instanceof ArrayBuffer) {
-        console.log("Received arraybuffer");
-    };
-}
-socket.onclose = function (event) {
-    console.log("WebSocket connection closed");
-};
-
-socket.onerror = function (error) {
-    console.error("WebSocket error:", error);
-};
-
-function sendMessage() {
-    const msg = {
-            formId: props.user.id,
-            name: props.user.name,
-            toId: props.selectUser.value.id,
-            message: newMessage.value,
-            toIcon: '',
-            createTime: '9878'
-        }
-    socket.send(JSON.stringify(msg));
-}
 
 </script>

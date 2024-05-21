@@ -23,6 +23,8 @@ export async function Login(user, router) {
       console.log(data)
       localStorage.setItem('token', data.token)
       localStorage.setItem('uid', data.uid)
+      localStorage.setItem('name', data.name)
+      localStorage.setItem('icon', data.icon)
       router.push({ name:'home'})
     })
     .catch((error) => {

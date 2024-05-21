@@ -13,17 +13,17 @@ wss.on('connection', (ws, req) => {
   ws.on('message', (message) => {
     const msg = JSON.parse(message)
     console.log('前端传来的值:', msg)
-    // 广播消息给所有客户端
     let count = 0
 
+    //将发来的数据发布到接收方
     wss.clients.forEach((client) => {
       const username = client.username
       console.log('client: ', username)
       count++
       if (client.readyState === WebSocket.OPEN) {
-        if (username == msg.formId || username == msg.toId) {
+        if (username == msg.toId) {
           console.log('alksdjklasdj')
-          client.send(msg.message)
+          client.send(JSON.stringify(msg))
         }
       }
     })
