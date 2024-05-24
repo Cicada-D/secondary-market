@@ -13,23 +13,15 @@ const multer = upload.fields([{ name: 'image', maxCount: 4 }])
 // 添加商品
 goodsRouter.post('/addGoods', multer, async (req, res) => {
   try {
-    // console.log(req.body)
-    // console.log(req.files['image'])
     const body = req.body
-    // console.log('body', body)
     const images = req.files['image']
     const now = Date.now()
-    // console.log(images)
-    // console.log(gsplitBody(body, images))
     const newData = gsplitBody(body, images)
     const { uid, gName, gDescribe, gImages, gPrice, gType, gState, state } = newData
-    // console.log('newData', newData)
-    // console.log('state', state)
-    // console.log(gImages)
     const sql =
       'INSERT INTO goods (uid, gName, gDescribe, gImages, gPrice, gType, gState, state, createDate ) VALUES (?, ?, ?, ? ,? ,? , ?, ?, ?)'
     await query(sql, [uid, gName, gDescribe, gImages, gPrice, gType, gState, state, now])
-    res.status(201).json({ message: 'Add Goods successfully' })
+    res.status(201).json({ message: 'Add Goods Successfully' })
   } catch (error) {
     console.error('Error registering user: ', error)
     res.status(500).json({ error: 'Registration failed' })
@@ -37,27 +29,24 @@ goodsRouter.post('/addGoods', multer, async (req, res) => {
 })
 
 // 修改商品
-goodsRouter.post('/updateGoods', async (req, res) => {
+goodsRouter.post('/updateGoods', multer, async (req, res) => {
   try {
-    const { gid, uid, gName, gDescribe, gImages, gPrice, gType, gState } = req.body
-    const sql = `
-    UPDATE goods 
-    SET 
-      gName = ?, 
-      gDescribe = ?, 
-      gImages = ?, 
-      gPrice = ?, 
-      gType = ?, 
-      gState = ? 
-    WHERE gid = ? AND uid = ?`
-
-    const count = await query(sql, [gName, gDescribe, gImages, gPrice, gType, gState, gid, uid])
-    console.log(count.changedRows)
-    if (count.changedRows == 0) {
-      res.status(404).json({ message: 'Not have the goods' })
-    } else {
-      res.status(201).json({ message: 'Update successfully' })
-    }
+    const body = req.body
+    const images = req.files['image']
+    const now = Date.now()
+    const newData = gsplitBody(body, images)
+    console.log(newData)
+    const { gName, gDescribe, gImages, gPrice, gType, gState, state } = newData
+    const sql = 'UPDATE goods SET gName = ?, gDescribe = ?, gImages = ?, gPrice = ?, gType = ?, gState = ? ,state = ? ,createDate = ? WHERE gid = ?'
+    const sql1 = 'UPDATE orders SET price = ? WHRER gid = ?'
+    const res = await query(sql, [gName, gDescribe, gImages, gPrice, gType, gState, state, now, parseInt(body.gid)])
+    const res1 = await query(sql, [gPrice, parseInt(body.gid)])
+    // console.log(count.changedRows)
+    // if (count.changedRows == 0) {
+    //   res.status(404).json({ message: 'Not have the goods' })
+    // } else {
+    //   res.status(201).json({ message: 'Update successfully' })
+    // }
   } catch (error) {
     console.error('Error registering user: ', error)
     res.status(500).json({ error: 'Registration failed' })

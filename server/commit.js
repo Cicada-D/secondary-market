@@ -1,3 +1,4 @@
+// 货物信息
 export function gsplitBody(data, images) {
   const path = imagesPath(images)
   const newData = {
@@ -15,6 +16,7 @@ export function gsplitBody(data, images) {
 
 export function imagesPath(images) {
   let path = []
+  console.log("images: ", images)
   for (const itme of images) {
     // console.log(" 1" + itme.path)
     const temp = itme.path
@@ -23,3 +25,18 @@ export function imagesPath(images) {
 //   console.log(path)
   return path.join(',')
 }
+
+//用户信息
+export function gsplitUserBody(data, image) {
+  const newData = {
+    uid: data.uid,
+    name: data.name,
+    sex: data.sex,
+    age: data.age,
+    image: image[0].path,
+    describe: data.describe,
+    sit: data.sit,
+  }
+  return newData
+}
+

@@ -1,10 +1,13 @@
 import { Router } from 'express'
 // import { hash, compare } from 'bcryptjs';
 import { query } from './db.js'
+import { upload } from './image/pushGoodsImage.js'
+import { gsplitUserBody } from './commit.js'
 
 const authRouter = Router()
 const token = 1
 const password = '123456'
+const multer = upload.fields([{ name: 'image', maxCount: 2 }])
 
 // 注册用户
 authRouter.post('/register', async (req, res) => {
@@ -24,7 +27,12 @@ authRouter.post('/register', async (req, res) => {
       password,
       token
     ])
-    res.status(201).json({ message: 'User registered successfully', token: '1' })
+    const user = await query('SELECT * FROM user WHERE username = ? and password = ?', [
+      username,
+      password
+    ])
+    console.log(user[0].uid)
+    res.status(201).json({ message: 'User registered successfully', token: '1', uid: user[0].uid })
   } catch (error) {
     console.error('Error registering user: ', error)
     res.status(500).json({ error: 'Registration failed' })
@@ -46,51 +54,78 @@ authRouter.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password' })
     }
     // console.log(user[0].uid)
-    return res
-      .status(201)
-      .json({ message: 'Login succeefully', uid: user[0].uid, token: user[0].token, icon: user[0].icon, name: user[0].name })
+    return res.status(201).json({
+      message: 'Login succeefully',
+      uid: user[0].uid,
+      token: user[0].token,
+      icon: user[0].icon,
+      name: user[0].name
+    })
   } catch (error) {
     console.error('Error logging in: ', error)
     res.status(500).json({ error: 'Login failed' })
   }
 })
 
-//修改个人信息
-authRouter.post('/updateUser', async (req, res) => {
+// 上传个人信息
+authRouter.post('/pushUserDetail', multer, async (req, res) => {
   try {
-    const { uid, name, image, sex, age, describe } = req.body
+    // console.log(req.body)
+    // console.log(req.files['image'])
+    const body = req.body
+    console.log('body', body)
+    const images = req.files['image']
+    console.log(images)
+    const newData = gsplitUserBody(body, images)
+    const { uid, name, sex, age, image, describe, sit } = newData
     const sql =
-      'UPDATE user SET name = ?, image = ?, sex = ?, age = ?, `describe` = ? WHERE uid = ?'
-    const user = await query(sql, [name, image, sex, age, describe, uid])
-    if (user.changedRows == 0) {
-      res.status(404).json({ message: 'Not have the goods' })
-    } else {
-      res.status(201).json({ message: 'Update successfully' })
-    }
+      'UPDATE user SET name = ?, sex = ?, age = ?, image = ?, `describe` = ?, site = ? WHERE uid = ?'
+    await query(sql, [name, sex, age, image, describe, sit, parseInt(uid)])
+    res.status(201).json({ message: 'Create User Successfully', image: image })
   } catch (error) {
     console.error('Error registering user: ', error)
     res.status(500).json({ error: 'Registration failed' })
   }
 })
 
+//修改个人信息
+authRouter.post('/updateUser', multer, async (req, res) => {
+  try {
+    const body = req.body
+    const site = req.body.site
+    console.log('body: ', body)
+    const images = req.files['image']
+    console.log("images: ", images)
+    const newData = gsplitUserBody(body, images)
+    const { uid, name, sex, age, image, describe } = newData
+    console.log("sit: ", site)
+    const sql =
+      'UPDATE user SET name = ?, sex = ?, age = ?, image = ?, `describe` = ?, site = ? WHERE uid = ?'
+    await query(sql, [name, sex, age, image, describe, site, parseInt(uid)])
+    res.status(201).json({ message: 'Create User Successfully', image: image })
+  } catch (error) {
+    console.error('Error registering user: ', error)
+    res.status(500).json({ error: 'Registration failed' })
+  }
+})
+
+//查询个人信息
 authRouter.post('/findUserDetail', async (req, res) => {
   try {
-    const { uid } = req.body;
+    const { uid } = req.body
 
     // SQL 查询语句，用于查询特定用户的消息
-    const sql = `
-      SELECT * FROM user WHERE uid = ? 
-    `;
+    const sql = 'SELECT name, age, sex, `describe`, site, image FROM user WHERE uid = ?'
 
     // 执行 SQL 查询
-    const result = await query(sql, [uid]);
+    const result = await query(sql, [uid])
 
     // 返回查询结果
-    res.status(200).json({ result });
+    res.status(200).json({ result })
   } catch (error) {
-    console.error('Error fetching messages: ', error);
+    console.error('Error fetching messages: ', error)
     // 返回错误响应
-    res.status(500).json({ error: 'Failed to fetch messages' });
+    res.status(500).json({ error: 'Failed to fetch messages' })
   }
 })
 

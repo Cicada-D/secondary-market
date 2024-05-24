@@ -19,6 +19,12 @@ const routes = [
     ]
   },
   {
+    path: '/pushUserDetail',
+    name: 'pushUserDetail',
+    component: () => import('../pages/home/content/pushUserDetail.vue'),
+  },
+
+  {
     path: '/index/type',
     name: 'type',
     component: () => import('../pages/type/index.vue'),
@@ -68,6 +74,11 @@ const routes = [
         component: () => import('../pages/orderForm/content/pushGoods.vue')
       },
       {
+        path: 'changeGoods',
+        name: 'changeGoods',
+        component: () => import('../pages/orderForm/content/changeGoods.vue')
+      },
+      {
         path: 'completeOrder',
         name: 'completeOrder',
         component: () => import('../pages/orderForm/content/completeOrder.vue')
@@ -82,14 +93,7 @@ const routes = [
   {
     path: '/index/chat/',
     name: 'chat',
-    component: () => import('../pages/chat/index.vue'),
-    // children: [
-    //   {
-    //     path: ':fromId/:toId',
-    //     name: 'chating',
-    //     component: () => import('../pages/chat/component/chatContent.vue')
-    //   }
-    // ]
+    component: () => import('../pages/chat/index.vue')
   },
   {
     path: '/index/goodsDetail/:gid',
@@ -110,6 +114,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../pages/login/index.vue')
+  },
+  {
+    path: '/index/userDetail',
+    name: 'userDetail',
+    component: () => import('../pages/home/content/userDetail.vue')
   },
   {
     path: '/:catchAll(.*)',

@@ -26,13 +26,15 @@ export async function Login(user, router) {
       localStorage.setItem('name', data.name)
       localStorage.setItem('icon', data.icon)
       router.push({ name:'home'})
+      return 1
     })
     .catch((error) => {
-      console.error(error.message) // 错误消息
+      // console.error(error.message) // 错误消息
+      return 0
     })
 
     // console.log(router)
-    console.log(res)
+    return res
 }
 //注册
 export async function Register(user, router) {
@@ -55,14 +57,17 @@ export async function Register(user, router) {
     .then((data) => {
       console.log(data.message) // 登录成功消息
       localStorage.setItem('token', data.token)
-      router.push({ name:'home'})
+      localStorage.setItem('uid', data.uid)
+      router.push({ name:'pushUserDetail'})
+      return 1
     })
     .catch((error) => {
-      console.error(error.message) // 错误消息
+      // console.error(error.message) // 错误消息
+      return 0
     })
 
     // console.log(router)
-    console.log(res)
+    return res
 }
 
 

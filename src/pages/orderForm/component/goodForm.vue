@@ -1,17 +1,3 @@
-<!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
   <form>
     <div class="space-y-12">
@@ -153,9 +139,19 @@
     </div>
 
     <div class="mt-6 flex items-center justify-end gap-x-6">
-      <button type="submit" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-      <button type="button" @click="pushGoods(goods, 'addGoods').then(() => { router.push({ name: 'salePending' }) })"
-        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+      <button type="submit" class="text-sm font-semibold leading-6 text-gray-900" @click="() => {
+        goods = {
+          name: null,
+          describe: null,
+          type: null,
+          level: null,
+          price: null,
+          image: [], // 上传的图片的URL数组
+        }
+      }">重置</button>
+      <button type="button"
+        @click="changeGoodsDetail(route.query.gid, goods, 'updateGoods').then()"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">提交</button>
     </div>
   </form>
 
@@ -175,10 +171,12 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-import { pushGoods } from './order';
+import { changeGoodsDetail } from './order';
 import router from '@/router';
+import { useRoute } from 'vue-router';
+const route = useRoute()
 const uploadInput = ref(null);
-
+const props = defineProps(['good'])
 const goods = reactive({
   name: null,
   describe: null,
@@ -240,8 +238,14 @@ function delectImage(index) {
 
 
 // 监听上传图片的input元素变化
-watch(() => uploadInput.value, () => {
-  handleFileChange();
+watch(() => props.good, (newValue, oldValue) => {
+  console.log(newValue.message[0])
+  goods.name = newValue.message[0].gName
+  goods.describe = newValue.message[0].gDescribe,
+    goods.type = newValue.message[0].gType,
+    goods.level = newValue.message[0].gState,
+    goods.price = newValue.message[0].gPrice,
+    console.log(oldValue)
 });
 
 </script>

@@ -6,7 +6,7 @@ export async function pushGoods(goods, url) {
 
   const formdata = createForm(goods, uid)
   for (let pair of formdata.entries()) {
-    console.log(pair[0] + ', ' + pair[1]); 
+    console.log(pair[0] + ', ' + pair[1])
   }
   const res = await fetch(locationCreate(url), {
     method: 'POST',
@@ -64,5 +64,30 @@ export async function getGoodsDetail(gid) {
     })
 
   console.log(res)
+  return res
+}
+
+export async function changeGoodsDetail(id, good, url) {
+  const gid = { gid: id }
+  const formdata = createForm(good, gid)
+  for (let pair of formdata.entries()) {
+    console.log(pair[0] + ', ' + pair[1])
+  }
+  const res = await fetch(locationCreate(url), {
+    method: 'POST',
+    body: formdata
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('添加失败')
+      }
+      return response.json()
+    })
+    .then((data) => {
+      console.log(data.message)
+    })
+    .catch((error) => {
+      console.error(error.message) // 错误消息
+    })
   return res
 }

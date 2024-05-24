@@ -55,16 +55,6 @@ orderRouter.post('/orderCreateCart', async (req, res) => {
       await query(sql, [end, uid, id])
     }
     res.status(201).json({ message: 'Successfully' })
-    // console.log('uid', uid)
-
-    // const {mid, gid, gName, gImages, gPrice, gDescribe, gState, gType} = req.body
-    // const uid = mid
-    // const now = Date.now()
-    // const start = 1, end = 0
-    // const sql = 'INSERT INTO orders (uid, gid, name, image, price, `describe`, state, type, createDate, start, end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    // await query(sql, [uid, gid, gName, gImages, gPrice, gDescribe, gState,gType, now, start, end])
-
-    // res.status(201).json({ message: 'INSERT successfully' })
   } catch (error) {
     console.error('Error registering user: ', error)
     res.status(500).json({ error: 'Registration failed' })
@@ -157,6 +147,56 @@ orderRouter.get('/findShoppingCart', async (req, res) => {
   } catch (error) {
     console.error('Error deleting order by uid: ', error)
     res.status(500).json({ error: 'Failed to delete order' })
+  }
+})
+// //查询订单信息
+// orderRouter.get('/findShoppingCart', async (req, res) => {
+//   try {
+//     const { uid } = req.query
+//     console.log(uid)
+//     const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 0'
+//     const result = await query(sql, [uid])
+
+//     res.status(200).json({ data: result })
+//   } catch (error) {
+//     console.error('Error deleting order by uid: ', error)
+//     res.status(500).json({ error: 'Failed to delete order' })
+//   }
+// })
+
+//未完成订单改成已完成订单
+orderRouter.post('/toCompleteOrder', async (req, res) => {
+  try {
+    const { data } = req.body
+    console.log('data: ', data)
+    for (const item of data) {
+      // console.log('item', item)
+      const gid = item
+      const sql = `UPDATE orders SET start = 2 WHERE gid = ?`
+      await query(sql, [gid])
+    }
+    res.status(201).json({ message: 'Successfully' })
+  } catch (error) {
+    console.error('Error registering user: ', error)
+    res.status(500).json({ error: 'Registration failed' })
+  }
+})
+
+//删除已经完成的订单
+orderRouter.post('/delectCompleteOrder', async (req, res) => {
+  try {
+    const { data } = req.body
+    console.log('data: ', data)
+    for (const item of data) {
+      // console.log('item', item)
+      const gid = item
+      const sql = `DELETE FROM orders WHERE gid = ?`
+      await query(sql, [gid])
+    }
+    res.status(201).json({ message: 'Successfully' })
+  } catch (error) {
+    console.error('Error registering user: ', error)
+    res.status(500).json({ error: 'Registration failed' })
   }
 })
 

@@ -16,11 +16,7 @@
             <p>二手咸鱼</p>
         </div>
         <p class=" absolute mx-9 bottom-9 ">
-            Acme Inc
-            “This library has saved me countless hours of work and helped me deliver stunning designs to my
-            clients faster than ever before.”
-
-            Sofia Davis
+            "二手交易不仅仅是一种经济行为，更是一种文化，一种生活方式。在这里，我们推崇节俭、分享和环保，让生活更有意义。"
         </p>
     </div>
 </template>

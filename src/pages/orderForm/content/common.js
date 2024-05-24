@@ -176,7 +176,7 @@ export async function getUnfiledOrder(uid) {
   return res
 }
 
-export async function pushCart(goods, mid, router) {
+export async function pushCart(goods, mid, router, toId) {
   const { gDescribe, gImages, gName, gPrice, gState, gType, gid } = goods
   const goodsDetail = { mid, gid, gName, gImages, gPrice, gDescribe, gState, gType }
   // console.log()
@@ -192,6 +192,8 @@ export async function pushCart(goods, mid, router) {
         throw new Error('添加订单失败!', { cause: 0 })
       }
       router.push({ name: 'home' })
+      chatSeller(mid, toId, router)
+
       return response.json()
     })
     .then((data) => {
@@ -202,8 +204,6 @@ export async function pushCart(goods, mid, router) {
       console.error(error) // 错误消息
       return error.cause
     })
-
-  // return res
 }
 
 export async function getUserDetail(uid) {
@@ -232,7 +232,7 @@ export async function getUserDetail(uid) {
   return res
 }
 
-export async function chatSeller(formId, toId, router) {
+async function chatSeller(formId, toId, router) {
   console.log('formId', formId)
   console.log('toId', toId)
   const createTime = Date.now()

@@ -1,5 +1,5 @@
 <template>
-    <Header></Header>
+    <Header :icon="user.icon"></Header>
     <div class=" flex w-[1000px] h-[600px] rounded-md mx-auto ">
         <div class=" flex flex-col">
             <div v-for="item in toUser" :key="item.id" class="w-72">
@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onBeforeUnmount, onMounted, reactive } from 'vue';
+import { onBeforeMount, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
 // import { useRouter } from 'vue-router';
 import Header from '../../component/header.vue'
 import ToUser from './component/toUser.vue';
@@ -27,14 +27,13 @@ import { getToUser, getToUserAllMessage, pushMessage, sortMessage } from './comp
 //传给子组件chatContent的消息
 const message = reactive({ value: [] })
 const socket = new WebSocket(`ws://localhost:3001?username=${localStorage.getItem('uid')}`)
-
 //有过对话的用户，传给toUser组件的内容
 const toUser = reactive([])
 //当前用户的信息
 const user = reactive({
     id: localStorage.getItem('uid'),
     name: `${localStorage.getItem('name')}`,
-    icon: 'https://avatars.githubusercontent.com/u/98377372?v=4',
+    icon: '../' + localStorage.getItem('image'),
 })
 
 //选取的聊天对象
@@ -65,7 +64,6 @@ onBeforeMount(async () => {
 
 
 onMounted(() => {
-
     socket.onopen = function () {
         console.log("WebSocket connection established");
     };

@@ -1,5 +1,5 @@
 <template>
-  <Header></Header>
+  <Header :icon="icon"></Header>
   <div class="w-full flex justify-center">
     <div
       class=" bg-slate-50 mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-12 sm:px-6 sm:py-12 lg:max-w-7xl lg:grid-cols-2 lg:mx-8 lg:my-2 border rounded-md">
@@ -20,14 +20,13 @@
           </div>
         </div>
         <div class='flex justify-around border-b-2 mt-8 pb-2'>
-          <button
+          <button v-if="!bianJiSignl"
             class=" rounded-lg border-2 py-2 px-4 bg-slate-500 text-white hover:bg-slate-600 hover:border-slate-600"
-            @click="pushCart(goodsDetali, mid, router)">加入购物车</button>
-          <button class=" rounded-lg border-2 py-2 px-4 bg-red-600 text-white hover:bg-red-700 hover:border-red-700 "
+            @click="pushCart(goodsDetali, mid, router, goods.features[0].description)">加入购物车</button>
+          <button v-if="!bianJiSignl" class=" rounded-lg border-2 py-2 px-4 bg-red-600 text-white hover:bg-red-700 hover:border-red-700 "
             @click="buy(goodsDetali, mid,router)">立即购买</button>
-
-            <button class=" rounded-lg border-2 py-2 px-4 bg-red-600 text-white hover:bg-red-700 hover:border-red-700 "
-            @click="chatSeller(mid, goods.features[0].description, router)">交流一下</button>
+            <button v-if="bianJiSignl"  class=" rounded-lg border-2 py-2 px-4 bg-red-600 text-white hover:bg-red-700 hover:border-red-700 "
+            @click="() => {router.push({name:'changeGoods', query: { gid: goodsDetali.gid}})}">重新编辑</button>
         </div>
       </div>
     </div>
@@ -37,18 +36,24 @@
 
 <script setup>
 import Header from '@/component/header.vue';
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getGoodsDetail } from '../component/order';
 import { changeGoodsDetail } from '@/lib/utils';
-import { buy, pushCart, chatSeller } from './common';
+import { buy, pushCart } from './common';
 import { useRouter } from 'vue-router'
+
+const icon = ref()
+onMounted(() => {
+    icon.value = '../' + localStorage.getItem('image')
+})
 
 let router = useRouter()
 const goods = ref([])
 const goodsDetali = ref()
 const gid = ref() //货物的gid
 const mid = ref() //自己的uid
+const bianJiSignl = ref(false)
 onBeforeMount(() => {
   const router = useRoute()
   gid.value = router.params.gid
@@ -60,6 +65,10 @@ onBeforeMount(() => {
     // console.log(result[0])
     goods.value = changeGoodsDetail(result[0])
     goodsDetali.value = result[0]
+    // console.log(goodsDetali.value)
+    if (goodsDetali.value.uid == localStorage.getItem('uid')){
+      bianJiSignl.value = !bianJiSignl.value
+    }
   })
 })
 

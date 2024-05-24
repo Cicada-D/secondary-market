@@ -1,17 +1,35 @@
 <template>
     <div class=" relative mx-8 bg-slate-50 border-2 rounded-md px-6 py-4">
-        <div class="pb-6 flex justify-between">
-            <h1>{{ props.title }}</h1>
+        <div class="pb-6 flex justify-between ">
+            <div class=" flex items-center">
+                <h1>{{ props.title }}</h1>
+            </div>
             <router-link v-if="props.title == '待出售'" to="/index/order/pushGoods">
                 <Plus></Plus>
             </router-link>
+            <div v-if="signl != 4" class=" text-sm ">
+                <button v-if="signl == 2 && !delectAllCompleteOrderSignl && states.length != 0" @click="selectAll"
+                    class=" border-2 px-2 py-2 rounded-md bg-slate-700 hover:bg-black text-white">删除全部</button>
+
+                <button v-if="signl == 2 && delectAllCompleteOrderSignl" @click="delectCompleteOrder"
+                    class=" border-2 px-2 py-2 rounded-md bg-red-500 hover:bg-red-700 text-white">确定删除</button>
+                <button v-if="signl == 2 && delectAllCompleteOrderSignl" @click="unSelectAll"
+                    class=" border-2 px-2 py-2 rounded-md  bg-blue-500 hover:bg-blue-700 text-white">取消全选</button>
+
+                <button v-if="signl == 3 && states.length != 0" @click="toCompleteOrder"
+                    class=" border-2 px-2 py-2 rounded-md bg-slate-700 hover:bg-black text-white">订单完成</button>
+            </div>
         </div>
         <div class=" w-full  ">
             <div v-for="(item, index) in props.goods" :key="index" class=" relative rounded border-b-2 mt-2 bg-white">
                 <div class=" m-4 w-10/12 flex">
                     <div class=" mt-3 min-w-32">
                         <AspectRatio :ratio="16 / 9">
-                            <a :href="splitRouter('http://localhost:5173/index/goodsDetail', item.id)"
+                            <a v-if="signl != 4" href="#"
+                                class=" rounded-md absolute block w-full top-0 bg-slate-400 opacity-100 hover:opacity-75">
+                                <img :src='item.imgSrc' alt="Image" class="rounded-md object-cover">
+                            </a>
+                            <a v-if="signl == 4" :href="splitRouter('http://localhost:5173/index/goodsDetail', item.id)"
                                 class=" rounded-md absolute block w-full top-0 bg-slate-400 opacity-100 hover:opacity-75">
                                 <img :src='item.imgSrc' alt="Image" class="rounded-md object-cover">
                             </a>
@@ -27,22 +45,8 @@
                             <li class=" mt-9">{{ item.price }}</li>
                         </ul>
                     </div>
-
-                    <div class=" absolute right-6 top-6 h-32">
-                        <div>
-                            <button class=" group">
-                                <svg t="1712586588076" class="icon " viewBox="0 0 1024 1024" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" p-id="1540" width="20" height="20">
-                                    <path class=" group-hover:fill-slate-500"
-                                        d="M861.184 192.512q30.72 0 50.688 10.24t31.744 25.6 16.384 33.28 4.608 33.28q0 7.168-0.512 11.264t-0.512 7.168l0 6.144-67.584 0 0 537.6q0 20.48-8.192 39.424t-23.552 33.28-37.376 23.04-50.688 8.704l-456.704 0q-26.624 0-50.176-8.192t-40.448-23.04-26.624-35.84-9.728-47.616l0-527.36-63.488 0q-1.024-1.024-1.024-5.12-1.024-5.12-1.024-31.744 0-13.312 6.144-29.696t18.432-30.208 31.744-23.04 46.08-9.216l91.136 0 0-62.464q0-26.624 18.432-45.568t45.056-18.944l320.512 0q35.84 0 49.664 18.944t13.824 45.568l0 63.488q21.504 1.024 46.08 1.024l47.104 0zM384 192.512l320.512 0 0-64.512-320.512 0 0 64.512zM352.256 840.704q32.768 0 32.768-41.984l0-475.136-63.488 0 0 475.136q0 21.504 6.656 31.744t24.064 10.24zM545.792 839.68q17.408 0 23.552-9.728t6.144-31.232l0-475.136-63.488 0 0 475.136q0 40.96 33.792 40.96zM738.304 837.632q18.432 0 24.576-9.728t6.144-31.232l0-473.088-64.512 0 0 473.088q0 40.96 33.792 40.96z"
-                                        p-id="1541" fill="#bfbfbf"></path>
-                                </svg>
-                            </button>
-
-                        </div>
-                    </div>
-
-                    <div v-if="props.title != '待出售'"
+                    
+                    <div v-if="signl == 2 || signl == 3"
                         class="absolute right-6 bottom-6 w-5 h-5 border-2 hover:border-slate-400 rounded-xl flex justify-center items-center"
                         :class="{
                             'border-slate-400': !states[index],
@@ -62,11 +66,14 @@
 
 <script setup>
 
-import { reactive } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Plus } from 'lucide-vue-next';
 import ErrorPage from '@/pages/errorPage.vue';
-import { splitRouter } from '@/lib/utils';
+import { locationCreate, splitRouter } from '@/lib/utils';
+import { useRoute } from 'vue-router';
+import router from '@/router';
+
 const props = defineProps(['goods', 'title'])
 console.log(props.goods)
 const states = reactive(new Array(props.goods.length).fill(true))
@@ -77,6 +84,102 @@ function changeStates(index) {
     console.log(index)
 }
 
+const route = useRoute()
+const signl = ref()
+const delectAllCompleteOrderSignl = ref(false)
+console.log('route: ', route)
 
 
+onMounted(() => {
+    if (route.name == 'allorder') {
+        signl.value = 1
+    } else if (route.name == 'completeOrder') {
+        signl.value = 2
+    } else if (route.name == 'unfiledOrder') {
+        signl.value = 3
+    } else if (route.name == 'salePending') {
+        signl.value = 4
+    }
+})
+
+async function toCompleteOrder() {
+    const selectGoods = []
+    for (let i = 0; i < props.goods.length; i++) {
+        if (!states[i]) {
+            selectGoods.push(props.goods[i].id)
+        }
+    }
+    await fetch(locationCreate('toCompleteOrder'), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: selectGoods })
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('改变失败!', { cause: 0 })
+            }
+            return response.json()
+        })
+        .then((data) => {
+            router.replace({ name: 'completeOrder' })
+            return data
+        })
+        .catch((error) => {
+            console.error(error) // 错误消息
+            return error.cause
+        })
+}
+
+function selectAll() {
+    delectAllCompleteOrderSignl.value = !delectAllCompleteOrderSignl.value
+    for (let i = 0; i < props.goods.length; i++) {
+        states[i] = false
+    }
+}
+
+function unSelectAll() {
+    delectAllCompleteOrderSignl.value = !delectAllCompleteOrderSignl.value
+    for (let i = 0; i < props.goods.length; i++) {
+        states[i] = true
+    }
+}
+async function delectCompleteOrder() {
+    const selectGoods = []
+    for (let i = 0; i < props.goods.length; i++) {
+        if (!states[i]) {
+            selectGoods.push(props.goods[i].id)
+        }
+    }
+    await fetch(locationCreate('delectCompleteOrder'), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: selectGoods })
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('改变失败!', { cause: 0 })
+            }
+            return response.json()
+        })
+        .then((data) => {
+            router.replace({ name: 'allorder' })
+            return data
+        })
+        .catch((error) => {
+            console.error(error) // 错误消息
+            return error.cause
+        })
+}
+
+watch(
+    () => states,
+    (newValue, oldValue) => {
+        console.log(newValue)
+        console.log(oldValue)
+    }
+)
 </script>

@@ -27,15 +27,15 @@
                 </button>
             </div>
             <div class="hidden lg:flex lg:gap-x-12">
-                <RouterLink to="/index/home" active-class="text-gray-950" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950 ">
+                <RouterLink :to="{name: 'index'}" active-class="text-gray-950" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950 ">
                     首页</RouterLink>
-                <RouterLink to="/index/type" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950 ">
+                <RouterLink :to="{name: 'type'}" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950 ">
                     分类</RouterLink>
-                <RouterLink to="/index/order" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">订单
+                <RouterLink :to="{name: 'order'}" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">订单
                 </RouterLink>
-                <RouterLink to="/index/chat" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">聊天
+                <RouterLink :to="{name: 'chat'}" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">聊天
                 </RouterLink>
-                <RouterLink to="/index/shoppingCart" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">购物车
+                <RouterLink :to="{name: 'shoppingCart'}" class="text-sm font-semibold leading-6 text-gray-500 hover:text-gray-950">购物车
                 </RouterLink>
                 
             </div>
@@ -43,7 +43,7 @@
                 <RouterLink to="/login" v-if="!avatarNot" href="#"
                     class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span>
                 </RouterLink>
-                <DropdownHead v-if="avatarNot"></DropdownHead>
+                <DropdownHead :image="props.icon" v-if="avatarNot"></DropdownHead>
             </div>
         </nav>
         <Dialog as="div" class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
@@ -125,6 +125,8 @@ import { RouterLink } from 'vue-router'
 import DropdownHead from './dropdownHead.vue'
 
 const avatarNot = ref(0)
+const props = defineProps(['icon'])
+
 provide('avatarNot', avatarNot)
 
 onMounted(() => {
