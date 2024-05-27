@@ -28,7 +28,7 @@ export async function Login(user, router) {
       router.push({ name:'home'})
       return 1
     })
-    .catch((error) => {
+    .catch(() => {
       // console.error(error.message) // 错误消息
       return 0
     })
@@ -61,7 +61,7 @@ export async function Register(user, router) {
       router.push({ name:'pushUserDetail'})
       return 1
     })
-    .catch((error) => {
+    .catch(() => {
       // console.error(error.message) // 错误消息
       return 0
     })

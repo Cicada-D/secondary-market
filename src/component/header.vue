@@ -43,7 +43,7 @@
                 <RouterLink to="/login" v-if="!avatarNot" href="#"
                     class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span>
                 </RouterLink>
-                <DropdownHead :image="props.icon" v-if="avatarNot"></DropdownHead>
+                <DropdownHead :image="'../' + props.icon" v-if="avatarNot"></DropdownHead>
             </div>
         </nav>
         <Dialog as="div" class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">

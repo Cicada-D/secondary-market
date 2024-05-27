@@ -14,8 +14,7 @@ const props = defineProps(['image'])
 // const avatarNot = inject('avatarNot')
 const reload = inject('reload')
 function quit() {
-  localStorage.removeItem('token')
-  localStorage.removeItem('uid')
+  localStorage.clear()
   // avatarNot.value = !avatarNot.value 
   router.push({
     name: 'login'

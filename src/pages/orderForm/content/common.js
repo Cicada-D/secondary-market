@@ -176,6 +176,7 @@ export async function getUnfiledOrder(uid) {
   return res
 }
 
+//加入购物车
 export async function pushCart(goods, mid, router, toId) {
   const { gDescribe, gImages, gName, gPrice, gState, gType, gid } = goods
   const goodsDetail = { mid, gid, gName, gImages, gPrice, gDescribe, gState, gType }
@@ -189,23 +190,22 @@ export async function pushCart(goods, mid, router, toId) {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error('添加订单失败!', { cause: 0 })
+        throw new Error('添加订单失败!', { cause: 0, state: response.status })
       }
-      router.push({ name: 'home' })
-      chatSeller(mid, toId, router)
-
+      // console.log("toId: ", toId)
+      chatSeller(mid, toId, router, gid)
       return response.json()
     })
     .then((data) => {
       // console.log(data.message)
       return data
     })
-    .catch((error) => {
-      console.error(error) // 错误消息
-      return error.cause
+    .catch(() => {
+      router.push({name: 'shoppingCart'})
+      return 0
     })
 }
-
+// 获取用户（卖家）详细信息
 export async function getUserDetail(uid) {
   const res = await fetch(locationCreate('findUserDetail'), {
     method: 'POST',
@@ -232,12 +232,13 @@ export async function getUserDetail(uid) {
   return res
 }
 
-async function chatSeller(formId, toId, router) {
+//发送一次消息，建立连接的同时提醒对方
+async function chatSeller(formId, toId, router, gid) {
   console.log('formId', formId)
   console.log('toId', toId)
   const createTime = Date.now()
   const res = await getUserDetail(toId)
-  // console.log('res: ', res.result[0])
+  console.log('res: ', res.result[0])
   const toUser = res.result[0]
   const valueMessage = {
     formId: formId,
@@ -246,11 +247,13 @@ async function chatSeller(formId, toId, router) {
 
     toId: toUser.uid,
     toName: toUser.name,
-    toIcon: toUser.icon,
+    toIcon: toUser.image,
 
     message: '我想和你交流一下',
-    createTime: createTime
+    createTime: createTime,
+    gid: gid
   }
+  console.log("valueMessage: ", valueMessage)
   await pushMessage(valueMessage)
-  router.push({ name: 'chat' })
+  router.push({ name: 'shoppingCart' })
 }

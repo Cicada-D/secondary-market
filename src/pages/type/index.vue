@@ -1,10 +1,11 @@
 <template>
-    <headerTwo :menu="menu"></headerTwo>
-    <router-view></router-view>
+    <headerTwo :menu="menu" @headerInput="getHeaderInput"></headerTwo>
+    <router-view :inputValue="inputValue"></router-view>
 </template>
 <script setup>
 import headerTwo from '@/component/headerTwo.vue';
-
+import { ref } from 'vue';
+import { debounce } from '@/lib/utils'
 // import { RouterView } from 'vue-router';
 
 // const products = [
@@ -82,7 +83,10 @@ import headerTwo from '@/component/headerTwo.vue';
 //     color: 'Black',
 //   },
 // ]
-
+const inputValue = ref()
+const getHeaderInput = debounce((value) => {
+    inputValue.value = value
+}, 500)
 const menu = [
     {
         id: '1',

@@ -9,82 +9,6 @@ import productExhibition from '../../../component//productExhibition.vue';
 import { changeGoodsData } from '@/lib/utils';
 import { getGoods_10, getMachGoods } from './common';
 
-// const products = [
-//   {
-//     id: 1,
-//     name: 'Basic Tee',
-//     href: 'http://localhost:5173/index/orderDetail',
-//     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-//     imageAlt: "Front of men's Basic Tee in black.",
-//     price: '$35',
-//     color: 'Black',
-//   },
-//   // More products...
-//   {
-//     id: 2,
-//     name: 'Basic Tee',
-//     href: '#',
-//     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-//     imageAlt: "Front of men's Basic Tee in black.",
-//     price: '$35',
-//     color: 'Black',
-//   },
-//   {
-//     id: 3,
-//     name: 'Basic Tee',
-//     href: '#',
-//     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-//     imageAlt: "Front of men's Basic Tee in black.",
-//     price: '$35',
-//     color: 'Black',
-//   },
-//   {
-//     id: 4,
-//     name: 'Basic Tee',
-//     href: '#',
-//     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-//     imageAlt: "Front of men's Basic Tee in black.",
-//     price: '$35',
-//     color: 'Black',
-//   },
-//   {
-//     id: 5,
-//     name: 'Basic Tee',
-//     href: '#',
-//     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-//     imageAlt: "Front of men's Basic Tee in black.",
-//     price: '$35',
-//     color: 'Black',
-//   },
-//   {
-//     id: 6,
-//     name: 'Basic Tee',
-//     href: '#',
-//     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-//     imageAlt: "Front of men's Basic Tee in black.",
-//     price: '$35',
-//     color: 'Black',
-//   },
-//   {
-//     id: 7,
-//     name: 'Basic Tee',
-//     href: '#',
-//     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-//     imageAlt: "Front of men's Basic Tee in black.",
-//     price: '$35',
-//     color: 'Black',
-//   },
-//   {
-//     id: 8,
-//     name: 'Basic Tee',
-//     href: '#',
-//     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-//     imageAlt: "Front of men's Basic Tee in black.",
-//     price: '$35',
-//     color: 'Black',
-//   },
-// ]
-
 const baseGid = ref(0)
 const goods = ref([])
 
@@ -92,8 +16,11 @@ const box = ref(null)
 provide('box', box)
 onBeforeMount(async () => {
   const res = await getGoods_10(baseGid.value, localStorage.getItem('uid'),  12)
-  goods.value = changeGoodsData(res)
-  baseGid.value = goods.value[goods.value.length - 1].id
+  if (res.length !== 0){
+    goods.value = changeGoodsData(res)
+    baseGid.value = goods.value[goods.value.length - 1].id
+  }
+
 })
 
 const controller = new AbortController();
@@ -108,5 +35,4 @@ onUnmounted(() => {
   controller.abort()
 })
 
-// console.log(goods.value)
 </script>

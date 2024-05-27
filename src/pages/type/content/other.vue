@@ -4,12 +4,32 @@
 
 <script setup>
 // import content from '../../../component/content.vue';
-import { onBeforeMount, ref, provide, onMounted, onUnmounted } from 'vue';
+import { onBeforeMount, ref, provide, onMounted, onUnmounted, watch } from 'vue';
 
 import productExhibition from '../../../component//productExhibition.vue';
 import { changeGoodsDataType } from '@/lib/utils';
-import { getGoodsByType_10, getMachGoods } from './common';
+import { getGoodsByType_10, getMachGoods, getGoodsByTypeAndInput } from './common';
+const props = defineProps(["inputValue"])
 
+watch(
+    props,
+    async () => {
+        console.log(props.inputValue.length)
+        if (props.inputValue.length != 0) {
+            const res = await getGoodsByTypeAndInput('其它', props.inputValue)
+            // console.log("res: ", res)
+            goods.value = changeGoodsDataType(res)
+        } else {
+            baseGid.value = 0
+            const res = await getGoodsByType_10(baseGid.value, '其它', 12)
+            if (res.length != 0) {
+                goods.value = changeGoodsDataType(res)
+                baseGid.value = goods.value[goods.value.length - 1].id
+            }
+        }
+
+    },
+)
 
 const baseGid = ref(0)
 const goods = ref([])

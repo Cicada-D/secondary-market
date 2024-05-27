@@ -18,7 +18,7 @@ wss.on('connection', (ws, req) => {
     //将发来的数据发布到接收方
     wss.clients.forEach((client) => {
       const username = client.username
-      console.log('client: ', username)
+      // console.log('client: ', username)
       count++
       if (client.readyState === WebSocket.OPEN) {
         if (username == msg.toId) {

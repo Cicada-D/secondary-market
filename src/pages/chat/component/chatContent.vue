@@ -1,7 +1,7 @@
 <template>
     <div class=" bg-slate-50 h-full flex flex-col">
         <!-- 展示界面 -->
-        <div class=" flex-1 overflow-auto">
+        <div ref="showPage" class=" flex-1 overflow-auto">
             <div v-for="item in props.message.value" :key="item.createTime">
                 <div class=" flex mx-2 mt-4" :class="{ 'flex-row-reverse': item.formId == props.user.id }">
                     <Avatar size="icon">
@@ -12,7 +12,7 @@
                         <div class="text-sm text-slate-500" :class="{ 'text-end': item.formId == props.user.id }">
                             {{ item.name }}
                         </div>
-                        <p class=" mt-2 border-2 rounded-md bg-white max-w-[600px] break-words">
+                        <p class=" mt-2 border-2 rounded-md bg-white max-w-[600px] break-words px-2 py-1">
                             {{ item.message }}
                         </p>
                     </div>
@@ -33,16 +33,16 @@
 
 <script setup>
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { onMounted, reactive, ref } from 'vue';
+import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 
 
 const props = defineProps(['message', 'user', 'selectUser'])
 const emit = defineEmits(['transferMessage'])
 const newMessage = ref('')
+const showPage = ref(null)
 const text = ref(null)
-console.log('text', text.value)
+
 onMounted(() => {
-    console.log('textOnMount:', text.value)
     text.value.addEventListener('keydown', function (event) {
         if (event.key === "Enter") {
             pushMessage()
@@ -50,15 +50,25 @@ onMounted(() => {
             event.preventDefault()
         }
     })
+    scrollToBottom()
 })
 
+const scrollToBottom = () => {
+    nextTick(() => {
+        showPage.value.scrollTop = showPage.value.scrollHeight
+
+    })
+}
+
+// 判断当前的头像
 function getAvatarSrc(formId) {
     if (formId == props.selectUser.value.id) {
-        return props.selectUser.value.formIcon
+        return '../' + props.selectUser.value.formIcon
     } else {
-        return props.user.icon
+        return '../' + props.user.icon
     }
 }
+
 function pushMessage() {
     console.log(props.selectUser)
     // console.log(props.user)
@@ -81,7 +91,9 @@ function pushMessage() {
         emit("transferMessage", news)
     }
 }
-
+watch( props.message , () => {
+    scrollToBottom()
+})
 
 
 </script>

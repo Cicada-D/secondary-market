@@ -58,7 +58,7 @@ authRouter.post('/login', async (req, res) => {
       message: 'Login succeefully',
       uid: user[0].uid,
       token: user[0].token,
-      icon: user[0].icon,
+      icon: user[0].image,
       name: user[0].name
     })
   } catch (error) {
@@ -115,7 +115,7 @@ authRouter.post('/findUserDetail', async (req, res) => {
     const { uid } = req.body
 
     // SQL 查询语句，用于查询特定用户的消息
-    const sql = 'SELECT name, age, sex, `describe`, site, image FROM user WHERE uid = ?'
+    const sql = 'SELECT name, age, sex, `describe`, site, image, uid, image FROM user WHERE uid = ?'
 
     // 执行 SQL 查询
     const result = await query(sql, [uid])

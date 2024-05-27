@@ -1,5 +1,5 @@
 import { changeGoodsData, locationCreate, splitGETURL, debounce } from '@/lib/utils'
-
+// 根据类型查询，一次查询num个
 export async function getGoodsByType_10(gid, type, num) {
   console.log('gid', gid)
   const getURL = splitGETURL(locationCreate('getGoodsByType'), { gid: gid, type: type, num: num })
@@ -44,4 +44,26 @@ async function getMoreGoods(box, goods, baseGid, type) {
   return 2
 }
 
+// 根据输入框查询
+export async function getGoodsByTypeAndInput(type, value){
+  // console.log(type, value)
+  const getURL = splitGETURL(locationCreate('getGoodsByTypeAndInput'), { type: type, inputValue: value })
+  const res = await fetch(getURL)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('查询失败')
+    }
+    return response.json()
+  })
+  .then((data) => {
+    return data.message
+  })
+  // eslint-disable-next-line no-unused-vars
+  .catch((error) => {
+    // console.error(error.status) // 错误消息
+    return []
+  })
+
+  return res
+}
 export const getMachGoods = debounce(getMoreGoods, 500)

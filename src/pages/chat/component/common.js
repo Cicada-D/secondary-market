@@ -1,4 +1,4 @@
-import { locationCreate } from '@/lib/utils'
+import { locationCreate, splitGETURL } from '@/lib/utils'
 export function sortMessage(message) {
   // console.log('message', message)
   // 使用 sort 方法对数组进行排序
@@ -87,3 +87,25 @@ export async function getToUserAllMessage(uid) {
     })
   return res
 }
+
+//获取聊天中的订单信息
+export async function getGoodOrder(uid, gid){
+  console.log(uid, gid)
+  const getURL = splitGETURL(locationCreate('findShoppingCart'), { uid: uid })
+  const res = await fetch(getURL)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('查询失败')
+      }
+      return response.json()
+    })
+    .then((data) => {
+      return data.data
+    })
+    .catch(() => {
+      return []
+    })
+ 
+  return res
+}
+

@@ -2,6 +2,7 @@ import { locationCreate, splitGETURL } from '@/lib/utils'
 
 // 上传商品
 export async function pushGoods(goods, url) {
+  console.log(goods)
   const uid = { uid: localStorage.getItem('uid') }
 
   const formdata = createForm(goods, uid)
@@ -66,7 +67,7 @@ export async function getGoodsDetail(gid) {
   console.log(res)
   return res
 }
-
+//修改商品信息
 export async function changeGoodsDetail(id, good, url) {
   const gid = { gid: id }
   const formdata = createForm(good, gid)

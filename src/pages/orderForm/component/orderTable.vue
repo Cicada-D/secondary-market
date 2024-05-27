@@ -14,7 +14,7 @@
                 <button v-if="signl == 2 && delectAllCompleteOrderSignl" @click="delectCompleteOrder"
                     class=" border-2 px-2 py-2 rounded-md bg-red-500 hover:bg-red-700 text-white">确定删除</button>
                 <button v-if="signl == 2 && delectAllCompleteOrderSignl" @click="unSelectAll"
-                    class=" border-2 px-2 py-2 rounded-md  bg-blue-500 hover:bg-blue-700 text-white">取消全选</button>
+                    class=" border-2 px-2 py-2 rounded-md  bg-blue-500 hover:bg-blue-700 text-white">取消删除</button>
 
                 <button v-if="signl == 3 && states.length != 0" @click="toCompleteOrder"
                     class=" border-2 px-2 py-2 rounded-md bg-slate-700 hover:bg-black text-white">订单完成</button>

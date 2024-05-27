@@ -150,7 +150,7 @@
         }
       }">重置</button>
       <button type="button"
-        @click="changeGoodsDetail(route.query.gid, goods, 'updateGoods').then()"
+        @click="clickChange"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">提交</button>
     </div>
   </form>
@@ -171,7 +171,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-import { changeGoodsDetail } from './order';
+import { changeGoodsDetail, pushGoods } from './order';
 import router from '@/router';
 import { useRoute } from 'vue-router';
 const route = useRoute()
@@ -188,6 +188,16 @@ const goods = reactive({
 const images = reactive({
   file: []
 })
+
+console.log(route.name)
+const clickChange = () => {
+  console.log(goods)
+  if(route.name == "pushGoods"){
+    pushGoods(goods, "addGoods").then(router.push({name: "index"}))
+  }else if(route.name == "changeGoods"){
+    changeGoodsDetail(route.query.gid, goods, 'updateGoods').then(router.push({name: "index"}))
+  }
+}
 
 // 监听文件变化
 const handleFileChange = () => {

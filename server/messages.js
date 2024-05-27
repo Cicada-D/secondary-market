@@ -7,17 +7,17 @@ const messageRouter = Router()
 messageRouter.post('/pushMessage', async (req, res) => {
   try {
     // 从请求主体中解构所需的字段
-    const { formId, formName, formIcon, toId, toName, toIcon, message, createTime } = req.body
+    const { formId, formName, formIcon, toId, toName, toIcon, message, createTime, gid } = req.body
 
     // SQL 插入语句
     const sql = `
         INSERT INTO messages (
-          formId, formName, formIcon, toId, toName, toIcon, message, createTime
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+          formId, formName, formIcon, toId, toName, toIcon, message, createTime, gid
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `
 
     // 执行 SQL 插入语句
-    await query(sql, [formId, formName, formIcon, toId, toName, toIcon, message, createTime])
+    await query(sql, [formId, formName, formIcon, toId, toName, toIcon, message, createTime, gid])
 
     // 返回成功响应
     res.status(201).json({ message: 'INSERT successfully' })

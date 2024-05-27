@@ -10,6 +10,6 @@ import ShoppingCart from './content/text.vue'
 import Header from '@/component/header.vue';
 const icon = ref()
 onMounted(() => {
-    icon.value = localStorage.getItem('image')
+    icon.value = localStorage.getItem('icon')
 })
 </script>

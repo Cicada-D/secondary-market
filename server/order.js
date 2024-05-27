@@ -22,17 +22,26 @@ orderRouter.post('/orderCreate', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' })
   }
 })
-//加入购物车
+// 加入购物车
 orderRouter.post('/pushCart', async (req, res) => {
   try {
     const { mid, gid, gName, gImages, gPrice, gDescribe, gState, gType } = req.body
-    const uid = mid
+    console.log('data: ', req.body)
+    const uid = parseInt(mid)
     const now = Date.now()
     const start = 0,
       end = 0
-    const sql =
+
+    const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 0'
+    const result = await query(sql, [uid])
+    for (const item of result) {
+      if (item.gid === gid) {
+        return res.status(409).json({ message: 'Already Exist' })
+      }
+    }
+    const sql1 =
       'INSERT INTO orders (uid, gid, name, image, price, `describe`, state, type, createDate, start, end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    await query(sql, [uid, gid, gName, gImages, gPrice, gDescribe, gState, gType, now, start, end])
+    await query(sql1, [uid, gid, gName, gImages, gPrice, gDescribe, gState, gType, now, start, end])
 
     res.status(201).json({ message: 'INSERT successfully' })
   } catch (error) {
@@ -40,7 +49,7 @@ orderRouter.post('/pushCart', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' })
   }
 })
-//从购物车加入订单
+// 从购物车加入订单
 orderRouter.post('/orderCreateCart', async (req, res) => {
   try {
     const { data, uid } = req.body
@@ -60,11 +69,27 @@ orderRouter.post('/orderCreateCart', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' })
   }
 })
+// 修改购物车里面的订单的价格
+orderRouter.post('/orderPriceChange', async (req, res) => {
+  try {
+    const { gid, uid, price } = req.body
+    console.log(gid, uid, price)
+
+    const sql = `UPDATE orders SET price = ? WHERE uid = ? AND gid = ?`
+
+    await query(sql, [price, uid, gid])
+    res.status(201).json({ message: 'Successfully' })
+  } catch (error) {
+    console.error('Error registering user: ', error)
+    res.status(500).json({ error: 'Registration failed' })
+  }
+})
+
 // 根据 uid 查找当前用户所有的订单(除了购物车里面的订单)
 orderRouter.post('/findAllOrder', async (req, res) => {
   try {
     const { uid } = req.body
-    console.log(uid)
+    // console.log(uid)
     const sql = 'SELECT * FROM orders WHERE uid = ? AND start != 0'
     const result = await query(sql, [uid])
 
@@ -75,11 +100,11 @@ orderRouter.post('/findAllOrder', async (req, res) => {
   }
 })
 
-//查询用户已完成的订单
+// 查询用户已完成的订单
 orderRouter.get('/findOrderByStart', async (req, res) => {
   try {
     const { uid } = req.query
-    console.log(uid)
+    // console.log(uid)
     const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 2'
     const result = await query(sql, [uid])
 
@@ -89,11 +114,11 @@ orderRouter.get('/findOrderByStart', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete order' })
   }
 })
-//查询用户未完成的订单
+// 查询用户未完成的订单
 orderRouter.get('/getUnfiledOrder', async (req, res) => {
   try {
     const { uid } = req.query
-    console.log(uid)
+    // console.log(uid)
     const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 1'
     const result = await query(sql, [uid])
 
@@ -122,7 +147,7 @@ orderRouter.post('/deleteOrderByUidAndGid', async (req, res) => {
 orderRouter.get('/findGoodsByUidAndState', async (req, res) => {
   try {
     const { uid, state } = req.query
-    console.log('uid, state', uid, state)
+    // console.log('uid, state', uid, state)
 
     // 根据 uid 和 state 查询商品
     const sql = 'SELECT * FROM goods WHERE uid = ? AND state = ?'
@@ -135,36 +160,21 @@ orderRouter.get('/findGoodsByUidAndState', async (req, res) => {
   }
 })
 
-//查询购物车里面的内容
+// 查询购物车里面的内容
 orderRouter.get('/findShoppingCart', async (req, res) => {
   try {
     const { uid } = req.query
-    console.log(uid)
     const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 0'
     const result = await query(sql, [uid])
-
+    console.log('result: ', result)
     res.status(200).json({ data: result })
   } catch (error) {
     console.error('Error deleting order by uid: ', error)
     res.status(500).json({ error: 'Failed to delete order' })
   }
 })
-// //查询订单信息
-// orderRouter.get('/findShoppingCart', async (req, res) => {
-//   try {
-//     const { uid } = req.query
-//     console.log(uid)
-//     const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 0'
-//     const result = await query(sql, [uid])
 
-//     res.status(200).json({ data: result })
-//   } catch (error) {
-//     console.error('Error deleting order by uid: ', error)
-//     res.status(500).json({ error: 'Failed to delete order' })
-//   }
-// })
-
-//未完成订单改成已完成订单
+// 未完成订单改成已完成订单
 orderRouter.post('/toCompleteOrder', async (req, res) => {
   try {
     const { data } = req.body

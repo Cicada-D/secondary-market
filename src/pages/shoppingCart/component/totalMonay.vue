@@ -49,7 +49,7 @@
             </ul>
 
             <div class=" w-full mx-auto mt-9 h-10">
-                <button @click="cartOrder(sum)"
+                <button @click="cartOrder(sum).then(router.push({name: index}))"
                     class=" bg-indigo-600 text-white w-full h-full rounded-md hover:bg-indigo-700 hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-indigo-700 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-700">提交订单</button>
             </div>
 
@@ -61,7 +61,7 @@ import { useSelectGoods } from '@/stores/counter';
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 import { cartOrder } from './common';
-
+import router from '@/router';
 const store = useSelectGoods()
 const { sum } = storeToRefs(store)
 const subtotal = ref(0)

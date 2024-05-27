@@ -1,6 +1,6 @@
 <template>
-  <div class=" bg-black text-sm">
-    <div class=" mx-6 py-2 flex justify-between">
+  <div class=" top-0 bg-black text-sm ">
+    <!-- <div class=" mx-6 py-2 flex justify-between">
       <div class=" text-white">
         CAD >
       </div>
@@ -12,9 +12,9 @@
           Create an account
         </div>
       </div>
-    </div>
-    <header class=" bg-white relative">
-      <div class=" flex justify-between mx-6 py-2 border-b-2">
+    </div> -->
+    <div class=" bg-white ">
+      <div class=" flex justify-between mx-6 py-2 border-b-2 relative">
         <!-- image -->
         <div class="">
           <a href="/index/home" class="">
@@ -36,7 +36,7 @@
 
         <!-- menu -->
         <!-- <div class=""> -->
-        <PopoverGroup v-if="state" class=" leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
+        <PopoverGroup v-if="state" class=" left-1/2 translate-x-[50%] leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
           <Popover v-for='items in props.menu' :key="items.id" class="mx-3">
             <PopoverButton class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950">{{
               items.name }}</PopoverButton>
@@ -54,27 +54,18 @@
             </PopoverPanel>
           </Popover>
         </PopoverGroup>
-
-        <div v-if="!state" class=" leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
+        <div v-if="!state" class=" absolute left-1/2 -translate-x-1/2 leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
           <div v-for='items in props.menu' :key="items.id" class="mx-3">
-            <router-link @click="changeLinkIndex(items.id)" active-class="text-gray-950" class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950 " :to="items.href"> {{ items.name }}</router-link>
+            <router-link @click="changeLinkIndex(items.id)" active-class="text-gray-950"
+              class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950 " :to="items.href"> {{
+              items.name }}</router-link>
             <!-- <button class=" outline-none mx-2 text-gray-500 hover:text-gray-950 focus:text-gray-950">{{ items.name }}</button> -->
           </div>
         </div>
-
-
-        <!-- <div v-for="item in menu" :key="item.id" class="mx-3">
-            <router-link to="#">
-              {{ item.name }}
-            </router-link>
-          </div> -->
-        <!-- </div> -->
-
-        <!-- other -->
         <div class="leading-[35px] hidden lg:flex text-sm font-semibold to-gray-900">
-          <div class=" mx-2 ">
+          <button class=" mx-2 " @click="inputSignl = !inputSignl">
             Search
-          </div>
+          </button>
           <div class=" mx-2">
             Help
           </div>
@@ -88,7 +79,11 @@
           </div>
         </div>
       </div>
-    </header>
+    </div>
+    <div v-if="inputSignl" class=" absolute  top-16 left-1/2 -translate-x-[50%]">
+      <input type="text" class=" border-2 w-96 h-12 rounded-md text-xl px-3" v-model="inputValue" placeholder="输入关键词"
+        @input="emit('headerInput', inputValue)">
+    </div>
   </div>
 
 </template>
@@ -98,7 +93,12 @@ import { ShoppingBagIcon } from '@heroicons/vue/24/outline'
 import { Popover, PopoverButton, PopoverPanel, PopoverGroup } from '@headlessui/vue'
 import { onBeforeMount, ref } from 'vue';
 const props = defineProps(['menu', 'linkIndex'])
+const emit = defineEmits(["headerInput"])
 const model = defineModel()
+// 输入框标识符
+const inputSignl = ref(false)
+// 输入框内容
+const inputValue = ref()
 const state = ref(1)
 onBeforeMount(() => {
   if (props.menu[0].children) {
@@ -107,7 +107,8 @@ onBeforeMount(() => {
     state.value = 0
   }
 })
-function changeLinkIndex(index){
+function changeLinkIndex(index) {
   model.value = index
 }
+
 </script>

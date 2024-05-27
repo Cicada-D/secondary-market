@@ -1,7 +1,7 @@
 <style scoped>
 .left-enter-active,
 .left-leave-active {
-    transition: all 0.3s ease-out;
+    transition: all 0.5s ease-out;
 }
 
 .left-enter-from {
@@ -16,7 +16,7 @@
 
 .right-enter-active,
 .right-leave-active {
-    transition: all 0.3s ease-out;
+    transition: all 0.5s ease-out;
 }
 
 .right-enter-from {
@@ -66,12 +66,11 @@ const menu = [
     }
 ]
 const linkIndex = ref(0)
-console.log(direction.value)
 watch(
     [linkIndex],
     (newValue, oldValue) => {
-        console.log('new',newValue[0])
-        console.log('old',oldValue[0])
+        // console.log('new',newValue[0])
+        // console.log('old',oldValue[0])
         newValue = newValue[0]
         oldValue = oldValue[0]
         if ( newValue > oldValue){
@@ -80,7 +79,7 @@ watch(
         }else if( newValue < oldValue){
             direction.value = 'left'
         }
-        console.log('des',direction.value)
+        // console.log('des',direction.value)
     }
 )
 </script>

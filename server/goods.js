@@ -32,21 +32,30 @@ goodsRouter.post('/addGoods', multer, async (req, res) => {
 goodsRouter.post('/updateGoods', multer, async (req, res) => {
   try {
     const body = req.body
-    const images = req.files['image']
+    const images = []
+    console.log("req.files['image']: ", req.files['image'])
+    if (req.files['image'] != undefined) {
+      images.push(...req.files['image'])
+    }
+    console.log("images: ", images)
     const now = Date.now()
     const newData = gsplitBody(body, images)
     console.log(newData)
     const { gName, gDescribe, gImages, gPrice, gType, gState, state } = newData
-    const sql = 'UPDATE goods SET gName = ?, gDescribe = ?, gImages = ?, gPrice = ?, gType = ?, gState = ? ,state = ? ,createDate = ? WHERE gid = ?'
-    const sql1 = 'UPDATE orders SET price = ? WHRER gid = ?'
-    const res = await query(sql, [gName, gDescribe, gImages, gPrice, gType, gState, state, now, parseInt(body.gid)])
-    const res1 = await query(sql, [gPrice, parseInt(body.gid)])
-    // console.log(count.changedRows)
-    // if (count.changedRows == 0) {
-    //   res.status(404).json({ message: 'Not have the goods' })
-    // } else {
-    //   res.status(201).json({ message: 'Update successfully' })
-    // }
+    let sql = ''
+    let data = []
+    if (images.length != 0){
+      sql = 'UPDATE goods SET gName = ?, gDescribe = ?, gImages = ?, gPrice = ?, gType = ?, gState = ? ,state = ? ,createDate = ? WHERE gid = ?'
+      data.push(...[gName, gDescribe, gImages, gPrice, gType, gState, state, now, parseInt(body.gid)])  
+    } else {
+      sql = 'UPDATE goods SET gName = ?, gDescribe = ?, gPrice = ?, gType = ?, gState = ? ,state = ? ,createDate = ? WHERE gid = ?'
+      data.push(...[gName, gDescribe, gPrice, gType, gState, state, now, parseInt(body.gid)])  
+    }
+
+    const sql1 = 'UPDATE orders SET price = ? WHERE gid = ?'
+    await query(sql, data)
+    await query(sql1, [gPrice, parseInt(body.gid)])
+    res.status(201).json({message: "Update Successfully"})
   } catch (error) {
     console.error('Error registering user: ', error)
     res.status(500).json({ error: 'Registration failed' })
@@ -160,4 +169,42 @@ goodsRouter.get('/getGoodsByType', async (req, res) => {
     res.status(500).json({ error: 'Failed to find goods' })
   }
 })
+
+// 关键词查询
+goodsRouter.get('/getGoodsByTypeAndInput', async (req, res) => {
+  try {
+    const { type, inputValue } = req.query // 从查询参数中获取 type 和 gid
+    const result = []
+    console.log(type, inputValue)
+
+    // 构建 SQL 查询语句，根据 type 和 gid 来查询对应的商品
+    let sql = 'SELECT * FROM goods'
+    const params = []
+
+    if (type === '二手车' || type === '二手数码' || type === '二手服装' || type === '其它') {
+      sql += ' WHERE gType = ?'
+      params.push(type)
+    }
+
+    const goods = await query(sql, params) // 执行查询
+    console.log('goods: ', goods )
+    if (goods.length != 0 && inputValue != '') {
+      for (const item of goods){
+        if (item.gName.includes(inputValue)){
+          result.push(item)
+        }
+      }
+    }
+    // console.log('result: ', result)
+    if (goods.length > 0) {
+      return res.status(200).json({ message: result })
+    } else {
+      return res.status(204).json({ message: [] })
+    }
+  } catch (error) {
+    console.error('Error finding goods: ', error)
+    res.status(500).json({ error: 'Failed to find goods' })
+  }
+})
+
 export default goodsRouter
