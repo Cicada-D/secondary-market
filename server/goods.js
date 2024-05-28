@@ -156,8 +156,8 @@ goodsRouter.get('/getGoodsByType', async (req, res) => {
       params.push(parseInt(num))
     }
 
+    console.log(sql)
     const goods = await query(sql, params) // 执行查询
-    console.log(goods)
 
     if (goods.length > 0) {
       return res.status(200).json({ message: goods })

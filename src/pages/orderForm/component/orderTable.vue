@@ -45,7 +45,7 @@
                             <li class=" mt-9">{{ item.price }}</li>
                         </ul>
                     </div>
-                    
+
                     <div v-if="signl == 2 || signl == 3"
                         class="absolute right-6 bottom-6 w-5 h-5 border-2 hover:border-slate-400 rounded-xl flex justify-center items-center"
                         :class="{
@@ -58,6 +58,38 @@
                         }"> </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div v-if="changeTokenSignl"
+            class=" absolute top-0 left-1/2 -translate-x-1/2 bg-slate-500 opacity-10 w-full h-full z-10">
+        </div>
+        <div v-if="changeTokenSignl"
+            class=" absolute top-[25%] left-1/2 -translate-x-1/2 border-2 bg-white text-black w-96 h-80 z-20 rounded-lg shadow-xl flex flex-col items-center">
+            <div class=" text-base mt-8 ">
+                输入你的身份信息，申请卖家身份
+            </div>
+            <div class=" text-base mt-[70px]">
+                <label for="name">名字:</label>
+                <input type="text" id="name" class=" px-2 border-2 ml-6 rounded-md" v-model="changeToken.name"
+                    placeholder="输入你的姓名">
+            </div>
+            <div class=" text-base mt-4">
+                <label for="name">身份证:</label>
+                <input type="text" id="name" class=" px-2 border-2 ml-2 rounded-md" v-model="changeToken.identityCard"
+                    placeholder="输入你的身份证号码">
+            </div>
+            <div v-if="identityCardSignl" class=" ml-2 text-red-600">
+                身份证号码格式错误
+            </div>
+            <div class=" mt-6">
+                <button @click="cancel"
+                    class="border-2 mr-36 rounded-md px-3 py-1 bg-red-500 ring-1 ring-offset-0 ring-red-300 hover:bg-red-700 hover:ring-red-500 text-white transition-all">
+                    取消
+                </button>
+                <button @click="pushChangeToken"
+                    class="border-2 rounded-md px-3 py-1 bg-blue-500 ring-1 ring-offset-0 ring-blue-300 hover:bg-blue-700 hover:ring-blue-500 text-white transition-all">
+                    提交
+                </button>
             </div>
         </div>
         <ErrorPage v-if="!Object.keys(props.goods).length"></ErrorPage>
@@ -75,7 +107,11 @@ import { useRoute } from 'vue-router';
 import router from '@/router';
 
 const props = defineProps(['goods', 'title'])
-console.log(props.goods)
+const changeToken = ref({
+    uid: localStorage.getItem('uid'),
+    name: '',
+    identityCard: ''
+})
 const states = reactive(new Array(props.goods.length).fill(true))
 
 function changeStates(index) {
@@ -85,11 +121,14 @@ function changeStates(index) {
 }
 
 const route = useRoute()
+// 按钮标识符
 const signl = ref()
 const delectAllCompleteOrderSignl = ref(false)
-console.log('route: ', route)
-
-
+console.log('route: ', route.query)
+// 提交申请的标识符
+const changeTokenSignl = ref(false)
+// 身份证格式错误标识符
+const identityCardSignl = ref(false)
 onMounted(() => {
     if (route.name == 'allorder') {
         signl.value = 1
@@ -100,6 +139,10 @@ onMounted(() => {
     } else if (route.name == 'salePending') {
         signl.value = 4
     }
+    if (route.query.changeToken == 1) {
+        changeTokenSignl.value = true
+    }
+
 })
 
 async function toCompleteOrder() {
@@ -175,11 +218,50 @@ async function delectCompleteOrder() {
         })
 }
 
+function cancel() {
+    changeTokenSignl.value = false
+    router.push({ name: 'salePending' })
+    changeToken.value = {
+        uid: localStorage.getItem('uid'),
+        name: '',
+        identityCard: ''
+    }
+}
+async function pushChangeToken() {
+    const idCardPattern = /^[1-9]\d{5}(18|19|20)?\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/;
+    if (idCardPattern.test(changeToken.value.identityCard)) {
+
+        const res = await fetch(locationCreate('pushChangeToken'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(changeToken.value)
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error('提交失败')
+            }
+            return response.json()
+        })
+            .then(() => {
+                // console.log(data)
+            })
+            .catch((error) => {
+                console.error(error.message) // 错误消息
+            })
+        cancel()
+    } else {
+        identityCardSignl.value = true
+    }
+
+}
+
 watch(
-    () => states,
-    (newValue, oldValue) => {
-        console.log(newValue)
-        console.log(oldValue)
+    route,
+    (newValue) => {
+        if (newValue.query.changeToken == 1) {
+            changeTokenSignl.value = true
+        }
     }
 )
 </script>

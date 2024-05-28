@@ -61,7 +61,7 @@ messageRouter.post('/getToUser', async (req, res) => {
       }
     }
 
-    console.log("latestMessages", latestMessages)
+    console.log('latestMessages', latestMessages)
 
     // 返回查询结果
     res.status(200).json({ result: latestMessages })
@@ -76,19 +76,29 @@ messageRouter.post('/getToUser', async (req, res) => {
 messageRouter.post('/getToUserAllMessage', async (req, res) => {
   try {
     // 从请求主体中解构 uid
-    const { uid } = req.body
+    const { uid, mid } = req.body
 
+    console.log('uid: ', uid)
+    console.log('mid: ', mid)
     // SQL 查询语句，用于查找 toId 与 uid 相同的数据，并根据 createTime 排序
-    const sql = `
+    const sql1 = `
         SELECT * FROM messages 
-        WHERE toId = ? or formId = ?
+        WHERE toId = ? and formId = ?
       `
 
     // 执行 SQL 查询
-    const messages = await query(sql, [uid, uid])
+    const messagesOne = await query(sql1, [uid, mid])
 
-    console.log("latestMessages", messages)
+    const sql2 = `
+      SELECT * FROM messages 
+      WHERE formId = ? and toId = ?
+    `
+    const messageTwo = await query(sql2, [uid, mid])
 
+    console.log(messagesOne, messageTwo)
+
+    const messages = [...messagesOne, ...messageTwo]
+    console.log(messages)
     // 返回查询结果
     res.status(200).json({ result: messages })
   } catch (error) {

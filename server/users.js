@@ -31,7 +31,6 @@ authRouter.post('/register', async (req, res) => {
       username,
       password
     ])
-    console.log(user[0].uid)
     res.status(201).json({ message: 'User registered successfully', token: '1', uid: user[0].uid })
   } catch (error) {
     console.error('Error registering user: ', error)
@@ -95,10 +94,10 @@ authRouter.post('/updateUser', multer, async (req, res) => {
     const site = req.body.site
     console.log('body: ', body)
     const images = req.files['image']
-    console.log("images: ", images)
+    console.log('images: ', images)
     const newData = gsplitUserBody(body, images)
     const { uid, name, sex, age, image, describe } = newData
-    console.log("sit: ", site)
+    console.log('sit: ', site)
     const sql =
       'UPDATE user SET name = ?, sex = ?, age = ?, image = ?, `describe` = ?, site = ? WHERE uid = ?'
     await query(sql, [name, sex, age, image, describe, site, parseInt(uid)])
@@ -128,5 +127,17 @@ authRouter.post('/findUserDetail', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch messages' })
   }
 })
-
+// 361129200204111111
+authRouter.post('/pushChangeToken', async (req, res) => {
+  try {
+    const { uid, name, identityCard } = req.body
+    console.log(uid, name, identityCard)
+    const sql = 'INSERT INTO changeToken (uid, name, identity) VALUE (?, ?, ?)'
+    await query(sql, [uid, name, identityCard])
+    res.status(201).json({ message: 'Push successfully' })
+  } catch (error) {
+    console.error('Error registering user: ', error)
+    res.status(500).json({ error: 'Registration failed' })
+  }
+})
 export default authRouter

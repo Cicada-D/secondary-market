@@ -1,6 +1,6 @@
 <template>
     <div v-if="goods != undefined " class=" w-full ounded-md py-8">
-        <orderTable  :goods="goods" :title="title"></orderTable>
+        <orderTable :goods="goods" :title="title"></orderTable>
     </div>
 </template>
 <script setup>

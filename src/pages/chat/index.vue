@@ -95,10 +95,11 @@ onBeforeMount(async () => {
     for (const item of res.result) {
         const id = item.formId == localStorage.getItem('uid') ? item.toId : item.formId
         const name = item.formId == localStorage.getItem('uid') ? item.toName : item.formName
+        const icon = item.formId == localStorage.getItem('uid') ? item.toIcon : item.formIcon
         result.push({
             id: id,
             name: name,
-            formIcon: item.toIcon,
+            formIcon: icon,
             newMessage: item.message,
             createTime: item.createTime
         })
@@ -153,10 +154,12 @@ onBeforeUnmount(() => {
 async function changeCart(data) {
     selectUser.value = data
     // console.log('data: ', data)
-    const result = await getToUserAllMessage(data.id)
+    const result = await getToUserAllMessage(data.id, localStorage.getItem('uid'))
+    sortMessage(result.result)
     console.log('result: ', result.result)
 
     const goodRes = await getGoodOrder(result.result[0].formId, result.result[0].gid)
+    console.log(goodRes)
     good.push(goodRes[0])
     good[0].image = good[0].image.split(',')[0]
     if (result.result[0].toId === parseInt(localStorage.getItem('uid'))) {

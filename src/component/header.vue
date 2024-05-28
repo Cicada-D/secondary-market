@@ -131,7 +131,7 @@ provide('avatarNot', avatarNot)
 
 onMounted(() => {
     const token = localStorage.getItem('token')
-    avatarNot.value = token === '1' ? 1 : 0
+    avatarNot.value = token === '1' || token === '2' ? 1 : 0
 })
 
 const mobileMenuOpen = ref(false)

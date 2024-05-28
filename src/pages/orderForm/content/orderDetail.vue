@@ -45,7 +45,7 @@ import { useRouter } from 'vue-router'
 
 const icon = ref()
 onMounted(() => {
-    icon.value = '../' + localStorage.getItem('image')
+    icon.value = '../' + localStorage.getItem('icon')
 })
 
 let router = useRouter()

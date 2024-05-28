@@ -13,27 +13,34 @@ const router = createRouter({
     }
   }
 })
-router.beforeEach(async (to ) => {
-  // console.log(LoginOrNot())
-  // console.log(to)
-  if ( to.name !== 'login' && to.name !== 'home'){
-    if (LoginOrNot()){
-      console.log(1)
-
-    }else {
+router.beforeEach(async (to) => {
+  if (to.name !== 'login' && to.name !== 'home') {
+    if (LoginOrNot()) {
+      if (to.name == 'pushGoods') {
+        if (sellerOrNot()) {
+          console.log(4)
+        } else {
+          return {name: 'salePending', query:{changeToken: 1}}
+        }
+      } 
+    } else {
       console.log(2)
-      return {name: 'home'}
+      return { name: 'home' }
     }
-  }else{
+  } else {
     console.log(3)
-
   }
 })
-function LoginOrNot(){
-  if(localStorage.getItem('token') == 1){
+function LoginOrNot() {
+  if (localStorage.getItem('token') == 1 || localStorage.getItem('token') == 2) {
     return 1
-  }else {
+  } else {
     return 0
   }
+}
+
+function sellerOrNot() {
+  if (localStorage.getItem('token') == 2) return 1
+  else return 0
 }
 export default router

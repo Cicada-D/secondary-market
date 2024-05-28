@@ -1,6 +1,6 @@
 import { locationCreate, splitGETURL } from '@/lib/utils'
 export function sortMessage(message) {
-  // console.log('message', message)
+  console.log('message', message)
   // 使用 sort 方法对数组进行排序
   message.sort((a, b) => {
     // 将 createTime 属性转换为数字进行比较
@@ -64,13 +64,13 @@ export async function getToUser(uid) {
 }
 
 //获取选取对象的所有聊天历史
-export async function getToUserAllMessage(uid) {
+export async function getToUserAllMessage(uid, mid) {
   const res = await fetch(locationCreate('getToUserAllMessage'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ uid })
+    body: JSON.stringify({ uid, mid })
   })
     .then((response) => {
       if (!response.ok) {
