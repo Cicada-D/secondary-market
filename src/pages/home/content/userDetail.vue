@@ -136,7 +136,7 @@ onBeforeMount(async () => {
     console.log(userDetail.value)
 })
 onMounted(() => {
-    icon.value = '../' + localStorage.getItem('iamge')
+    icon.value = '../' + localStorage.getItem('icon')
 })
 //验证表单
 const validateForm = () => {

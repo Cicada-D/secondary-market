@@ -31,7 +31,11 @@ authRouter.post('/register', async (req, res) => {
       username,
       password
     ])
-    res.status(201).json({ message: 'User registered successfully', token: '1', uid: user[0].uid })
+    return res.status(201).json({
+      message: 'Regist succeefully',
+      uid: user[0].uid,
+      token: user[0].token
+    })
   } catch (error) {
     console.error('Error registering user: ', error)
     res.status(500).json({ error: 'Registration failed' })
@@ -80,7 +84,7 @@ authRouter.post('/pushUserDetail', multer, async (req, res) => {
     const sql =
       'UPDATE user SET name = ?, sex = ?, age = ?, image = ?, `describe` = ?, site = ? WHERE uid = ?'
     await query(sql, [name, sex, age, image, describe, sit, parseInt(uid)])
-    res.status(201).json({ message: 'Create User Successfully', image: image })
+    res.status(201).json({ message: 'Create User Successfully', icon: image, name: name })
   } catch (error) {
     console.error('Error registering user: ', error)
     res.status(500).json({ error: 'Registration failed' })

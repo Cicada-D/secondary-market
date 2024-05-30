@@ -22,8 +22,7 @@ const goods = ref([])
 
 onBeforeMount(async () => {
     const res = await getShoppingCart(localStorage.getItem('uid'))
-    console.log('res',res)
     goods.value = changeCartDetail(res)
-    console.log('goods',goods.value)
+
 })
 </script>

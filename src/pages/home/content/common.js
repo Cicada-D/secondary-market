@@ -64,7 +64,8 @@ export async function pushUserDetail(data, url) {
     })
     .then((data) => {
       console.log(data)
-      localStorage.setItem('image', data.image)
+      localStorage.setItem('icon', data.icon)
+      localStorage.setItem('name', data.name)
       return 1
     })
     .catch((error) => {

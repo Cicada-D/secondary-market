@@ -193,9 +193,9 @@ console.log(route.name)
 const clickChange = () => {
   console.log(goods)
   if(route.name == "pushGoods"){
-    pushGoods(goods, "addGoods").then(router.push({name: "index"}))
+    pushGoods(goods, "addGoods").then(router.push({name: "allorder"}))
   }else if(route.name == "changeGoods"){
-    changeGoodsDetail(route.query.gid, goods, 'updateGoods').then(router.push({name: "index"}))
+    changeGoodsDetail(route.query.gid, goods, 'updateGoods').then(router.push({name: "allorder"}))
   }
 }
 

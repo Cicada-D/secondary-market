@@ -197,17 +197,14 @@ const validateForm = () => {
 };
 
 // 提交表单信息
-function pushForm() {
+async function pushForm() {
     if (validateForm()) {
-        if(pushUserDetail(userDetail.value, 'pushUserDetail')){
-            router.push({
-                name: "index"
-            })
-        }
+        await pushUserDetail(userDetail.value, 'pushUserDetail')
         console.log('successful!')
     } else {
         console.log("fail!")
     }
+    router.push({ name:'home'})
     console.log(userDetail.value)
 }
 //展示图片

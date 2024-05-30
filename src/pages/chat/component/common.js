@@ -91,7 +91,7 @@ export async function getToUserAllMessage(uid, mid) {
 //获取聊天中的订单信息
 export async function getGoodOrder(uid, gid){
   console.log(uid, gid)
-  const getURL = splitGETURL(locationCreate('findShoppingCart'), { uid: uid })
+  const getURL = splitGETURL(locationCreate('findShoppingCartByGid'), { uid, gid })
   const res = await fetch(getURL)
     .then((response) => {
       if (!response.ok) {

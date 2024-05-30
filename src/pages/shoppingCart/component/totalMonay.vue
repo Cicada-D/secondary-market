@@ -49,7 +49,7 @@
             </ul>
 
             <div class=" w-full mx-auto mt-9 h-10">
-                <button @click="cartOrder(sum).then(router.push({name: index}))"
+                <button @click="cartOrder(sum).then(router.push({name: 'unfiledOrder'}))"
                     class=" bg-indigo-600 text-white w-full h-full rounded-md hover:bg-indigo-700 hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-indigo-700 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-700">提交订单</button>
             </div>
 
@@ -71,8 +71,6 @@ const orderTotal = ref(0)
 watch(
     sum,
     (newValue) => {
-        // console.log('new',newValue)
-        // console.log('old',oldValue)
         let sum = 0
         for (const item of newValue) {
             sum += parseInt(item.price.slice(0, -1))
@@ -81,7 +79,7 @@ watch(
         orderTotal.value = subtotal.value - shippingEstimate.value - taxEstimate.value
     }
 )
-console.log(sum.value)
+
 
 
 </script>

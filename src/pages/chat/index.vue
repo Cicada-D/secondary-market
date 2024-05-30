@@ -13,7 +13,7 @@
                     <div class=" mx-4 mt-2 mb-4 flex ">
                         <div class=" min-w-16">
                             <AspectRatio :ratio="16 / 9">
-                                <a :href="splitRouter('http://localhost:5173/index/goodsDetail', good.gid)"
+                                <a :href="splitRouter('http://localhost:5173/index/goodsDetail', good[0].gid)"
                                     class=" rounded-md absolute block w-full top-0 bg-slate-400 opacity-100 hover:opacity-75">
                                     <img :src='"../" + good[0].image' alt="Image" class="rounded-md object-cover">
                                 </a>
@@ -104,9 +104,9 @@ onBeforeMount(async () => {
             createTime: item.createTime
         })
     }
-    console.log(result)
+    // console.log(result)
     toUser.push(...result)
-    console.log(res)
+    // console.log(res)
 })
 
 
@@ -156,10 +156,11 @@ async function changeCart(data) {
     // console.log('data: ', data)
     const result = await getToUserAllMessage(data.id, localStorage.getItem('uid'))
     sortMessage(result.result)
-    console.log('result: ', result.result)
+    console.log('result: ', result.result[0].gid)
 
     const goodRes = await getGoodOrder(result.result[0].formId, result.result[0].gid)
-    console.log(goodRes)
+    console.log('goodsRes: ', goodRes)
+    good.pop()
     good.push(goodRes[0])
     good[0].image = good[0].image.split(',')[0]
     if (result.result[0].toId === parseInt(localStorage.getItem('uid'))) {

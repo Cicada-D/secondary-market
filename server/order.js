@@ -163,9 +163,24 @@ orderRouter.get('/findGoodsByUidAndState', async (req, res) => {
 // 查询购物车里面的内容
 orderRouter.get('/findShoppingCart', async (req, res) => {
   try {
-    const { uid } = req.query
+    const { uid, gid } = req.query
+    console.log("11111111111111111111111111111111111111", uid, gid)
     const sql = 'SELECT * FROM orders WHERE uid = ? AND start = 0'
     const result = await query(sql, [uid])
+    console.log('result: ', result)
+    res.status(200).json({ data: result })
+  } catch (error) {
+    console.error('Error deleting order by uid: ', error)
+    res.status(500).json({ error: 'Failed to delete order' })
+  }
+})
+// 查询购物车里面特定的内容
+orderRouter.get('/findShoppingCartByGid', async (req, res) => {
+  try {
+    const { uid, gid } = req.query
+    // console.log("11111111111111111111111111111111111111", uid, gid)
+    const sql = 'SELECT * FROM orders WHERE uid = ? AND gid = ? AND start = 0'
+    const result = await query(sql, [uid, gid])
     console.log('result: ', result)
     res.status(200).json({ data: result })
   } catch (error) {
