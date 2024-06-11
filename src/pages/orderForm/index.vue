@@ -61,8 +61,12 @@ const menu = [
 
     }, {
         id: '4',
-        name: '待出售订单',
+        name: '出售商品',
         href: '/index/order/salePending'
+    }, {
+        id: '5',
+        name: '待发货',
+        href: '/index/order/ship'
     }
 ]
 const linkIndex = ref(0)

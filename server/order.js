@@ -7,14 +7,15 @@ const orderRouter = Router()
 // 创建未完成订单
 orderRouter.post('/orderCreate', async (req, res) => {
   try {
-    const { mid, gid, gName, gImages, gPrice, gDescribe, gState, gType } = req.body
+    const { mid, gid, gName, gImages, gPrice, gDescribe, gState, gType, guid } = req.body
+    console.log(guid)
     const uid = mid
     const now = Date.now()
     const start = 1,
       end = 0
     const sql =
-      'INSERT INTO orders (uid, gid, name, image, price, `describe`, state, type, createDate, start, end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    await query(sql, [uid, gid, gName, gImages, gPrice, gDescribe, gState, gType, now, start, end])
+      'INSERT INTO orders (uid, gid, name, image, price, `describe`, state, type, createDate, start, end, guid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    await query(sql, [uid, gid, gName, gImages, gPrice, gDescribe, gState, gType, now, start, end, guid])
 
     res.status(201).json({ message: 'INSERT successfully' })
   } catch (error) {

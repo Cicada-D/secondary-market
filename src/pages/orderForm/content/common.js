@@ -55,8 +55,8 @@ async function deletGoods(gid) {
 }
 export async function buy(goods, mid, router) {
   console.log(goods)
-  const { gDescribe, gImages, gName, gPrice, gState, gType, gid } = goods
-  const goodsDetail = { mid, gid, gName, gImages, gPrice, gDescribe, gState, gType }
+  const { gDescribe, gImages, gName, gPrice, gState, gType, gid, uid } = goods
+  const goodsDetail = { mid, gid, gName, gImages, gPrice, gDescribe, gState, gType, guid: uid }
 
   // const orderResult = await createOrder(goodsDetail, router)
   // console.log(orderResult)
