@@ -34,7 +34,7 @@
     <div class=" relative mx-8 my-4 ">
         <router-view v-slot="{ Component }">
             <transition :name="direction">
-                <component :is="Component" class=" absolute"></component>
+                <component :is="Component" class="absolute"></component>
             </transition>
         </router-view>
     </div>

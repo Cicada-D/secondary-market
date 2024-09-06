@@ -46,7 +46,7 @@
                         </ul>
                     </div>
 
-                    <div v-if="signl == 2 || signl == 3"
+                    <div v-if="signl == 2 || signl == 3 || signl == 4"
                         class="absolute right-6 bottom-6 w-5 h-5 border-2 hover:border-slate-400 rounded-xl flex justify-center items-center"
                         :class="{
                             'border-slate-400': !states[index],

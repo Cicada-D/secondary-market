@@ -328,8 +328,21 @@ export function debounce(fn, wait) {
   return (...args) => {
     clearTimeout(time)
     time = setTimeout(async () => {
-      await fn(...args)
+      await fn.apply(this, args)
       // console.log('state', state)
     }, wait)
+  }
+}
+
+//节流包装
+export function throttle(fn, wait) {
+  let time = 0
+  return (...args) => {
+    const now = Date.now()
+    console.log(now)
+    if (now - time >= wait) {
+      fn.apply(this, args)
+      time = now
+    }
   }
 }

@@ -9,7 +9,7 @@
         <div
             class=" absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 w-3/4 h-1/2 flex flex-col items-center">
             <div v-if="titleState" class=" text-2xl font-semibold tracking-tight">
-                创建一个账号
+                登录账号
             </div>
             <div v-if="!titleState" class=" text-2xl font-semibold tracking-tight">
                 创建一个账号

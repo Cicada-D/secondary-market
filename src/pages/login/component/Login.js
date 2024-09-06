@@ -29,11 +29,8 @@ export async function Login(user, router) {
       return 1
     })
     .catch(() => {
-      // console.error(error.message) // 错误消息
       return 0
     })
-
-    // console.log(router)
     return res
 }
 //注册

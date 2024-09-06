@@ -1,4 +1,4 @@
-import { changeGoodsData, locationCreate, splitGETURL, debounce } from '@/lib/utils'
+import { changeGoodsData, locationCreate, splitGETURL, throttle } from '@/lib/utils'
 // 根据类型查询，一次查询num个
 export async function getGoodsByType_10(gid, type, num) {
   console.log('gid', gid)
@@ -66,4 +66,4 @@ export async function getGoodsByTypeAndInput(type, value){
 
   return res
 }
-export const getMachGoods = debounce(getMoreGoods, 500)
+export const getMachGoods = throttle(getMoreGoods, 500)

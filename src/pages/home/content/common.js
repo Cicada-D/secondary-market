@@ -1,4 +1,4 @@
-import { changeGoodsData, locationCreate, splitGETURL, debounce } from '@/lib/utils'
+import { changeGoodsData, locationCreate, splitGETURL, throttle } from '@/lib/utils'
 
 //进入首页展示多少个商品
 export async function getGoods_10(gid, uid, num) {
@@ -41,7 +41,7 @@ async function getMoreGoods(box, goods, baseGid, uid) {
   }
   return 2
 }
-export const getMachGoods = debounce(getMoreGoods, 500)
+export const getMachGoods = throttle(getMoreGoods, 500)
 // 上传个人信息
 
 export async function pushUserDetail(data, url) {
